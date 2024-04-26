@@ -4,10 +4,8 @@
 #include "Creatiny.h"
 
 int main() {
-   
-
-
-
+    WriteCustomerMainMenu();
+                            
    
     return 0;
 }
