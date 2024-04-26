@@ -3,17 +3,17 @@
 
 #include <stdio.h> // Standard Input/Output Library
 #include <stdlib.h> // Standard Library
+#include <windows.h> // Windows Library
+#include <string.h> // String Library
 
 // Function declarations
-
 void OpenFoodListFile();
 void OpenOrdersFile();
-void CreateAccount();
-void Login();
+
+
 
 
 // Function definitions
-
 void OpenFoodListFile() {
     FILE *file = fopen("FoodList.txt", "r");
     if (file == NULL) {
@@ -29,19 +29,6 @@ void OpenOrdersFile() {
         exit(1);
     }
     fclose(file);
-}
-
-void CreateAccount() {
-    /* 
-        
-
-     */
-}
-void Login() {
-    /* 
-        
-
-     */
 }
 
 
