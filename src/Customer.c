@@ -1,10 +1,11 @@
 // Orhun Begen 402520
 // Elif Yaren Sakar 434335
+// Rümeysa Yurdakul 425487
 
 #include "Creatiny.h"
 
 int main() {
-    WriteCustomerMainMenu();
+    
                             
    
     return 0;

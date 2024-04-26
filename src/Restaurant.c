@@ -5,9 +5,8 @@
 #include "Creatiny.h"
 
 int main() {
-    WriteRestaurantMainMenu();
+    
+    
 
-
-    CreateASampleFoodList();
     return 0;
 }
