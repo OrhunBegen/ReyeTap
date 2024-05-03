@@ -8,4 +8,21 @@ void printMessage(const char* message) {
     printf("%s\n", message);
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #endif // CUSTOMER_H
