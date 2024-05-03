@@ -3,10 +3,23 @@
 
 #include <stdio.h> // Include the standard C library
 
-// Function declarations go here
+//add function declarations here
+void createFoodListFile();
 
-void printMessage(const char* message) {
-    printf("%s\n", message);
+
+
+
+//add functions
+void createFoodListFile() {
+    FILE *file;
+    file = fopen("TextFiles/FoodList.txt", "w");
+    fclose(file);
+}
+
+void createOrdersFile() {
+    FILE *file;
+    file = fopen("TextFiles/OrderList.txt", "w");
+    fclose(file);
 }
 
 #endif // RESTAURANT_H
