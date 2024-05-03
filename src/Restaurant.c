@@ -1,11 +1,13 @@
 #include "Restaurant.h"
 
 int main() {
-    // Your code here
-    CreateASampleFoodList();
-
-    AddCustomFoodToTheFoodList();
-
     
+    RemoveTheSelectedFoodFromTheFoodList();
+
+    RenumberTheFoodList();
+
+    system("cls");
     return 0;
+
+
 }
