@@ -1,27 +1,13 @@
-#include <stdlib.h>
-#include <stdio.h>
-
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
 
-void printMessage(const char* message) {
+#include <stdlib.h>
+#include <stdio.h>
+
+
+void printMessage321(const char* message) {
     printf("%s\n", message);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

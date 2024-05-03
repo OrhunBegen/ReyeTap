@@ -1,11 +1,11 @@
 #include "Customer.h"
 
-// Implement your functions here
+int main() {
+   
+   
+    // Your code here
+    
+    printMessage321("Welcome to the Customer!");
 
-// Example function
-void greetCustomer() {
-    printf("Welcome, customer!\n");
-    printMessage("Hello, customer!");
+    return 0;
 }
-
-// Implement other functions here
