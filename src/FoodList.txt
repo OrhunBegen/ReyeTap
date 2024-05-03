@@ -1,7 +1,0 @@
-1. Hamburger - 15$ - Expected Preperation Iime =1 hour 10 min  -   Available = Yes
-2. Pizza - 20$ - Expected Preperation Iime =1 hour 30 min  -   Available = Yes
-3. Spaghetti - 10$ - Expected Preperation Iime =1 hour 20 min  -   Available = Yes
-4. Salad - 5$ - Expected Preperation Iime =1 hour 10 min  -   Available = Yes
-5. Soup - 7$ - Expected Preperation Iime =1 hour 10 min  -   Available = Yes
-6. Kebab - 25$ - Expected Preperation Iime =1 hour 40 min  -   Available = Yes
-7. Meatball - 15$ - Expected Preperation Iime =1 hour 20 min  -   Available = Yes
