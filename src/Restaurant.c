@@ -2,12 +2,12 @@
 
 int main() {
     CreateASampleFoodList();
-    AddCustomFoodToTheFoodList();
+    //AddCustomFoodToTheFoodList();
      
     // RemoveTheSelectedFoodFromTheFoodList();
     // RenumberTheFoodList
 
-    //AdjustTheSelectedFoodFromTheFoodList();
+    AdjustTheSelectedFoodFromTheFoodList();
     
 
 

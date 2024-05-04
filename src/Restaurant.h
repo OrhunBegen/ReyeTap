@@ -504,67 +504,14 @@ void AdjustTheSelectedFoodFromTheFoodList()
         }
     }
 
-    
     //if the user enters 1 for food name
     //if the user enters 2 for food price
     //if the user enters 3 for preparation time
     //if the user enters 4 for status
     int currentPart = atoi(part);
-    
+        
     if (currentPart == 1) {
-        
-        //firstly remove the selected foods name from the FoodList.txt by start of the '--' and end of the '--'
-        //then ask for the new food name
-        //non alphabetic characters are not allowed
-        //if user enters a non alphabetic character ask for the food name again or give option to exit by entering "q"
-        
-        FILE *file3;
-        file3 = fopen("TextFiles/FoodList.txt", "r");
-        if(file3 == NULL) {
-            printf("Error: File not found\n");
-        }
-        FILE *file4;
-        file4 = fopen("TextFiles/FoodListTemp.txt", "w");
-        if(file4 == NULL) {
-            printf("Error: File not found\n");
-        }
-        count = 0;
-        while (fgets(line, sizeof(line), file3)) {
-            count++;
-            if (count == atoi(foodNumber)) {
-            char *start = strstr(line, "--");
-            start += 3;
-            char *end = strstr(start, "--");
-            fprintf(file4, "%.*s", (int)(start - line), line);
-            char foodName[30];
-            int validFoodName = 0;
-            while (!validFoodName) {
-                printf("Enter the new food name or enter 'q' to cancel the request: ");
-                scanf("%s", foodName);
-                if (strcmp(foodName, "q") == 0) {
-                fclose(file3);
-                fclose(file4);
-                return;
-                }
-                validFoodName = ScanfOnlyAlphabetic(foodName);
-                if (!validFoodName) {
-                printf("Non-alphabetic characters are not allowed. Please enter another food name or enter 'q' to cancel the request.\n");
-                }
-            }
-            fprintf(file4, "%s ", foodName);
-            fprintf(file4, "%s", end);
-            } else {
-            fprintf(file4, "%s", line);
-            }
-        }
-        fclose(file3);
-        fclose(file4);
-        remove("TextFiles/FoodList.txt");
-        rename("TextFiles/FoodListTemp.txt", "TextFiles/FoodList.txt");
-
-
-
-
+ 
     } 
     else if (currentPart == 2){
   
