@@ -1,14 +1,14 @@
 #include "Restaurant.h"
 
 int main() {
-       
-    //AddCustomFoodToTheFoodList();
+    CreateASampleFoodList();
+    AddCustomFoodToTheFoodList();
      
-     CreateASampleFoodList();
     // RemoveTheSelectedFoodFromTheFoodList();
     // RenumberTheFoodList
 
-    AdjustTheSelectedFoodFromTheFoodList();
+    //AdjustTheSelectedFoodFromTheFoodList();
+    
 
 
     return 0;

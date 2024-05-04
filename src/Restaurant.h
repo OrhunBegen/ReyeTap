@@ -4,7 +4,7 @@
 #include <stdio.h> // Include the standard C library
 #include <string.h> // Include the string library
 #include <stdlib.h> // Include the standard library
-
+#include <ctype.h> // Add the missing import statement
 
 //menu functions are here
 int MenuForRestaurant();
@@ -121,24 +121,34 @@ int ScanfOnlyNumeric(char *str) {
     //if it is not numeric return 0
     //if it is numeric return 1
     //cant be negative
+    
     for (int i = 0; i < strlen(str); i++) {
         if (str[i] < '0' || str[i] > '9') {
             return 0;
         }
     }
+    
 }
 
 int ScanfOnlyAlphabetic(char *str) {
-    //check if the string is alphabetic
-    //if it is not alphabetic return 0
-    //if it is alphabetic return 1
-    for (int i = 0; i < strlen(str); i++) {
-        if ((str[i] < 'A' || str[i] > 'Z') && (str[i] < 'a' || str[i] > 'z')) {
+       //or space
+       // Loop through each character in the string
+    while (*str != '\0') {
+        // Check if the character is alphabetic or a space
+        if (!isalpha(*str) && *str != ' ') {
+            // If it's not alphabetic or a space, return 0
             return 0;
         }
+        // Move to the next character
+        str++;
     }
+    // If all characters are alphabetic or spaces, return 1
     return 1;
+
 }
+
+
+
 
 void AddCustomFoodToTheFoodList()
 {
@@ -192,7 +202,9 @@ void AddCustomFoodToTheFoodList()
     int validFoodName = 0;
     while (!validFoodName) {
         printf("Enter the food name or enter 'q' to cancel the request: ");
-        scanf("%s", foodName);
+        
+        scanf(" %[^\n]", foodName);
+        
         if (strcmp(foodName, "q") == 0) {
             fclose(file);
             return;
@@ -202,6 +214,7 @@ void AddCustomFoodToTheFoodList()
             printf("Non-alphabetic characters are not allowed. Please enter another food name or enter 'q' to cancel the request.\n");
         }
     }
+   
     
     //food price
     //non numeric characters are not allowed
@@ -491,48 +504,83 @@ void AdjustTheSelectedFoodFromTheFoodList()
         }
     }
 
-    int currentPart = atoi(part);
+    
     //if the user enters 1 for food name
-
+    //if the user enters 2 for food price
+    //if the user enters 3 for preparation time
+    //if the user enters 4 for status
+    int currentPart = atoi(part);
+    
     if (currentPart == 1) {
-        //ask for the new food name
-        //non alphabetic characters are not allowed 
-        /*
-        it will ask the user to enter another food name 
-        if user enters a non alphabetic character ask for the food name again or give option to exit by entering "q"
-        */
-       char NewFoodName[30];
-       int validNewFoodName = 0;
-
-         while (!validNewFoodName) {
-              printf("Enter the new food name or enter 'q' to cancel the request: ");
-              scanf("%s", NewFoodName);
-              if (strcmp(NewFoodName, "q") == 0) {
+        
+        //firstly remove the selected foods name from the FoodList.txt by start of the '--' and end of the '--'
+        //then ask for the new food name
+        //non alphabetic characters are not allowed
+        //if user enters a non alphabetic character ask for the food name again or give option to exit by entering "q"
+        
+        FILE *file3;
+        file3 = fopen("TextFiles/FoodList.txt", "r");
+        if(file3 == NULL) {
+            printf("Error: File not found\n");
+        }
+        FILE *file4;
+        file4 = fopen("TextFiles/FoodListTemp.txt", "w");
+        if(file4 == NULL) {
+            printf("Error: File not found\n");
+        }
+        count = 0;
+        while (fgets(line, sizeof(line), file3)) {
+            count++;
+            if (count == atoi(foodNumber)) {
+            char *start = strstr(line, "--");
+            start += 3;
+            char *end = strstr(start, "--");
+            fprintf(file4, "%.*s", (int)(start - line), line);
+            char foodName[30];
+            int validFoodName = 0;
+            while (!validFoodName) {
+                printf("Enter the new food name or enter 'q' to cancel the request: ");
+                scanf("%s", foodName);
+                if (strcmp(foodName, "q") == 0) {
+                fclose(file3);
+                fclose(file4);
                 return;
-              }
-              validNewFoodName = ScanfOnlyAlphabetic(NewFoodName);
-              if (!validNewFoodName) {
+                }
+                validFoodName = ScanfOnlyAlphabetic(foodName);
+                if (!validFoodName) {
                 printf("Non-alphabetic characters are not allowed. Please enter another food name or enter 'q' to cancel the request.\n");
-              }
-         }
+                }
+            }
+            fprintf(file4, "%s ", foodName);
+            fprintf(file4, "%s", end);
+            } else {
+            fprintf(file4, "%s", line);
+            }
+        }
+        fclose(file3);
+        fclose(file4);
+        remove("TextFiles/FoodList.txt");
+        rename("TextFiles/FoodListTemp.txt", "TextFiles/FoodList.txt");
 
-    
-    /*
-    2 -- Cheeseburger -- 20 TL -- 15 -- Available
-    example from  here start from the " -- " and end with the " -- "
-    remove the selected foods name from the FoodList.txt
-    add the new food name to the FoodList.txt
-    from the start to the " -- " add the new food name
-    until the second " -- " add the rest of the line
-    */
-    
 
 
-    
+
+    } 
+    else if (currentPart == 2){
+  
+    }
+    else if (currentPart == 3) {
+        
+    }
+    else if (currentPart == 4) {
+        
+    }
+    else {
+        printf("Invalid part number. Please enter a valid part number.\n");
     }
 
-
 }
+
 
 
 
