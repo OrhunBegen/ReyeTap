@@ -416,8 +416,182 @@ void RenumberTheFoodList()
 
 void AdjustTheSelectedFoodFromTheFoodList()
 {
+    BringTheFoodList();
+    printf("\nDo you want to adjust a food from the food list? (1 for yes /0 for no): ");
+    //non numeric characters are not allowed
+    //if user enters a non numeric character ask for the answer again
+    char answer[2];
+    int validAnswer = 0;
+    while (!validAnswer) {
+        scanf("%s", answer);
+        validAnswer = ScanfOnlyNumeric(answer) && (strcmp(answer, "0") == 0 || strcmp(answer, "1") == 0);
+        if (!validAnswer) {
+            printf("Non-numeric characters are not allowed. Please enter 1 for yes or 0 for no.\n");
+        }
+    }
+    if (strcmp(answer, "0") == 0)
+    {
+        return;
+    }
+    
+
+    //enter the food number to adjust
+    //non numeric characters are not allowed
+    /*
+    it will ask the user to enter another food number
+    if user enters a non numeric character ask for the food number again or give option to exit by entering "q"
+    */
+
+    FILE *file;
+    file = fopen("TextFiles/FoodList.txt", "r");
+    if(file == NULL) {
+        printf("Error: File not found\n");
+    }
+    int lineCount = 0;
+    char line[100];
+    while (fgets(line, sizeof(line), file)) {
+        lineCount++;
+    }
+    fclose(file);
+    
+
+    //ask for the food number to adjust
+    //if the user enters a non numeric character ask for the food number again or give option to exit by entering "q"
+
+    char foodNumber[10];
+    int validFoodNumber = 0;
+
+    while (!validFoodNumber) {
+        printf("Enter the food number to adjust or enter 'q' to cancel the request: ");
+        scanf("%s", foodNumber);
+        if (strcmp(foodNumber, "q") == 0) {
+            return;
+        }
+        validFoodNumber = ScanfOnlyNumeric(foodNumber) && atoi(foodNumber) > 0 && atoi(foodNumber) < lineCount;
+        if (!validFoodNumber) {
+            printf("Non-numeric characters are not allowed. Please enter another food number or enter 'q' to cancel the request.\n");
+        }
+    }    
+
+    //print the selected food
+    FILE *file2;
+    file2 = fopen("TextFiles/FoodList.txt", "r");
+    if(file2 == NULL) {
+        printf("Error: File not found\n");
+    }
+    int currentFoodNumber = atoi(foodNumber);
+    currentFoodNumber++;
+    sprintf(foodNumber, "%d", currentFoodNumber);
+    int count = 0;
+    while (fgets(line, sizeof(line), file2)) {
+        count++;
+        if (count == atoi(foodNumber)) {
+            printf("%s", line);
+        }
+    }
+    fclose(file2);
+
+    //ask for the new food name
+    //non alphabetic characters are not allowed
+    /*
+    it will ask the user to enter another food name
+    if user enters a non alphabetic character ask for the food name again or give option to exit by entering "q"
+    */
+
+    char foodName[30];
+    int validFoodName = 0;
+    while (!validFoodName) {
+        printf("Enter the new food name or enter 'q' to cancel the request: ");
+        scanf("%s", foodName);
+        if (strcmp(foodName, "q") == 0) {
+            return;
+        }
+        validFoodName = ScanfOnlyAlphabetic(foodName);
+        if (!validFoodName) {
+            printf("Non-alphabetic characters are not allowed. Please enter another food name or enter 'q' to cancel the request.\n");
+        }
+    }
+
+    //ask for the new food price
+    //non numeric characters are not allowed
+    /*
+    it will ask the user to enter another food price
+    if user enters a non numeric character ask for the food price again or give option to exit by entering "q"
+    */
+
+    char foodPrice[10];
+    int validFoodPrice = 0;
+    while (!validFoodPrice) {
+        printf("Enter the new food price or enter 'q' to cancel the request: ");
+        scanf("%s", foodPrice);
+        if (strcmp(foodPrice, "q") == 0) {
+            return;
+        }
+        validFoodPrice = ScanfOnlyNumeric(foodPrice);
+        if (!validFoodPrice) {
+            printf("Non-numeric characters are not allowed. Please enter another food price or enter 'q' to cancel the request.\n");
+        }
+    }
+
+    //ask for the new preparation time
+    //non numeric characters are not allowed
+    /*
+    it will ask the user to enter another preparation time
+    if user enters a non numeric character ask for the preparation time again or give option to exit by entering "q"
+    */
+
+    char preparationTime[5];
+    int validPreparationTime = 0;
+    while (!validPreparationTime) {
+        printf("Enter the new preparation time or enter 'q' to cancel the request: ");
+        scanf("%s", preparationTime);
+        if (strcmp(preparationTime, "q") == 0) {
+            return;
+        }
+        validPreparationTime = ScanfOnlyNumeric(preparationTime);
+        if (!validPreparationTime) {
+            printf("Non-numeric characters are not allowed. Please enter another preparation time or enter 'q' to cancel the request.\n");
+        }
+    }
+
+
+    //ask for the new status
+    //enterer can only enter 1 for available or 0 for unavailable
+    //non numeric characters are not allowed
+    /*
+    it will ask the user to enter another status
+    if user enters a non numeric character ask for the status again or give option to exit by entering "q"
+    */
+
+    char status[20];
+    int validStatus = 0;
+    
+    while (!validStatus) {
+        printf("Enter the new status or enter 'q' to cancel the request (1 for available, 0 for unavailable): ");
+        scanf("%s", status);
+        if (strcmp(status, "q") == 0) {
+            return;
+        }
+        validStatus = ScanfOnlyNumeric(status) && (strcmp(status, "0") == 0 || strcmp(status, "1") == 0);
+        if (!validStatus) {
+            printf("Non-numeric characters are not allowed. Please enter another status or enter 'q' to cancel the request.\n");
+        }
+    }
+    //convert status to available or unavailable
+    if (strcmp(status, "1") == 0) {
+        strcpy(status, "Available");
+    } else {
+        strcpy(status, "Unavailable");
+    }
+
+
+    
+
+
+
     
     
+
 }
 
 
