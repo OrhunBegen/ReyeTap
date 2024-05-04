@@ -433,7 +433,6 @@ void AdjustTheSelectedFoodFromTheFoodList()
     {
         return;
     }
-    
 
     //enter the food number to adjust
     //non numeric characters are not allowed
@@ -453,11 +452,10 @@ void AdjustTheSelectedFoodFromTheFoodList()
         lineCount++;
     }
     fclose(file);
-    
 
     //ask for the food number to adjust
     //if the user enters a non numeric character ask for the food number again or give option to exit by entering "q"
-
+    
     char foodNumber[10];
     int validFoodNumber = 0;
 
@@ -471,7 +469,7 @@ void AdjustTheSelectedFoodFromTheFoodList()
         if (!validFoodNumber) {
             printf("Non-numeric characters are not allowed. Please enter another food number or enter 'q' to cancel the request.\n");
         }
-    }    
+    }
 
     //print the selected food
     FILE *file2;
@@ -491,109 +489,54 @@ void AdjustTheSelectedFoodFromTheFoodList()
     }
     fclose(file2);
 
-    //ask for the new food name
-    //non alphabetic characters are not allowed
-    /*
-    it will ask the user to enter another food name
-    if user enters a non alphabetic character ask for the food name again or give option to exit by entering "q"
-    */
-
-    char foodName[30];
-    int validFoodName = 0;
-    while (!validFoodName) {
-        printf("Enter the new food name or enter 'q' to cancel the request: ");
-        scanf("%s", foodName);
-        if (strcmp(foodName, "q") == 0) {
-            return;
-        }
-        validFoodName = ScanfOnlyAlphabetic(foodName);
-        if (!validFoodName) {
-            printf("Non-alphabetic characters are not allowed. Please enter another food name or enter 'q' to cancel the request.\n");
-        }
-    }
-
-    //ask for the new food price
+    //which part of the selected food will be adjusted
+    //1 for food name
+    //2 for food price
+    //3 for preparation time
+    //4 for status
     //non numeric characters are not allowed
     /*
-    it will ask the user to enter another food price
-    if user enters a non numeric character ask for the food price again or give option to exit by entering "q"
+    it will ask the user to enter another part
+    if user enters a non numeric character ask for the part again or give option to exit by entering "q"
     */
 
-    char foodPrice[10];
-    int validFoodPrice = 0;
-    while (!validFoodPrice) {
-        printf("Enter the new food price or enter 'q' to cancel the request: ");
-        scanf("%s", foodPrice);
-        if (strcmp(foodPrice, "q") == 0) {
+    char part[10];
+    int validPart = 0;
+    while (!validPart) {
+        printf("Which part of the selected food will be adjusted? (1 for food name, 2 for food price, 3 for preparation time, 4 for status): ");
+        scanf("%s", part);
+        if (strcmp(part, "q") == 0) {
             return;
         }
-        validFoodPrice = ScanfOnlyNumeric(foodPrice);
-        if (!validFoodPrice) {
-            printf("Non-numeric characters are not allowed. Please enter another food price or enter 'q' to cancel the request.\n");
+        validPart = ScanfOnlyNumeric(part) && (strcmp(part, "1") == 0 || strcmp(part, "2") == 0 || strcmp(part, "3") == 0 || strcmp(part, "4") == 0);
+        if (!validPart) {
+            printf("Non-numeric characters are not allowed. Please enter another part or enter 'q' to cancel the request.\n");
         }
     }
 
-    //ask for the new preparation time
-    //non numeric characters are not allowed
-    /*
-    it will ask the user to enter another preparation time
-    if user enters a non numeric character ask for the preparation time again or give option to exit by entering "q"
-    */
+    int currentPart = atoi(part);
+    //if else for the selected part
+    //if the selected part is 1 ask for the new food name
+    //if the selected part is 2 ask for the new food price
+    //if the selected part is 3 ask for the new preparation time
+    //if the selected part is 4 ask for the new status
 
-    char preparationTime[5];
-    int validPreparationTime = 0;
-    while (!validPreparationTime) {
-        printf("Enter the new preparation time or enter 'q' to cancel the request: ");
-        scanf("%s", preparationTime);
-        if (strcmp(preparationTime, "q") == 0) {
-            return;
-        }
-        validPreparationTime = ScanfOnlyNumeric(preparationTime);
-        if (!validPreparationTime) {
-            printf("Non-numeric characters are not allowed. Please enter another preparation time or enter 'q' to cancel the request.\n");
-        }
-    }
+    switch (currentPart) {
+        case 1:
+         
+            break;
+        case 2:
+                
+            break;
+        case 3:
 
+            break;  
 
-    //ask for the new status
-    //enterer can only enter 1 for available or 0 for unavailable
-    //non numeric characters are not allowed
-    /*
-    it will ask the user to enter another status
-    if user enters a non numeric character ask for the status again or give option to exit by entering "q"
-    */
+        case 4:
 
-    char status[20];
-    int validStatus = 0;
-    
-    while (!validStatus) {
-        printf("Enter the new status or enter 'q' to cancel the request (1 for available, 0 for unavailable): ");
-        scanf("%s", status);
-        if (strcmp(status, "q") == 0) {
-            return;
-        }
-        validStatus = ScanfOnlyNumeric(status) && (strcmp(status, "0") == 0 || strcmp(status, "1") == 0);
-        if (!validStatus) {
-            printf("Non-numeric characters are not allowed. Please enter another status or enter 'q' to cancel the request.\n");
-        }
-    }
-    //convert status to available or unavailable
-    if (strcmp(status, "1") == 0) {
-        strcpy(status, "Available");
-    } else {
-        strcpy(status, "Unavailable");
-    }
-
-
-    
-
-
-
-    
-    
-
+            break;
+            
 }
-
 
 
 
