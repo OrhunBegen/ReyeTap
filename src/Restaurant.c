@@ -4,9 +4,12 @@ int main() {
        
     //AddCustomFoodToTheFoodList();
      
-    CreateASampleFoodList();
+     CreateASampleFoodList();
+    // RemoveTheSelectedFoodFromTheFoodList();
+    // RenumberTheFoodList
+
     AdjustTheSelectedFoodFromTheFoodList();
-    
+
 
     return 0;
 }

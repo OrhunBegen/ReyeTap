@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "restaurant.h": "c"
+        "restaurant.h": "c",
+        "kitchen.h": "c",
+        "customer.h": "c"
     }
 }

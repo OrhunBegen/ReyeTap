@@ -416,30 +416,11 @@ void RenumberTheFoodList()
 
 void AdjustTheSelectedFoodFromTheFoodList()
 {
+    //bring the food list
     BringTheFoodList();
-    printf("\nDo you want to adjust a food from the food list? (1 for yes /0 for no): ");
-    //non numeric characters are not allowed
-    //if user enters a non numeric character ask for the answer again
-    char answer[2];
-    int validAnswer = 0;
-    while (!validAnswer) {
-        scanf("%s", answer);
-        validAnswer = ScanfOnlyNumeric(answer) && (strcmp(answer, "0") == 0 || strcmp(answer, "1") == 0);
-        if (!validAnswer) {
-            printf("Non-numeric characters are not allowed. Please enter 1 for yes or 0 for no.\n");
-        }
-    }
-    if (strcmp(answer, "0") == 0)
-    {
-        return;
-    }
 
-    //enter the food number to adjust
-    //non numeric characters are not allowed
-    /*
-    it will ask the user to enter another food number
-    if user enters a non numeric character ask for the food number again or give option to exit by entering "q"
-    */
+    //ask for the food number to adjust
+    //if the user enters a non numeric character ask for the food number again or give option to exit by entering "q"
 
     FILE *file;
     file = fopen("TextFiles/FoodList.txt", "r");
@@ -454,8 +435,6 @@ void AdjustTheSelectedFoodFromTheFoodList()
     fclose(file);
 
     //ask for the food number to adjust
-    //if the user enters a non numeric character ask for the food number again or give option to exit by entering "q"
-    
     char foodNumber[10];
     int validFoodNumber = 0;
 
@@ -489,21 +468,19 @@ void AdjustTheSelectedFoodFromTheFoodList()
     }
     fclose(file2);
 
-    //which part of the selected food will be adjusted
+
+    //ask which part of the food to adjust
     //1 for food name
     //2 for food price
     //3 for preparation time
     //4 for status
-    //non numeric characters are not allowed
-    /*
-    it will ask the user to enter another part
-    if user enters a non numeric character ask for the part again or give option to exit by entering "q"
-    */
-
-    char part[10];
+    //if the user enters a non numeric character ask for the part again or give option to exit by entering "q"
+    
+    char part[2];
     int validPart = 0;
+
     while (!validPart) {
-        printf("Which part of the selected food will be adjusted? (1 for food name, 2 for food price, 3 for preparation time, 4 for status): ");
+        printf("Enter the part to adjust (1 for food name, 2 for food price, 3 for preparation time, 4 for status) or enter 'q' to cancel the request: ");
         scanf("%s", part);
         if (strcmp(part, "q") == 0) {
             return;
@@ -515,27 +492,46 @@ void AdjustTheSelectedFoodFromTheFoodList()
     }
 
     int currentPart = atoi(part);
-    //if else for the selected part
-    //if the selected part is 1 ask for the new food name
-    //if the selected part is 2 ask for the new food price
-    //if the selected part is 3 ask for the new preparation time
-    //if the selected part is 4 ask for the new status
+    //if the user enters 1 for food name
 
-    switch (currentPart) {
-        case 1:
-         
-            break;
-        case 2:
-                
-            break;
-        case 3:
+    if (currentPart == 1) {
+        //ask for the new food name
+        //non alphabetic characters are not allowed 
+        /*
+        it will ask the user to enter another food name 
+        if user enters a non alphabetic character ask for the food name again or give option to exit by entering "q"
+        */
+       char NewFoodName[30];
+       int validNewFoodName = 0;
 
-            break;  
+         while (!validNewFoodName) {
+              printf("Enter the new food name or enter 'q' to cancel the request: ");
+              scanf("%s", NewFoodName);
+              if (strcmp(NewFoodName, "q") == 0) {
+                return;
+              }
+              validNewFoodName = ScanfOnlyAlphabetic(NewFoodName);
+              if (!validNewFoodName) {
+                printf("Non-alphabetic characters are not allowed. Please enter another food name or enter 'q' to cancel the request.\n");
+              }
+         }
 
-        case 4:
+    
+    /*
+    2 -- Cheeseburger -- 20 TL -- 15 -- Available
+    example from  here start from the " -- " and end with the " -- "
+    remove the selected foods name from the FoodList.txt
+    add the new food name to the FoodList.txt
+    from the start to the " -- " add the new food name
+    until the second " -- " add the rest of the line
+    */
+    
 
-            break;
-            
+
+    
+    }
+
+
 }
 
 
