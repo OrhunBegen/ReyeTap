@@ -21,14 +21,14 @@ void BringTheOrdersList();
 
 void CreateASampleFoodList();
 
-
 int ScanfOnlyAlphabetic(char *str);
 int ScanfOnlyNumeric(char *str);
 
 void AddCustomFoodToTheFoodList();
 void RemoveTheSelectedFoodFromTheFoodList();
-
 void RenumberTheFoodList();
+void AdjustTheSelectedFoodFromTheFoodList();
+
 
 //add functions
 int MenuForRestaurant() {
@@ -348,7 +348,7 @@ void RemoveTheSelectedFoodFromTheFoodList()
         if (strcmp(foodNumber, "q") == 0) {
             return;
         }
-        validFoodNumber = ScanfOnlyNumeric(foodNumber) && atoi(foodNumber) > 0 && atoi(foodNumber) < lineCount + 1;
+        validFoodNumber = ScanfOnlyNumeric(foodNumber) && atoi(foodNumber) > 0 && atoi(foodNumber) < lineCount;
         if (!validFoodNumber) {
             printf("Non-numeric characters are not allowed. Please enter another food number or enter 'q' to cancel the request.\n");
         }
@@ -413,6 +413,13 @@ void RenumberTheFoodList()
     remove("TextFiles/FoodList.txt");
     rename("TextFiles/FoodListTemp.txt", "TextFiles/FoodList.txt");
 }
+
+void AdjustTheSelectedFoodFromTheFoodList()
+{
+    
+    
+}
+
 
 
 

@@ -2,11 +2,9 @@
 
 int main() {
     
-    RemoveTheSelectedFoodFromTheFoodList();
+    AdjustTheSelectedFoodFromTheFoodList();
 
-    RenumberTheFoodList();
 
-    system("cls");
     return 0;
 
 
