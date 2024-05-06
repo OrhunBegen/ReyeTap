@@ -56,6 +56,9 @@ void addCustomer()
     printf("Musteri telefonu : %s \n", c1.phone);
     printf("Musteri email : %s \n", c1.email);
     FILE *file = fopen("musteri.dat","a+b");
+    
+    //fwrite(&c1, sizeof(Customer), 1, file); ???
+    
     fwrite(&c1, sizeof(Customer), 1, ptr);
     fclose(ptr);
     printf("\n\n%d numarali musteri eklendi \n", c1.id);
@@ -73,7 +76,10 @@ void deleteCustomer()
 {
 
 }
-void MenuForCustomer()
+void MenuForCustomer();
+
+
+
     void CustomerMenu() {
         int secim;
         printf("\n\t MUSTERI ISLEMLERI \n\n");
@@ -105,7 +111,7 @@ void MenuForCustomer()
                     printf("hatali secim yaptiniz \n");
                     break;
             }
-            secim = CustomerMenu();
+            secim = CustomerMenu(); //void type oldugu icin CustomerMenu return yapamayiz burasi calismaz
         }
     }
 
