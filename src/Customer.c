@@ -63,6 +63,7 @@ void MenuForCustomer();
                     printf("hatali secim yaptiniz \n");
                     break;
             }
-            secim=CustomerMenu();
+            
         }
     }
+

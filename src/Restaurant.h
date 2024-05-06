@@ -126,8 +126,13 @@ int ScanfOnlyNumeric(char *str) {
         if (str[i] < '0' || str[i] > '9') {
             return 0;
         }
+<<<<<<< Updated upstream
     }
     
+=======
+    }   
+    //return 1 str sayısalsa 
+>>>>>>> Stashed changes
 }
 
 int ScanfOnlyAlphabetic(char *str) {
