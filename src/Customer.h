@@ -1,7 +1,8 @@
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
 
-
+#include <stdlib.h>
+#include <stdio.h>
 
 typedef struct Customer
 {
@@ -12,8 +13,8 @@ typedef struct Customer
     char phone[15];
     char email[50];
 } Customer;
-#include <stdlib.h>
-#include <stdio.h>
+
+
 
 void addCustomer();
 void CustomerList();
@@ -56,8 +57,8 @@ void addCustomer()
     printf("Musteri telefonu : %s \n", c1.phone);
     printf("Musteri email : %s \n", c1.email);
     FILE *file = fopen("musteri.dat","a+b");
-    fwrite(&c1, sizeof(Customer), 1, ptr);
-    fclose(ptr);
+    fwrite(&c1, sizeof(Customer), 1, file);
+    fclose(file);
     printf("\n\n%d numarali musteri eklendi \n", c1.id);
 
 }
@@ -73,7 +74,8 @@ void deleteCustomer()
 {
 
 }
-void MenuForCustomer()
+void MenuForCustomer();
+
     void CustomerMenu() {
         int secim;
         printf("\n\t MUSTERI ISLEMLERI \n\n");
@@ -85,33 +87,29 @@ void MenuForCustomer()
         printf("\tSECIMINIZ : ");
         scanf("%d", &secim);
         system("cls");
-        while (secim != 0) {
-            switch (secim) {
-                case 1:
-                    addCustomer();
-                    break;
-                case 2:
-                    CustomerList();
-                    break;
-                case 3:
-                    updateCustomer();
-                    break;
-                case 4:
-                    deleteCustomer();
-                    break;
-                case 0:
-                    break;
-                default:
-                    printf("hatali secim yaptiniz \n");
-                    break;
+        if (secim)
+        {
+           switch (secim)
+            {
+            case 1:
+                addCustomer();
+                break;
+            case 2:
+                CustomerList();
+                break;
+            case 3:
+                updateCustomer();
+                break;
+            case 4:
+                deleteCustomer();
+                break;
+            default:
+                break;
             }
-            secim = CustomerMenu();
         }
+        
     }
 
-    int main() {
-        CustomerMenu();
-        return 0;
-    }
+    
 
 #endif // CUSTOMER_H
