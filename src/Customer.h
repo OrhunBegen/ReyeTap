@@ -63,7 +63,28 @@ void addCustomer()
 }
 void CustomerList()
 {
+    system("cls");
+    printf("\n\t MUSTERI LISTELE \n\n");
 
+    int sayac=0;
+    printf("%-10d %-20s %-20s %-20s %-15d %-20s\n","ID","ADI","SOYADI","ADRESI","TELEFONU","EMAIL");
+    FILE *ptr= fopen("musteri.dat","r+b");
+    while (fread(&c1, sizeof(Customer), 1, ptr) != NULL)
+    {
+        printf("%-10d %-20s %-20s %-20s %-15d %-20s\n",c1.id ,c1.name,c1.surname , c1.address ,c1.phone ,c1.email );
+        sayac++;
+    }
+    fclose(ptr);
+
+    if(sayac == 0)
+    {
+        printf("Listelenecek musteri bulunamadi \n");
+    }
+    else
+    {
+        printf("\n\n%d adet musteri listelendi \n", sayac);
+    }
+    
 }
 void updateCustomer()
 {
