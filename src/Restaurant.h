@@ -431,9 +431,32 @@ void AdjustTheSelectedFoodFromTheFoodList()
 {
     //bring the food list
     BringTheFoodList();
+    
+    printf("\nDo you want to adjust a food from the food list? (1 for yes /0 for no): ");
+    //non numeric characters are not allowed
+    //if user enters a non numeric character ask for the answer again
+    char answer[2];
+    int validAnswer = 0;
 
-    //ask for the food number to adjust
-    //if the user enters a non numeric character ask for the food number again or give option to exit by entering "q"
+    while (!validAnswer) {
+        scanf("%s", answer);
+        validAnswer = ScanfOnlyNumeric(answer) && (strcmp(answer, "0") == 0 || strcmp(answer, "1") == 0);
+        if (!validAnswer) {
+            printf("Non-numeric characters are not allowed. Please enter 1 for yes or 0 for no.\n");
+        }
+    }
+
+    if (strcmp(answer, "0") == 0)
+    {
+        return;
+    }
+
+    //enter the food number to adjust
+    //non numeric characters are not allowed
+    /*
+    it will ask the user to enter another food number
+    if user enters a non numeric character ask for the food number again or give option to exit by entering "q"
+    */
 
     FILE *file;
     file = fopen("TextFiles/FoodList.txt", "r");
@@ -447,7 +470,10 @@ void AdjustTheSelectedFoodFromTheFoodList()
     }
     fclose(file);
 
+    //print the food line that u are making adjustments
     //ask for the food number to adjust
+    //if the user enters a non numeric character ask for the food number again or give option to exit by entering "q"
+
     char foodNumber[10];
     int validFoodNumber = 0;
 
@@ -463,15 +489,20 @@ void AdjustTheSelectedFoodFromTheFoodList()
         }
     }
 
-    //print the selected food
-    FILE *file2;
-    file2 = fopen("TextFiles/FoodList.txt", "r");
-    if(file2 == NULL) {
-        printf("Error: File not found\n");
-    }
+    //add 1 to the line from going to remove line because the last line is the "Food Name -- Food Price TL -- Preperation Time (min) -- State"
+
     int currentFoodNumber = atoi(foodNumber);
     currentFoodNumber++;
     sprintf(foodNumber, "%d", currentFoodNumber);
+
+    //print the food line that u are making adjustments
+    
+    FILE *file2;
+    file2 = fopen("TextFiles/FoodList.txt", "r");
+    
+    if(file2 == NULL) {
+        printf("Error: File not found\n");
+    }
     int count = 0;
     while (fgets(line, sizeof(line), file2)) {
         count++;
@@ -481,15 +512,15 @@ void AdjustTheSelectedFoodFromTheFoodList()
     }
     fclose(file2);
 
-
-    //ask which part of the food to adjust
+    //ask which part of the food line to adjust
     //1 for food name
     //2 for food price
     //3 for preparation time
     //4 for status
+    //non numeric characters are not allowed
     //if the user enters a non numeric character ask for the part again or give option to exit by entering "q"
-    
-    char part[2];
+
+    char part[10];
     int validPart = 0;
 
     while (!validPart) {
@@ -504,143 +535,147 @@ void AdjustTheSelectedFoodFromTheFoodList()
         }
     }
 
-    //if the user enters 1 for food name
-    //if the user enters 2 for food price
-    //if the user enters 3 for preparation time
-    //if the user enters 4 for status
-    int currentPart = atoi(part);
-        
-    if (currentPart == 1) {
-        char newFoodName[100];
-        printf("Enter the new food name: ");
-        scanf("%s", newFoodName);
-        // Update the food name in the file
-        FILE *file;
-        file = fopen("TextFiles/FoodList.txt", "r");
-        if(file == NULL) {
-            printf("Error: File not found\n");
-        }
-        FILE *file2;
-        file2 = fopen("TextFiles/FoodListTemp.txt", "w");
-        if(file2 == NULL) {
-            printf("Error: File not found\n");
-        }
-        char line[100];
-        int count = 0;
-        while (fgets(line, sizeof(line), file)) {
-            count++;
-            if (count == atoi(foodNumber)) {
-                fprintf(file2, "%d -- %s", count, newFoodName);
-            } else {
-                fprintf(file2, "%s", line);
-            }
-        }
-        fclose(file);
-        fclose(file2);
-        remove("TextFiles/FoodList.txt");
-        rename("TextFiles/FoodListTemp.txt", "TextFiles/FoodList.txt");
-        printf("The food name has been updated.\n");
-    } 
-    else if (currentPart == 2){
-        char newFoodPrice[10];
-        printf("Enter the new food price: ");
-        scanf("%s", newFoodPrice);
-        // Update the food price in the file
-        FILE *file;
-        file = fopen("TextFiles/FoodList.txt", "r");
-        if(file == NULL) {
-            printf("Error: File not found\n");
-        }
-        FILE *file2;
-        file2 = fopen("TextFiles/FoodListTemp.txt", "w");
-        if(file2 == NULL) {
-            printf("Error: File not found\n");
-        }
-        char line[100];
-        int count = 0;
-        while (fgets(line, sizeof(line), file)) {
-            count++;
-            if (count == atoi(foodNumber)) {
-                fprintf(file2, "%d -- %s", count, newFoodPrice);
-            } else {
-                fprintf(file2, "%s", line);
-            }
-        }
-        fclose(file);
-        fclose(file2);
-        remove("TextFiles/FoodList.txt");
-        rename("TextFiles/FoodListTemp.txt", "TextFiles/FoodList.txt");
-        printf("The food price has been updated.\n");
-    }
-    else if (currentPart == 3) {
-        char newPreparationTime[10];
-        printf("Enter the new preparation time: ");
-        scanf("%s", newPreparationTime);
-        // Update the preparation time in the file
-        FILE *file;
-        file = fopen("TextFiles/FoodList.txt", "r");
-        if(file == NULL) {
-            printf("Error: File not found\n");
-        }
-        FILE *file2;
-        file2 = fopen("TextFiles/FoodListTemp.txt", "w");
-        if(file2 == NULL) {
-            printf("Error: File not found\n");
-        }
-        char line[100];
-        int count = 0;
-        while (fgets(line, sizeof(line), file)) {
-            count++;
-            if (count == atoi(foodNumber)) {
-                fprintf(file2, "%d -- %s", count, newPreparationTime);
-            } else {
-                fprintf(file2, "%s", line);
-            }
-        }
-        fclose(file);
-        fclose(file2);
-        remove("TextFiles/FoodList.txt");
-        rename("TextFiles/FoodListTemp.txt", "TextFiles/FoodList.txt");
-        printf("The preparation time has been updated.\n");
-    }
-    else if (currentPart == 4) {
-        char newStatus[2];
-        printf("Enter the new status (1 for available, 0 for unavailable): ");
-        scanf("%s", newStatus);
-        // Update the status in the file
-        FILE *file;
-        file = fopen("TextFiles/FoodList.txt", "r");
-        if(file == NULL) {
-            printf("Error: File not found\n");
-        }
-        FILE *file2;
-        file2 = fopen("TextFiles/FoodListTemp.txt", "w");
-        if(file2 == NULL) {
-            printf("Error: File not found\n");
-        }
-        char line[100];
-        int count = 0;
-        while (fgets(line, sizeof(line), file)) {
-            count++;
-            if (count == atoi(foodNumber)) {
-                fprintf(file2, "%d -- %s", count, newStatus);
-            } else {
-                fprintf(file2, "%s", line);
-            }
-        }
-        fclose(file);
-        fclose(file2);
-        remove("TextFiles/FoodList.txt");
-        rename("TextFiles/FoodListTemp.txt", "TextFiles/FoodList.txt");
-        printf("The status has been updated.\n");
-    }
-    else {
-        printf("Invalid part number. Please enter a valid part number.\n");
-    }
+    //which part to adjust is to integer
+    int PartNumber = atoi(part);
+    
+    //1 for food name
+    //2 for food price
+    //3 for preparation time
+    //4 for status
 
+    if(PartNumber == 1)
+    {
+        //food name
+        //non alphabetic characters are not allowed 
+        /*
+        it will ask the user to enter another food name 
+        if user enters a non alphabetic character ask for the food name again or give option to exit by entering "q"
+        */
+
+        char NewfoodName[30];
+        int validFoodName = 0;
+
+        while (!validFoodName) {
+            printf("Enter the new food name or enter 'q' to cancel the request: ");
+            scanf(" %[^\n]", NewfoodName);
+            if (strcmp(NewfoodName, "q") == 0) {
+                return;
+            }
+            validFoodName = ScanfOnlyAlphabetic(NewfoodName);
+            if (!validFoodName) {
+                printf("Non-alphabetic characters are not allowed. Please enter another food name or enter 'q' to cancel the request.\n");
+            }
+        }
+
+        //from the first "--" sign delete it until the next "--" sign
+
+
+        FILE *file3;
+        file3 = fopen("TextFiles/FoodList.txt", "r");
+        if(file3 == NULL) {
+            printf("Error: File not found\n");
+        }
+        FILE *file4;
+        file4 = fopen("TextFiles/FoodListTemp.txt", "w");
+        if(file4 == NULL) {
+            printf("Error: File not found\n");
+        }
+        int count = 0;
+        while (fgets(line, sizeof(line), file3)) {
+            count++;
+            if (count != atoi(foodNumber)) {
+                fprintf(file4, "%s", line);
+            } else {
+                fprintf(file4, "%d -- %s ", atoi(foodNumber) - 1, NewfoodName);
+                char *ptr = strstr(line, "--");
+                ptr = strstr(ptr + 2, "--");
+                fprintf(file4, "%s", ptr);
+            }
+        }
+        fclose(file3);
+        fclose(file4);  
+        remove("TextFiles/FoodList.txt");
+        rename("TextFiles/FoodListTemp.txt", "TextFiles/FoodList.txt");
 }
 
+    if(PartNumber == 2){
+        //food price
+        //non numeric characters are not allowed
+        /*
+        it will ask the user to enter another food price
+        if user enters a non numeric character ask for the food price again or give option to exit by entering "q"
+        */
 
+        char NewfoodPrice[10];
+        int validFoodPrice = 0;
+
+        while (!validFoodPrice) {
+            printf("Enter the new food price or enter 'q' to cancel the request: ");
+            scanf("%s", NewfoodPrice);
+            if (strcmp(NewfoodPrice, "q") == 0) {
+                return;
+            }
+            validFoodPrice = ScanfOnlyNumeric(NewfoodPrice);
+            if (!validFoodPrice) {
+                printf("Non-numeric characters are not allowed. Please enter another food price or enter 'q' to cancel the request.\n");
+            }
+        }
+
+        //open the FoodList.txt file
+        //open the FoodListTemp.txt file
+
+        FILE *file3;
+        file3 = fopen("TextFiles/FoodList.txt", "r");
+        if(file3 == NULL) {
+            printf("Error: File not found\n");
+        }
+        FILE *file4;
+        file4 = fopen("TextFiles/FoodListTemp.txt", "w");
+        if(file4 == NULL) {
+            printf("Error: File not found\n");
+        }
+
+        
+
+
+
+
+
+  
+
+
+
+
+        
+        fclose(file3);
+        fclose(file4);
+
+
+        remove("TextFiles/FoodList.txt");
+        rename("TextFiles/FoodListTemp.txt", "TextFiles/FoodList.txt");
+
+
+
+
+    }
+
+
+    
+
+    if(PartNumber == 3){
+    
+    
+
+    }
+    if(PartNumber == 4){
+   
+
+    }
+
+
+
+
+}
 
 
 #endif // RESTAURANT_H
