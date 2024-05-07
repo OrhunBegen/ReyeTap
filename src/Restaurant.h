@@ -577,6 +577,7 @@ void AdjustTheSelectedFoodFromTheFoodList()
         if(file4 == NULL) {
             printf("Error: File not found\n");
         }
+       
         int count = 0;
         while (fgets(line, sizeof(line), file3)) {
             count++;
@@ -596,77 +597,201 @@ void AdjustTheSelectedFoodFromTheFoodList()
 }
 
     if(PartNumber == 2){
-        //food price
-        //non numeric characters are not allowed
-        /*
-        it will ask the user to enter another food price
-        if user enters a non numeric character ask for the food price again or give option to exit by entering "q"
-        */
+    // food price
+    // non-numeric characters are not allowed
+    /*
+    it will ask the user to enter another food price
+    if the user enters a non-numeric character, ask for the food price again or give the option to exit by entering "q"
+    */
+    char NewfoodPrice[10];
+    int validFoodPrice = 0;
 
-        char NewfoodPrice[10];
-        int validFoodPrice = 0;
-
-        while (!validFoodPrice) {
-            printf("Enter the new food price or enter 'q' to cancel the request: ");
-            scanf("%s", NewfoodPrice);
-            if (strcmp(NewfoodPrice, "q") == 0) {
-                return;
-            }
-            validFoodPrice = ScanfOnlyNumeric(NewfoodPrice);
-            if (!validFoodPrice) {
-                printf("Non-numeric characters are not allowed. Please enter another food price or enter 'q' to cancel the request.\n");
-            }
+    while (!validFoodPrice) {
+        printf("Enter the new food price or enter 'q' to cancel the request: ");
+        scanf("%s", NewfoodPrice);
+        if (strcmp(NewfoodPrice, "q") == 0) {
+            return;
         }
-
-        //open the FoodList.txt file
-        //open the FoodListTemp.txt file
-
-        FILE *file3;
-        file3 = fopen("TextFiles/FoodList.txt", "r");
-        if(file3 == NULL) {
-            printf("Error: File not found\n");
+        validFoodPrice = ScanfOnlyNumeric(NewfoodPrice);
+        if (!validFoodPrice) {
+            printf("Non-numeric characters are not allowed. Please enter another food price or enter 'q' to cancel the request.\n");
         }
-        FILE *file4;
-        file4 = fopen("TextFiles/FoodListTemp.txt", "w");
-        if(file4 == NULL) {
-            printf("Error: File not found\n");
-        }
-        
-        //code will be added from here nnow on 
-
-       
-
-
-  
-
-
-       
-        fclose(file3);
-        fclose(file4);
-
-
-        remove("TextFiles/FoodList.txt");
-        rename("TextFiles/FoodListTemp.txt", "TextFiles/FoodList.txt");
-
-
-        
-
-
-
     }
 
+    FILE *file3 = fopen("TextFiles/FoodList.txt", "r");
+    if (file3 == NULL) {
+        printf("Error: File not found\n");
+        return;
+    }
+
+    FILE *file4 = fopen("TextFiles/FoodListTemp.txt", "w");
+    if (file4 == NULL) {
+        printf("Error: Temporary file creation failed\n");
+        fclose(file3);
+        return;
+    }
+
+    char line[100]; 
 
     
+    while (fgets(line, sizeof(line), file3)) {
+        int currentFoodNumber;
+        char foodName[30];
+        char foodPrice[10];
+        char preparationTime[5];
+        char state[20];
+
+
+        // Parse the line into different fields
+        if (sscanf(line, "%d -- %[^--] -- %[^TL] TL -- %[^--] -- %[^\n]", &currentFoodNumber, foodName, foodPrice, preparationTime, state) == 5) {
+            // Check if this is the line to be modified based on currentFoodNumber
+            if (currentFoodNumber == atoi(foodNumber)) {
+                // Update the food price with NewfoodPrice
+                fprintf(file4, "%d -- %s -- %s TL -- %s -- %s\n", currentFoodNumber, foodName, NewfoodPrice, preparationTime, state);
+            } else {
+                // Write the unchanged line to the temporary file
+                fprintf(file4, "%s", line);
+            }
+        }
+    }
+
+    fclose(file3);
+    fclose(file4);
+    remove("TextFiles/FoodList.txt");
+    rename("TextFiles/FoodListTemp.txt", "TextFiles/FoodList.txt");
+    }
 
     if(PartNumber == 3){
     
-    
+    // preparation time
+    // non-numeric characters are not allowed
+    /*
+    it will ask the user to enter another preparation time
+    if the user enters a non-numeric character, ask for the preparation time again or give the option to exit by entering "q"
+    */
+    char NewpreparationTime[5];
+    int validPreparationTime = 0;
 
+    while (!validPreparationTime) {
+        printf("Enter the new preparation time or enter 'q' to cancel the request: ");
+        scanf("%s", NewpreparationTime);
+        if (strcmp(NewpreparationTime, "q") == 0) {
+            return;
+        }
+        validPreparationTime = ScanfOnlyNumeric(NewpreparationTime);
+        if (!validPreparationTime) {
+            printf("Non-numeric characters are not allowed. Please enter another preparation time or enter 'q' to cancel the request.\n");
+        }
     }
-    if(PartNumber == 4){
-   
 
+    FILE *file3 = fopen("TextFiles/FoodList.txt", "r");
+    if (file3 == NULL) {
+        printf("Error: File not found\n");
+        return;
     }
+
+    FILE *file4 = fopen("TextFiles/FoodListTemp.txt", "w");
+    if (file4 == NULL) {
+        printf("Error: Temporary file creation failed\n");
+        fclose(file3);
+        return;
+    }
+
+    char line[100];
+
+    while (fgets(line, sizeof(line), file3)) {
+        int currentFoodNumber;
+        char foodName[30];
+        char foodPrice[10];
+        char preparationTime[5];
+        char state[20];
+
+        // Parse the line into different fields
+        if (sscanf(line, "%d -- %[^--] -- %[^TL] TL -- %[^--] -- %[^\n]", &currentFoodNumber, foodName, foodPrice, preparationTime, state) == 5) {
+            // Check if this is the line to be modified based on currentFoodNumber
+            if (currentFoodNumber == atoi(foodNumber)) {
+                // Update the preparation time with NewpreparationTime
+                fprintf(file4, "%d -- %s -- %s TL -- %s -- %s\n", currentFoodNumber, foodName, foodPrice, NewpreparationTime, state);
+            } else {
+                // Write the unchanged line to the temporary file
+                fprintf(file4, "%s", line);
+            }
+        }
+    }
+    fclose(file3);
+    fclose(file4);
+    remove("TextFiles/FoodList.txt");
+    rename("TextFiles/FoodListTemp.txt", "TextFiles/FoodList.txt");
+
+}
+    if (PartNumber == 4){
+    // status
+    // enterer can only enter 1 for available or 0 for unavailable
+    // non-numeric characters are not allowed
+    /*
+    it will ask the user to enter another status
+    if the user enters a non-numeric character, ask for the status again or give the option to exit by entering "q"
+    */
+
+    char Newstatus[20];
+    int validStatus = 0;
+
+    while (!validStatus) {
+        printf("Enter the new status or enter 'q' to cancel the request (1 for available, 0 for unavailable): ");
+        scanf("%s", Newstatus);
+        if (strcmp(Newstatus, "q") == 0) {
+            return;
+        }
+        validStatus = ScanfOnlyNumeric(Newstatus) && (strcmp(Newstatus, "0") == 0 || strcmp(Newstatus, "1") == 0);
+        if (!validStatus) {
+            printf("Non-numeric characters are not allowed. Please enter another status or enter 'q' to cancel the request.\n");
+        }
+    }
+
+    //convert status to available or unavailable
+    if (strcmp(Newstatus, "1") == 0) {
+        strcpy(Newstatus, "Available");
+    } else {
+        strcpy(Newstatus, "Unavailable");
+    }
+
+    FILE *file3 = fopen("TextFiles/FoodList.txt", "r");
+
+    if (file3 == NULL) {
+        printf("Error: File not found\n");
+        return;
+    }
+
+    FILE *file4 = fopen("TextFiles/FoodListTemp.txt", "w");
+
+    if (file4 == NULL) {
+        printf("Error: Temporary file creation failed\n");
+        fclose(file3);
+        return;
+    }
+
+    char line[100];
+
+    while (fgets(line, sizeof(line), file3)) {
+        int currentFoodNumber;
+        char foodName[30];
+        char foodPrice[10];
+        char preparationTime[5];
+        char state[20];
+
+        // Parse the line into different fields
+        if (sscanf(line, "%d -- %[^--] -- %[^TL] TL -- %[^--] -- %[^\n]", &currentFoodNumber, foodName, foodPrice, preparationTime, state) == 5) {
+            // Check if this is the line to be modified based on currentFoodNumber
+            if (currentFoodNumber == atoi(foodNumber)) {
+                // Update the status with Newstatus
+                fprintf(file4, "%d -- %s -- %s TL -- %s -- %s\n", currentFoodNumber, foodName, foodPrice, preparationTime, Newstatus);
+            } else {
+                // Write the unchanged line to the temporary file
+                fprintf(file4, "%s", line);
+            }
+        }
+    }
+}
 
 }
 

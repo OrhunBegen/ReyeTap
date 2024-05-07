@@ -6,8 +6,8 @@ int main() {
     // RenumberTheFoodList
     //AddCustomFoodToTheFoodList();
 
-    // CreateASampleFoodList();
-    // AdjustTheSelectedFoodFromTheFoodList();
+    CreateASampleFoodList();
+    AdjustTheSelectedFoodFromTheFoodList();
     
    
 
