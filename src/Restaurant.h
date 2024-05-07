@@ -147,9 +147,6 @@ int ScanfOnlyAlphabetic(char *str) {
 
 }
 
-
-
-
 void AddCustomFoodToTheFoodList()
 {
 
@@ -634,19 +631,16 @@ void AdjustTheSelectedFoodFromTheFoodList()
         if(file4 == NULL) {
             printf("Error: File not found\n");
         }
-
         
+        //code will be added from here nnow on 
 
-
-
+       
 
 
   
 
 
-
-
-        
+       
         fclose(file3);
         fclose(file4);
 
@@ -654,6 +648,8 @@ void AdjustTheSelectedFoodFromTheFoodList()
         remove("TextFiles/FoodList.txt");
         rename("TextFiles/FoodListTemp.txt", "TextFiles/FoodList.txt");
 
+
+        
 
 
 
@@ -672,10 +668,8 @@ void AdjustTheSelectedFoodFromTheFoodList()
 
     }
 
-
-
-
 }
+
 
 
 #endif // RESTAURANT_H
