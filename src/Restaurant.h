@@ -4,16 +4,15 @@
 #include <stdio.h> // Include the standard C library
 #include <string.h> // Include the string library
 #include <stdlib.h> // Include the standard library
-#include <ctype.h> // Add the missing import statement
+#include <ctype.h> // Include the ctype library
 
-//menu functions are here
-int MenuForRestaurant();
+// Function prototypes
+void RestaurantMainMenu();
 
-//add function declarations here
 void createFoodListFile();
 void createOrdersFile();
 
-void OpenFoodListFile();
+void OpenCustomFoodListFile();
 void OpenOrdersFile();
 
 void BringTheFoodList();
@@ -29,13 +28,7 @@ void RemoveTheSelectedFoodFromTheFoodList();
 void RenumberTheFoodList();
 void AdjustTheSelectedFoodFromTheFoodList();
 
-
 //add functions
-int MenuForRestaurant() {
-  
-    
-
-}
 
 void createFoodListFile() {
     FILE *file;
@@ -794,7 +787,6 @@ void AdjustTheSelectedFoodFromTheFoodList()
 }
 
 }
-
 
 
 #endif // RESTAURANT_H
