@@ -2,6 +2,7 @@
     "files.associations": {
         "restaurant.h": "c",
         "kitchen.h": "c",
-        "customer.h": "c"
+        "customer.h": "c",
+        "stdio.h": "c"
     }
 }
