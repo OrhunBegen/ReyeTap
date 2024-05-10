@@ -37,15 +37,15 @@ void addCustomer()
     
 
     printf("Musteri adi giriniz : "); 
-    scanf("%s", &c1.name);
+    scanf("%s", c1.name);
     printf("Musteri soyadi giriniz : "); 
-    scanf("%s", &c1.surname);
+    scanf("%s", c1.surname);
     printf("Musteri adresi giriniz : "); 
-    scanf("%s", &c1.address);
+    scanf("%s", c1.address);
     printf("Musteri telefonu giriniz : "); 
-    scanf("%s",&c1.phone);
+    scanf("%s",c1.phone);
     printf("Musteri email giriniz : "); 
-    scanf("%s",&c1.email);
+    scanf("%s",c1.email);
     printf("Musteri adi : %s \n", c1.name);
     printf("Musteri soyadi : %s \n", c1.surname);
     printf("Musteri adresi : %s \n", c1.address);
@@ -53,7 +53,7 @@ void addCustomer()
     printf("Musteri email : %s \n", c1.email);
 
      // musterilere 000-999 arasinda numara verilir
-    int numara = 0;
+    int numara = 000;
     FILE *numPtr = fopen("musteriNumarasi.dat", "a+b");
     if (numPtr != NULL) {
         
@@ -92,7 +92,7 @@ void addCustomer()
     FILE *file = fopen("musteri.dat","a+b");
     fwrite(&c1, sizeof(Customer), 1, file);
     fclose(file);
-    printf("\n\n%d numarali musteri eklendi \n", c1.id);
+    printf("\n\n%03d numarali musteri eklendi \n", c1.id);
 
 }
 void CustomerList()
