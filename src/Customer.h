@@ -10,7 +10,7 @@ typedef struct Customer
     char name[50];
     char surname[50];
     char address[100];
-    char phone[15];
+    int phone[15];
     char email[50];
 } Customer;
 
@@ -28,13 +28,31 @@ void CustomerMenu();
 Customer c1,c2;
 
 
+
 void addCustomer()
 {
     system("cls");
     printf("\n\t MUSTERI EKLEME \n\n");
+   
+    
 
+    printf("Musteri adi giriniz : "); 
+    scanf("%s", &c1.name);
+    printf("Musteri soyadi giriniz : "); 
+    scanf("%s", &c1.surname);
+    printf("Musteri adresi giriniz : "); 
+    scanf("%s", &c1.address);
+    printf("Musteri telefonu giriniz : "); 
+    scanf("%s",&c1.phone);
+    printf("Musteri email giriniz : "); 
+    scanf("%s",&c1.email);
+    printf("Musteri adi : %s \n", c1.name);
+    printf("Musteri soyadi : %s \n", c1.surname);
+    printf("Musteri adresi : %s \n", c1.address);
+    printf("Musteri telefonu : %s \n", c1.phone);
+    printf("Musteri email : %s \n", c1.email);
 
-    // musterilere 000-999 arasinda numara verilir
+     // musterilere 000-999 arasinda numara verilir
     int numara = 0;
     FILE *numPtr = fopen("musteriNumarasi.dat", "a+b");
     if (numPtr != NULL) {
@@ -63,26 +81,14 @@ void addCustomer()
             fseek(numPtr, 0, SEEK_END);
             fwrite(&numara, sizeof(int), 1, numPtr);
         }
+
         
         printf("Musteri numarasi: %03d\n", numara);
         fclose(numPtr);
     } else {
         printf("Dosya acilamadi!\n");
     }
-    
-    c1.id = numara;
-
-    printf("Musteri adi giriniz : "); scanf("%[^\n]s", c1.name);
-    printf("Musteri soyadi giriniz : "); scanf("%[^\n]s", c1.surname);
-    printf("Musteri adresi giriniz : "); scanf("%[^\n]s", c1.address);
-    printf("Musteri telefonu giriniz : "); scanf("%[^\n]s", c1.phone);
-    printf("Musteri email giriniz : "); scanf("%[^\n]s", c1.email);
-    printf("Musteri adi : %s \n", c1.name);
-    printf("Musteri soyadi : %s \n", c1.surname);
-    printf("Musteri adresi : %s \n", c1.address);
-    printf("Musteri telefonu : %s \n", c1.phone);
-    printf("Musteri email : %s \n", c1.email);
-
+    c1.id = numara; 
     FILE *file = fopen("musteri.dat","a+b");
     fwrite(&c1, sizeof(Customer), 1, file);
     fclose(file);
@@ -96,11 +102,11 @@ void CustomerList()
     printf("\n\t MUSTERI LISTELE \n\n");
 
     int sayac=0;
-    printf("%-10d %-20s %-20s %-20s %-15d %-20s\n","ID","ADI","SOYADI","ADRESI","TELEFONU","EMAIL");
+    printf("%-10s %-20s %-20s %-20s %-15s %-20s\n","ID","ADI","SOYADI","ADRESI","TELEFONU","EMAIL");
     FILE *ptr= fopen("musteri.dat","r+b");
     while (fread(&c1, sizeof(Customer), 1, ptr) == 1)
     {
-        printf("%-10d %-20s %-20s %-20s %-15d %-20s\n",c1.id ,c1.name,c1.surname , c1.address ,c1.phone ,c1.email );
+        printf("%-10d %-20s %-20s %-20s %-15s %-20s\n",c1.id ,c1.name,c1.surname , c1.address ,c1.phone ,c1.email );
         sayac++;
         
     }
@@ -121,12 +127,12 @@ void updateCustomer()
     system("cls");
     printf("\n\t MUSTERI LISTESI \n\n");
     int sayac=0,numara,durum=0;
-    printf("%-10d %-20s %-20s %-20s %-15d %-20s\n","ID","ADI","SOYADI","ADRESI","TELEFONU","EMAIL");
+    printf("%-10s %-20s %-20s %-20s %-15s %-20s\n","ID","ADI","SOYADI","ADRESI","TELEFONU","EMAIL");
     
     FILE *ptr= fopen("musteri.dat","r+b");
     while (fread(&c1, sizeof(Customer), 1, ptr) ==1)
     {
-        printf("%-10d %-20s %-20s %-20s %-15d %-20s\n",c1.id ,c1.name,c1.surname , c1.address ,c1.phone ,c1.email );
+        printf("%-10d %-20s %-20s %-20s %-15s %-20s\n",c1.id ,c1.name,c1.surname , c1.address ,c1.phone ,c1.email );
         sayac++;
     }
     if(sayac==0)
@@ -156,11 +162,11 @@ void updateCustomer()
         {
             system("cls");
             printf("güncellemek istediginiz musteri bilgileri \n");
-            printf("AD : "); scanf("%[^\n]s", c1.name);
-            printf("SOYAD : "); scanf("%[^\n]s", c1.surname);
-            printf("ADRES: "  ); scanf("%[^\n]s", c1.address);
-            printf("TELEFON : "); scanf("%[^\n]s", c1.phone);
-            printf("MAİL : "); scanf("%[^\n]s", c1.email);
+            printf("AD : "); scanf("%s", &c1.name);
+            printf("SOYAD : "); scanf("%s", &c1.surname);
+            printf("ADRES: "  ); scanf("%s", &c1.address);
+            printf("TELEFON : "); scanf("%s", &c1.phone);
+            printf("MAİL : "); scanf("%s", &c1.email);
             fseek(ptr, sayac*sizeof(Customer), SEEK_SET);
             fwrite(&c1, sizeof(Customer), 1, ptr);
             printf("\n\n%d numarali musteri guncellendi \n", numara);
@@ -174,12 +180,12 @@ void deleteCustomer()
     system("cls");
     printf("\n\t MUSTERI LISTESI \n\n");
     int sayac=0,numara,durum=0;
-    printf("%-10d %-20s %-20s %-20s %-15d %-20s\n","ID","ADI","SOYADI","ADRESI","TELEFONU","EMAIL");
+    printf("%-10s %-20s %-20s %-20s %-15s %-20s\n","ID","ADI","SOYADI","ADRESI","TELEFONU","EMAIL");
     
     FILE *ptr= fopen("musteri.dat","r+b");
     while (fread(&c1, sizeof(Customer), 1, ptr) ==1)
     {
-        printf("%-10d %-20s %-20s %-20s %-15d %-20s\n",c1.id ,c1.name,c1.surname , c1.address ,c1.phone ,c1.email );
+        printf("%-10d %-20s %-20s %-20s %-15s %-20s\n",c1.id ,c1.name,c1.surname , c1.address ,c1.phone ,c1.email );
         sayac++;
     }
     if(sayac==0)
