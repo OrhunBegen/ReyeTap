@@ -1,6 +1,6 @@
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
-
+#define RESTAURANT_H
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -10,7 +10,7 @@ typedef struct Customer
     char name[50];
     char surname[50];
     char address[100];
-    int phone[15];
+    char phone[15];
     char email[50];
 } Customer;
 
@@ -34,8 +34,8 @@ void addCustomer()
     system("cls");
     printf("\n\t MUSTERI EKLEME \n\n");
    
-   int basamaksayisi=0;
-
+    int basamaksayisi=0;
+    int validPart = 0;
     printf("Musteri adi giriniz : "); 
     scanf("%s", c1.name);
     printf("Musteri soyadi giriniz : "); 
@@ -44,17 +44,40 @@ void addCustomer()
     scanf("%s", c1.address);
     printf("Musteri telefonu giriniz : "); 
     scanf("%s",c1.phone);
-    while (c1.phone!= 0) {
+
+    while (!validPart) {
+        printf("Lutfen telefon numarasini giriniz (11 haneli) veya 'q' girerek islemi iptal ediniz:");
+        scanf("%s", c1.phone);
+
+        // Girişin iptal edilip edilmediğini kontrol et
+        if (strcmp(c1.phone, "q") == 0) {
+            return; // İşlemi iptal et
+        } else {
+            // Telefon numarasının tüm karakterlerinin rakam olup olmadığını kontrol et
+            validPart = 1; // Varsayılan olarak, girişin doğru olduğunu varsayalım.
+            for (int i = 0; c1.phone[i] != '\0'; ++i) {
+                if (!isdigit(c1.phone[i])) {
+                    validPart = 0; // Bir karakter rakam değilse, geçersiz bir parça olarak işaretle
+                    printf("Gecersiz karakter. Lutfen sadece rakam giriniz.\n");
+                    break; // Daha fazla kontrol etmeye gerek yok, hata zaten var
+                }
+            }    
+        }    
+     }
+    printf("Musteri email giriniz : "); 
+    scanf("%s",c1.email);
+   /* while (c1.phone!= 0) {
         c1.phone /= 10;
         basamaksayisi++;
     }
     if (basamaksayisi != 11) {
         printf("Telefon numarasi 11 haneli olmalidir!\n");
+        //Programı kapatmayı yaz
         return;
     }else{
         printf("Musteri email giriniz : "); 
         scanf("%s",c1.email);
-    }
+    }*/
 
    
     
@@ -138,7 +161,7 @@ void updateCustomer()
 {  
     system("cls");
     printf("\n\t MUSTERI LISTESI \n\n");
-    int sayac=0,numara,durum=0;
+    int sayac=0,numara=0,durum=0;
     printf("%-10s %-20s %-20s %-20s %-15s %-20s\n","ID","ADI","SOYADI","ADRESI","TELEFONU","EMAIL");
     
     FILE *ptr= fopen("musteri.dat","r+b");
