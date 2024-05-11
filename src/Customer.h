@@ -1,3 +1,4 @@
+
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
 #define RESTAURANT_H
@@ -86,6 +87,32 @@ void addCustomer()
     printf("Musteri adresi : %s \n", c1.address);
     printf("Musteri telefonu : %s \n", c1.phone);
     printf("Musteri email : %s \n", c1.email);
+        
+    FILE *file = fopen("musteri.dat", "rb");
+    if (file != NULL)
+    {
+        Customer temp;
+        int found = 0;
+        while (fread(&temp, sizeof(Customer), 1, file) == 1)
+        {
+            if (strcmp(temp.phone, c1.phone) == 0)
+            {
+                printf("Bu telefon numarasi zaten kayitli. Lutfen farkli bir numara giriniz.\n");
+                found = 1;
+                break;
+            }
+        }
+        fclose(file);
+        if (found)
+        {
+            return; // Tekrar müşteri eklemeyi iptal et
+        }
+    }
+    else
+    {
+        printf("Dosya acilamadi!\n");
+        return;
+    }
 
      // musterilere 000-999 arasinda numara verilir
     int numara = 000;
@@ -124,12 +151,11 @@ void addCustomer()
         printf("Dosya acilamadi!\n");
     }
     c1.id = numara; 
-    FILE *file = fopen("musteri.dat","a+b");
-    fwrite(&c1, sizeof(Customer), 1, file);
-    fclose(file);
-    printf("\n\n%03d numarali musteri eklendi \n", c1.id);
-
-}
+    FILE *fileWrite = fopen("musteri.dat","a+b");
+    fwrite(&c1, sizeof(Customer), 1, fileWrite);
+    fclose(fileWrite);
+    printf("\n\n%03d numarali musteri eklendi \n", c1.id); 
+}    
 void CustomerList()
 {
     Customer c1;
@@ -161,7 +187,7 @@ void updateCustomer()
 {  
     system("cls");
     printf("\n\t MUSTERI LISTESI \n\n");
-    int sayac=0,numara=0,durum=0;
+    int sayac=0,numara=0,durum=0,secim=0;
     printf("%-10s %-20s %-20s %-20s %-15s %-20s\n","ID","ADI","SOYADI","ADRESI","TELEFONU","EMAIL");
     
     FILE *ptr= fopen("musteri.dat","r+b");
@@ -192,16 +218,44 @@ void updateCustomer()
             sayac++;     
         }
         if(durum==0)
-        printf("%03d numarali musteri bulunamadi \n", numara);
+            printf("%03d numarali musteri bulunamadi \n", numara);
         else
-        {
-            system("cls");
-            printf("güncellemek istediginiz musteri bilgileri \n");
-            printf("AD : "); scanf("%s", &c1.name);
-            printf("SOYAD : "); scanf("%s", &c1.surname);
-            printf("ADRES: "  ); scanf("%s", &c1.address);
-            printf("TELEFON : "); scanf("%s", &c1.phone);
-            printf("MAİL : "); scanf("%s", &c1.email);
+        {system("cls");
+            printf("Guncellemek istediginiz bilgiyi seciniz:\n");
+            printf("1. AD\n");
+            printf("2. SOYAD\n");
+            printf("3. ADRES\n");
+            printf("4. TELEFON\n");
+            printf("5. MAIL\n");
+            printf("Secim: ");
+            scanf("%d", &secim);
+
+            switch (secim)
+            {
+                case 1:
+                    printf("AD : ");
+                    scanf("%s", &c1.name);
+                    break;
+                case 2:
+                    printf("SOYAD : ");
+                    scanf("%s", &c1.surname);
+                    break;
+                case 3:
+                    printf("ADRES: ");
+                    scanf("%s", &c1.address);
+                    break;
+                case 4:
+                    printf("TELEFON : ");
+                    scanf("%s", &c1.phone);
+                    break;
+                case 5:
+                    printf("MAIL : ");
+                    scanf("%s", &c1.email);
+                    break;
+                default:
+                    printf("Gecerli bir secim yapmadiniz.");
+                    break;
+            }        
             fseek(ptr, sayac*sizeof(Customer), SEEK_SET);
             fwrite(&c1, sizeof(Customer), 1, ptr);
             printf("\n\n%03d numarali musteri guncellendi \n", numara);
