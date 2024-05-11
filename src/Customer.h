@@ -4,6 +4,7 @@
 #define RESTAURANT_H
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 typedef struct Customer
 {
@@ -22,9 +23,26 @@ void CustomerList();
 void updateCustomer();
 void deleteCustomer();
 void CustomerMenu();
+int ScanfOnlyAlphabetic(char *str);
+int checkIfExists(const char* filename, const char* data);
+int CheckIfExists(const char* filename, const char* data);
 
+int ScanfOnlyAlphabetic(char *str) {
+       //or space
+       // Loop through each character in the string
+    while (*str != '\0') {
+        // Check if the character is alphabetic or a space
+        if (!isalpha(*str) && *str != ' ') {
+            // If it's not alphabetic or a space, return 0
+            return 0;
+        }
+        // Move to the next character
+        str++;
+    }
+    // If all characters are alphabetic or spaces, return 1
+    return 1;
 
-
+}
 
 Customer c1,c2;
 
@@ -39,48 +57,99 @@ void addCustomer()
     int validPart = 0;
     printf("Musteri adi giriniz : "); 
     scanf("%s", c1.name);
+    if(ScanfOnlyAlphabetic(c1.name) == 0){
+        printf("Gecersiz karakter. Lutfen sadece harf giriniz.\n");
+        return;
+    }
     printf("Musteri soyadi giriniz : "); 
     scanf("%s", c1.surname);
+    if(ScanfOnlyAlphabetic(c1.surname) == 0){
+        printf("Gecersiz karakter. Lutfen sadece harf giriniz.\n");
+        return;
+    }
     printf("Musteri adresi giriniz : "); 
     scanf("%s", c1.address);
-    printf("Musteri telefonu giriniz : "); 
-    scanf("%s",c1.phone);
+    
+    printf("Lutfen telefon numarasini giriniz (11 haneli) veya 'q' girerek islemi iptal ediniz:");
+    scanf("%s", c1.phone);
 
     while (!validPart) {
-        printf("Lutfen telefon numarasini giriniz (11 haneli) veya 'q' girerek islemi iptal ediniz:");
-        scanf("%s", c1.phone);
-
+        
         // Girişin iptal edilip edilmediğini kontrol et
-        if (strcmp(c1.phone, "q") == 0) {
+        if (strcmp(c1.phone,"q") == 0) {
             return; // İşlemi iptal et
         } else {
             // Telefon numarasının tüm karakterlerinin rakam olup olmadığını kontrol et
             validPart = 1; // Varsayılan olarak, girişin doğru olduğunu varsayalım.
-            for (int i = 0; c1.phone[i] != '\0'; ++i) {
-                if (!isdigit(c1.phone[i])) {
-                    validPart = 0; // Bir karakter rakam değilse, geçersiz bir parça olarak işaretle
+            for (int i = 0; i < strlen(c1.phone); i++) {
+                if (c1.phone[i] < '0' || c1.phone[i] > '9') {
+                  
                     printf("Gecersiz karakter. Lutfen sadece rakam giriniz.\n");
-                    break; // Daha fazla kontrol etmeye gerek yok, hata zaten var
+                    return;
+         
+                }else{
+                    if (strlen(c1.phone) != 11) {
+                    printf("Telefon numarasi 11 haneli olmalidir!\n");
+                        //Programı kapatmayı yaz
+                    return;
+                    }else{
+                        if (checkIfExists("müsteri.dat", c1.phone) == 1) {
+                            return;
+                        
+                    }
                 }
-            }    
+            }
+            
         }    
-     }
+    }
+    int checkIfExists(const char* filename, const char* data);
+        FILE* file = fopen("müsteri.dat","a+b");
+
+        if (file == NULL) {
+            printf("Dosya açilamadi!\n");
+            return 0; 
+        }
+
+        char buffer[256]; // Dosyadan okunan veriyi tutmak için bir arabellek
+        while (fgets(buffer, sizeof(buffer), file) != NULL) { 
+            if (strcmp(buffer, c1.phone ) == 0) { 
+                fclose(file);
+                printf("Bu telefon numarasi zaten kayitli. Lutfen farkli bir numara giriniz.\n");
+                return 1; 
+            }
+    
+
+            fclose(file); 
+            return 0;
+        }
+    }
+   int CheckIfExists(const char* filename, const char* data) { 
+
+        FILE* file = fopen("müsteri.dat","a+b");
+
+        if (file == NULL) {
+            printf("Dosya açilamadi!\n");
+            return 0; 
+        }
+
+        char control[256]; // Dosyadan okunan veriyi tutmak için bir arabellek
+        while (fgets(control, sizeof(control), file) != NULL) { 
+            if (strcmp(control, c1.email) == 0) { 
+                fclose(file);
+                printf("Bu email zaten kayitli. Lutfen farkli bir mail giriniz.\n");
+                return 1; 
+            }
+    
+
+            fclose(file); 
+            return 0;
+        }
+    }
     printf("Musteri email giriniz : "); 
     scanf("%s",c1.email);
-   /* while (c1.phone!= 0) {
-        c1.phone /= 10;
-        basamaksayisi++;
-    }
-    if (basamaksayisi != 11) {
-        printf("Telefon numarasi 11 haneli olmalidir!\n");
-        //Programı kapatmayı yaz
+    if(CheckIfExists("musteri.dat", c1.email) == 1) {
         return;
-    }else{
-        printf("Musteri email giriniz : "); 
-        scanf("%s",c1.email);
-    }*/
-
-   
+    }
     
     printf("Musteri adi : %s \n", c1.name);
     printf("Musteri soyadi : %s \n", c1.surname);
@@ -88,32 +157,7 @@ void addCustomer()
     printf("Musteri telefonu : %s \n", c1.phone);
     printf("Musteri email : %s \n", c1.email);
         
-    FILE *file = fopen("musteri.dat", "rb");
-    if (file != NULL)
-    {
-        Customer temp;
-        int found = 0;
-        while (fread(&temp, sizeof(Customer), 1, file) == 1)
-        {
-            if (strcmp(temp.phone, c1.phone) == 0)
-            {
-                printf("Bu telefon numarasi zaten kayitli. Lutfen farkli bir numara giriniz.\n");
-                found = 1;
-                break;
-            }
-        }
-        fclose(file);
-        if (found)
-        {
-            return; // Tekrar müşteri eklemeyi iptal et
-        }
-    }
-    else
-    {
-        printf("Dosya acilamadi!\n");
-        return;
-    }
-
+    
      // musterilere 000-999 arasinda numara verilir
     int numara = 000;
     FILE *numPtr = fopen("musteriNumarasi.dat", "a+b");
