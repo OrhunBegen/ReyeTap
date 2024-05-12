@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 typedef struct Customer
 {
@@ -103,47 +104,8 @@ void addCustomer()
         }    
     }
     int checkIfExists(const char* filename, const char* data);
-        FILE* file = fopen("müsteri.dat","a+b");
+    int CheckIfExists(const char* filename, const char* data); 
 
-        if (file == NULL) {
-            printf("Dosya açilamadi!\n");
-            return 0; 
-        }
-
-        char buffer[256]; // Dosyadan okunan veriyi tutmak için bir arabellek
-        while (fgets(buffer, sizeof(buffer), file) != NULL) { 
-            if (strcmp(buffer, c1.phone ) == 0) { 
-                fclose(file);
-                printf("Bu telefon numarasi zaten kayitli. Lutfen farkli bir numara giriniz.\n");
-                return 1; 
-            }
-    
-
-            fclose(file); 
-            return 0;
-        }
-    }
-   int CheckIfExists(const char* filename, const char* data) ; 
-
-        FILE* file = fopen("müsteri.dat","a+b");
-
-        if (file == NULL) {
-            printf("Dosya açilamadi!\n");
-            return 0; 
-        }
-
-        char control[256]; // Dosyadan okunan veriyi tutmak için bir arabellek
-        while (fgets(control, sizeof(control), file) != NULL) { 
-            if (strcmp(control, c1.email) == 0) { 
-                fclose(file);
-                printf("Bu email zaten kayitli. Lutfen farkli bir mail giriniz.\n");
-                return 1; 
-            }
-    
-
-            fclose(file); 
-            return 0;
-        }
     
     printf("Musteri email giriniz : "); 
     scanf("%s",c1.email);
@@ -161,16 +123,20 @@ void addCustomer()
      // musterilere 000-999 arasinda numara verilir
     int numara = 000;
     FILE *numPtr = fopen("musteriNumarasi.dat", "a+b");
-    if (numPtr != NULL) {
+    if (numPtr != NULL) 
+    {
         
         fseek(numPtr, 0, SEEK_END);
         
         
         long size = ftell(numPtr);
         
-        if (size == 0) {
+        if (size == 0) 
+        {
             fwrite(&numara, sizeof(int), 1, numPtr);
-        } else {
+        } 
+        else 
+        {
             
             fseek(numPtr, -sizeof(int), SEEK_END);
             fread(&numara, sizeof(int), 1, numPtr);
@@ -191,7 +157,9 @@ void addCustomer()
         
         printf("Musteri numarasi: %03d\n", numara);
         fclose(numPtr);
-    } else {
+    } 
+    else 
+    {
         printf("Dosya acilamadi!\n");
     }
     c1.id = numara; 
@@ -199,7 +167,7 @@ void addCustomer()
     fwrite(&c1, sizeof(Customer), 1, fileWrite);
     fclose(fileWrite);
     printf("\n\n%03d numarali musteri eklendi \n", c1.id); 
-}    
+}  }  
 void CustomerList()
 {
     Customer c1;
@@ -421,6 +389,50 @@ void CustomerMenu() {
         
  }
 
+
+
+    int checkIfExists(const char* filename, const char* data){
+        FILE* file = fopen("müsteri.dat","a+b");
+
+        if (file == NULL) {
+            printf("Dosya açilamadi!\n");
+            return 0; 
+        }
+
+        char buffer[256]; // Dosyadan okunan veriyi tutmak için bir arabellek
+        while (fgets(buffer, sizeof(buffer), file) != NULL) { 
+            if (strcmp(buffer, c1.phone ) == 0) { 
+                fclose(file);
+                printf("Bu telefon numarasi zaten kayitli. Lutfen farkli bir numara giriniz.\n");
+                return 1; 
+            }
     
 
+            fclose(file); 
+            return 0;
+        }
+    }
+    
+    int CheckIfExists(const char* filename, const char* data) {
+
+        FILE* file = fopen("müsteri.dat","a+b");
+
+        if (file == NULL) {
+            printf("Dosya açilamadi!\n");
+            return 0; 
+        }
+
+        char control[256]; // Dosyadan okunan veriyi tutmak için bir arabellek
+        while (fgets(control, sizeof(control), file) != NULL) { 
+            if (strcmp(control, c1.email) == 0) { 
+                fclose(file);
+                printf("Bu email zaten kayitli. Lutfen farkli bir mail giriniz.\n");
+                return 1; 
+            }
+    
+
+            fclose(file); 
+            return 0;
+        }
+    }
 #endif // CUSTOMER_H
