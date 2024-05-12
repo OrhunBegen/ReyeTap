@@ -123,7 +123,7 @@ void addCustomer()
             return 0;
         }
     }
-   int CheckIfExists(const char* filename, const char* data) ; 
+   int CheckIfExists(const char* filename, const char* data) { 
 
         FILE* file = fopen("müsteri.dat","a+b");
 
@@ -144,7 +144,7 @@ void addCustomer()
             fclose(file); 
             return 0;
         }
-    
+    }
     printf("Musteri email giriniz : "); 
     scanf("%s",c1.email);
     if(CheckIfExists("musteri.dat", c1.email) == 1) {
