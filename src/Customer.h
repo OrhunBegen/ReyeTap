@@ -25,7 +25,11 @@ void updateCustomer();
 void deleteCustomer();
 void CustomerMenu();
 int ScanfOnlyAlphabetic(char *str);
+
+//checks num
 int checkIfExists(const char* filename, const char* data);
+
+//checks email
 int CheckIfExists(const char* filename, const char* data);
 
 int ScanfOnlyAlphabetic(char *str) {
