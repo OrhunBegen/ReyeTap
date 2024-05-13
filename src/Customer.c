@@ -8,7 +8,8 @@ int menu()
     printf("\t1-MUSTERI ISLEMLERI \n");
     printf("\t2-RESTORAN ISLEMLERI \n");
     printf("\t0-PROGRAMI KAPAT \n");
-    printf("\tSECIMINIZ : ") ; scanf("%d", &secim);
+    printf("\tSECIMINIZ : ") ; 
+    scanf("%d", &secim);
     system("cls");
     return secim;
 

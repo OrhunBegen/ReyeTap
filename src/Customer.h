@@ -6,16 +6,28 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <conio.h>
+#include <time.h>
+#include <windows.h>
+#include <stdbool.h>
+#include <math.h>
+#include <locale.h>
+#include <wchar.h>
+#include <wctype.h>
+#include <wchar.h>
+#include <locale.h>
+
 
 typedef struct Customer
 {
-    int id;
+    int  id;
     char name[50];
     char surname[50];
     char address[100];
     char phone[15];
     char email[50];
     char password[50];
+
 } Customer;
 
 
@@ -29,7 +41,7 @@ int ScanfOnlyAlphabetic(char *str);
 int CheckPhone(char* data);
 int CheckMailExistInFile(char* data);
 int CheckPhoneExistInFile(char* data);
-void ReNumberCustomers();
+void ReIDCustomers();
 int CheckEmail(char* data);
 int CheckEmail(char* data);
 
@@ -72,7 +84,8 @@ int CheckPhoneExistInFile(char* data) {
 int ScanfOnlyAlphabetic(char *str) {
        //or space
        // Loop through each character in the string
-    while (*str != '\0') {
+    while (*str != '\0') 
+    {
         // Check if the character is alphabetic or a space
         if (!isalpha(*str) && *str != ' ') {
             // If it's not alphabetic or a space, return 0
@@ -94,7 +107,7 @@ void addCustomer()
     printf("\n\t MUSTERI EKLEME \n\n");
    
     printf("Musteri adi giriniz ya da q girisi ile isleminizi iptal ediniz : ");
-    scanf("%s", c1.name);
+    scanf(" %[^\n]", c1.name);
     //if input is q or Q, exit the function
     if(strcmp(c1.name,"q") == 0 || strcmp(c1.name,"Q") == 0){
         return;
@@ -103,34 +116,34 @@ void addCustomer()
     while(ScanfOnlyAlphabetic(c1.name) == 0){
         printf("Gecersiz karakter. Lutfen sadece harf giriniz.\n");
         printf("Musteri adi giriniz ya da q girisi ile isleminizi iptal ediniz: ");
-        scanf("%s", c1.name);
+        scanf(" %[^\n]", c1.name);
         if(strcmp(c1.name,"q") == 0 || strcmp(c1.name,"Q") == 0){
             return;
         }
     }
     
     printf("Musteri soyadi giriniz ya da q girisi ile isleminizi iptal ediniz : "); 
-    scanf("%s", c1.surname);
+    scanf(" %[^\n]", c1.surname);
     if(strcmp(c1.surname,"q") == 0 || strcmp(c1.surname,"Q") == 0){
         return;
     }
     while(ScanfOnlyAlphabetic(c1.surname) == 0){
         printf("Gecersiz karakter. Lutfen sadece harf giriniz.\n");
         printf("Musteri soyadi giriniz ya da q girisi ile isleminizi iptal ediniz: ");
-        scanf("%s", c1.surname);
+        scanf(" %[^\n]", c1.surname);
         if(strcmp(c1.surname,"q") == 0 || strcmp(c1.surname,"Q") == 0){
             return;
         }
     }
     
     printf("Musteri adresi giriniz ya da q girisi ile isleminizi iptal ediniz : "); 
-    scanf("%s", c1.address);
+    scanf(" %[^\n]", c1.address);
     if(strcmp(c1.address,"q") == 0 || strcmp(c1.address,"Q") == 0){
         return;
     }
     while(strlen(c1.address) < 5){
         printf("Adres en az 5 karakter olmalidir. Lutfen tekrar giriniz: ");
-        scanf("%s", c1.address);
+        scanf(" %[^\n]", c1.address);
         if(strcmp(c1.address,"q") == 0 || strcmp(c1.address,"Q") == 0){
             return;
         }
@@ -138,13 +151,13 @@ void addCustomer()
     
     start:
     printf("Lutfen telefon numarasini giriniz (11 haneli) veya 'q' girerek islemi iptal ediniz:");
-    scanf("%s", c1.phone);
+    scanf(" %[^\n]", c1.phone);
     if(strcmp(c1.phone,"q") == 0 || strcmp(c1.phone,"Q") == 0){
         return;
     }
     while(strlen(c1.phone) != 11){
         printf("Telefon numarasi 11 haneli olmalidir. Lutfen tekrar giriniz: ");
-        scanf("%s", c1.phone);
+        scanf(" %[^\n]", c1.phone);
         if(strcmp(c1.phone,"q") == 0 || strcmp(c1.phone,"Q") == 0){
             return;
         }
@@ -156,7 +169,7 @@ void addCustomer()
     
     mail:
     printf("Musteri email giriniz q girisi ile isleminizi iptal ediniz : "); 
-    scanf("%s",c1.email);
+    scanf(" %[^\n]",c1.email);
     if(strcmp(c1.email,"q") == 0 || strcmp(c1.email,"Q") == 0){
         return;
     }
@@ -171,7 +184,7 @@ void addCustomer()
     }
     
     printf("\n\nMusteri password enter or q to exit : ");
-    scanf("%s", c1.password);
+    scanf(" %[^\n]", c1.password);
     if(strcmp(c1.password,"q") == 0 || strcmp(c1.password,"Q") == 0){
         return;
     }
@@ -185,7 +198,9 @@ void addCustomer()
     printf("Musteri adresi : %s \n", c1.address);
     printf("Musteri telefonu : %s \n", c1.phone);
     printf("Musteri email : %s \n", c1.email);
-        
+
+
+  
     
      // musterilere 000-999 arasinda numara verilir
     int numara = 000;
@@ -317,11 +332,11 @@ void updateCustomer()
             {
                 case 1:
                     printf("Yeni adi giriniz: or q to cancel:");
-                    scanf("%s", c1.name);
+                    scanf(" %[^\n]", c1.name);
                     while(ScanfOnlyAlphabetic(c1.name) == 0){
                         printf("Gecersiz karakter. Lutfen sadece harf giriniz.\n");
                         printf("Musteri adi giriniz ya da q girisi ile isleminizi iptal ediniz: ");
-                        scanf("%s", c1.name);
+                        scanf(" %[^\n]", c1.name);
                         if(strcmp(c1.name,"q") == 0 || strcmp(c1.name,"Q") == 0){
                             return;
                         }
@@ -330,11 +345,11 @@ void updateCustomer()
 
                 case 2:
                     printf("Yeni soyadi giriniz: or q to cancel ");
-                    scanf("%s", c1.surname);
+                    scanf(" %[^\n]", c1.surname);
                     while(ScanfOnlyAlphabetic(c1.surname) == 0){
                         printf("Gecersiz karakter. Lutfen sadece harf giriniz.\n");
                         printf("Musteri soyadi giriniz ya da q girisi ile isleminizi iptal ediniz: ");
-                        scanf("%s", c1.surname);
+                        scanf(" %[^\n]", c1.surname);
                         if(strcmp(c1.surname,"q") == 0 || strcmp(c1.surname,"Q") == 0){
                             return;
                         }
@@ -343,10 +358,10 @@ void updateCustomer()
 
                 case 3:
                     printf("Yeni adresi giriniz: or q to cancel:");
-                    scanf("%s", c1.address);
+                    scanf(" %[^\n]", c1.address);
                     while(strlen(c1.address) < 5){
                         printf("Adres en az 5 karakter olmalidir. Lutfen tekrar giriniz: ");
-                        scanf("%s", c1.address);
+                        scanf(" %[^\n]", c1.address);
                         if(strcmp(c1.address,"q") == 0 || strcmp(c1.address,"Q") == 0){
                             return;
                         }
@@ -355,10 +370,10 @@ void updateCustomer()
 
                 case 4:
                     printf("Yeni telefon numarasini giriniz (11 haneli) veya 'q' girerek islemi iptal ediniz:");
-                    scanf("%s", c1.phone);
+                    scanf(" %[^\n]", c1.phone);
                     while(strlen(c1.phone) != 11){
                         printf("Telefon numarasi 11 haneli olmalidir. Lutfen tekrar giriniz: ");
-                        scanf("%s", c1.phone);
+                        scanf(" %[^\n]", c1.phone);
                         if(strcmp(c1.phone,"q") == 0 || strcmp(c1.phone,"Q") == 0){
                             return;
                         }
@@ -368,7 +383,7 @@ void updateCustomer()
                 case 5:
                     UpdateMail:
                     printf("enter a new mail or q to exit");
-                    scanf("%s", c1.email);
+                    scanf(" %[^\n]", c1.email);
                     if(strcmp(c1.email,"q") == 0 || strcmp(c1.email,"Q") == 0){
                         return;
                     }
@@ -380,7 +395,7 @@ void updateCustomer()
                 
                 case 6:
                     printf("Yeni password enter or q to exit : ");
-                    scanf("%s", c1.password);
+                    scanf(" %[^\n]", c1.password);
                     if(strcmp(c1.password,"q") == 0 || strcmp(c1.password,"Q") == 0){
                         return;
                     }
@@ -402,10 +417,12 @@ void updateCustomer()
 void deleteCustomer()
 {
     system("cls");
-    printf("\n\t MUSTERI LISTESI \n\n");
-    int sayac=0,numara,durum=0;
-    printf("%-10s %-20s %-20s %-20s %-15s %-20s\n","ID","ADI","SOYADI","ADRESI","TELEFONU","EMAIL");
     
+    //print the list of customers
+    printf("\n\t MUSTERI LISTESI \n\n");
+    int sayac=0,numara=0,durum=0;
+    printf("%-10s %-20s %-20s %-20s %-15s %-20s\n","ID","ADI","SOYADI","ADRESI","TELEFONU","EMAIL");
+
     FILE *ptr= fopen("musteri.dat","r+b");
     while (fread(&c1, sizeof(Customer), 1, ptr) ==1)
     {
@@ -422,7 +439,7 @@ void deleteCustomer()
         sayac=0;
         rewind(ptr);
 
-        printf("\n\nSilmek istediginiz musteri numarasini giriniz : "); scanf("%d", &numara);
+        printf("\n\nSilinecek musteri numarasini giriniz : "); scanf("%d", &numara);
 
         while(fread(&c1, sizeof(Customer), 1, ptr) ==1)
         {
@@ -434,43 +451,26 @@ void deleteCustomer()
             sayac++;     
         }
         if(durum==0)
-        printf("%d numarali musteri bulunamadi \n", numara);
+            printf("%03d numarali musteri bulunamadi \n", numara);
         else
         {
-            system("cls");
-           
-            printf("%03d %-20s %-20s %-20s %-15d %-20s\n",c1.id ,c1.name,c1.surname , c1.address ,c1.phone ,c1.email );
-            char tercih;
-            printf("\n\n%d numarali musteri silinsin mi (E/H) : ", numara); scanf(" %c", &tercih);
-            if(tercih=='E' || tercih=='e')
-            {
-                FILE *tempPtr = fopen("temp.dat", "w+b");
-                while(fread(&c1, sizeof(Customer), 1, ptr) ==1)
-                {
-                    if( numara != c1.id )
-                    {
-                        fwrite(&c1, sizeof(Customer), 1, tempPtr);
-                    }
+            FILE *tempPtr = fopen("temp.dat", "w+b");
+            rewind(ptr);
+            while(fread(&c1, sizeof(Customer), 1, ptr) == 1) {
+                if(c1.id != numara) {
+                    fwrite(&c1, sizeof(Customer), 1, tempPtr);
                 }
-           
+            }
             fclose(ptr);
             fclose(tempPtr);
-
             remove("musteri.dat");
             rename("temp.dat", "musteri.dat");
-            system("cls");
-            printf("\n\n%d numarali musteri silindi \n", numara);
-            }else if (tercih=='H' || tercih=='h'){
-            printf("Musteri silme işlemi iptal edildi\n");
-        
-            }else{
-            printf("Hatali secim yaptiniz\n");
-            }
+            printf("\n\n%03d numarali musteri silindi \n", numara);
         }
-        
     }
-    fclose(ptr);
 
+    fclose(ptr);
+    
 
 }
 
@@ -490,18 +490,20 @@ void CustomerMenu() {
         switch (sec)
             {
             case 1:
+
                 addCustomer();
                 break;
             case 2:
-                ReNumberCustomers();
+                ReIDCustomers();
                 CustomerList();
                 break;
             case 3:
+                
                 updateCustomer();
                 break;
             case 4:
                 deleteCustomer();
-                ReNumberCustomers();
+                ReIDCustomers();
                 break;
             case 0:
                 break;
@@ -536,22 +538,39 @@ int CheckEmail(char* data) {
     return 0;
 }
 
-void ReNumberCustomers() {
-    //reassign the customer numbers
+void ReIDCustomers()
+ {  
+    //count the number of customers by the surname of the customers
+    int count = 0;
     FILE *file = fopen("musteri.dat", "r+b");
-    Customer c1;
-    int numara = 0;
     while(fread(&c1, sizeof(Customer), 1, file) == 1) {
-        c1.id = numara;
-        fseek(file, -sizeof(Customer), SEEK_CUR);
-        fwrite(&c1, sizeof(Customer), 1, file);
-        numara++;
+        count++;
     }
     fclose(file);
-    FILE *numPtr = fopen("musteriNumarasi.dat", "w+b");
-    fwrite(&numara, sizeof(int), 1, numPtr);
-    fclose(numPtr);
-}
+    //if there are no customers, return
+    if(count == 0) {
+        return;
+    }
+    //if there are customers, assign new ids to them
+    Customer *customers = (Customer*)malloc(count * sizeof(Customer));
+    file = fopen("musteri.dat", "r+b");
+    for(int i = 0; i < count; i++) {
+        fread(&customers[i], sizeof(Customer), 1, file);
+    }
+    fclose(file);
+    file = fopen("musteri.dat", "w+b");
+    for(int i = 0; i < count; i++) {
+        customers[i].id = i + 1;
+        fwrite(&customers[i], sizeof(Customer), 1, file);
+    }
+    fclose(file);
+    free(customers);
+
+
+
+}   
+
+   
 
 
 
