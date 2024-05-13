@@ -1,6 +1,8 @@
 #include "Restaurant.h"
 
 int main() {
+    CreateASampleFoodList();
+    
      
     
 

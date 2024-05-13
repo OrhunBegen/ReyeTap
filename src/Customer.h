@@ -26,11 +26,15 @@ void deleteCustomer();
 void CustomerMenu();
 int ScanfOnlyAlphabetic(char *str);
 
+
 //checks num
 int checkIfExists(const char* filename, const char* data);
 
 //checks email
 int CheckIfExists(const char* filename, const char* data);
+
+//mail is gmail email or outlook .com
+int CheckEmail(char* data);
 
 int ScanfOnlyAlphabetic(char *str) {
        //or space
@@ -61,14 +65,23 @@ void addCustomer()
    
     int basamaksayisi=0;
     int validPart = 0;
-    printf("Musteri adi giriniz : ");
+    printf("Musteri adi giriniz ya da q girisi ile isleminizi iptal e: ");
     scanf("%s", c1.name);
-   
-    
-    if(ScanfOnlyAlphabetic(c1.name) == 0){
-        printf("Gecersiz karakter. Lutfen sadece harf giriniz.\n");
+    //if input is q or Q, exit the function
+    if(strcmp(c1.name,"q") == 0 || strcmp(c1.name,"Q") == 0){
         return;
     }
+    //until the input is valid, keep asking for the name or give option to quit by pressing q
+    while(ScanfOnlyAlphabetic(c1.name) == 0){
+        printf("Gecersiz karakter. Lutfen sadece harf giriniz.\n");
+        printf("Musteri adi giriniz ya da q girisi ile isleminizi iptal ediniz: ");
+        scanf("%s", c1.name);
+        if(strcmp(c1.name,"q") == 0 || strcmp(c1.name,"Q") == 0){
+            return;
+        }
+    }
+    
+
     printf("Musteri soyadi giriniz : "); 
     scanf("%s", c1.surname);
     if(ScanfOnlyAlphabetic(c1.surname) == 0){
@@ -112,15 +125,26 @@ void addCustomer()
             
         }    
     }
-    int checkIfExists(const char* filename, const char* data);
-    int CheckIfExists(const char* filename, const char* data); 
+    //checkIfExists("müsteri.dat", c1.phone);
+
+    if(checkIfExists("müsteri.dat", c1.phone) == 1) {
+        printf("Bu telefon numarasi zaten kayitli. Lutfen farkli bir numara giriniz.\n");
+        return;
+    }
 
     
     printf("Musteri email giriniz : "); 
     scanf("%s",c1.email);
     if(CheckIfExists("musteri.dat", c1.email) == 1) {
+        printf("Bu email zaten kayitli. Lutfen farkli bir mail giriniz.\n");
         return;
     }
+
+    if(CheckEmail(c1.email) == 0) {
+        printf("Gecersiz email. Lutfen gmail.com, outlook.com veya email.com uzantili bir email giriniz.\n");
+        return;
+    }
+
     
     printf("Musteri adi : %s \n", c1.name);
     printf("Musteri soyadi : %s \n", c1.surname);
@@ -273,6 +297,14 @@ void updateCustomer()
                 case 5:
                     printf("MAIL : ");
                     scanf("%s", &c1.email);
+                    if(CheckIfExists("musteri.dat", c1.email) == 1) {
+                    printf("Bu email zaten kayitli. Lutfen farkli bir mail giriniz.\n");
+                    return;
+                    }
+                    if (CheckEmail(c1.email) == 0) {
+                    printf("Gecersiz email. Lutfen gmail.com, outlook.com veya email.com uzantili bir email giriniz.\n");
+                    return;
+                    }
                     break;
                 default:
                     printf("Gecerli bir secim yapmadiniz.");
@@ -398,6 +430,24 @@ void CustomerMenu() {
         
         
  }
+
+int CheckEmail(char* data) {
+
+    //loop until finding the @ after that if there is a gmail.com or outlook.com or email.com return 1
+
+    char* ptr = data;
+    while (*ptr != '\0') {
+        if (*ptr == '@') {
+            if (strcmp(ptr + 1, "gmail.com") == 0 || strcmp(ptr + 1, "outlook.com") == 0 || strcmp(ptr + 1, "email.com") == 0) {
+                return 1;
+            }
+        }
+        ptr++;
+    }
+    return 0;
+}
+
+
 
 
 
