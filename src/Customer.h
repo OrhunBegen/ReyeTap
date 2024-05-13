@@ -49,6 +49,7 @@ int ScanfOnlyAlphabetic(char *str) {
 
 }
 
+
 Customer c1,c2;
 
 
@@ -60,8 +61,10 @@ void addCustomer()
    
     int basamaksayisi=0;
     int validPart = 0;
-    printf("Musteri adi giriniz : "); 
+    printf("Musteri adi giriniz : ");
     scanf("%s", c1.name);
+   
+    
     if(ScanfOnlyAlphabetic(c1.name) == 0){
         printf("Gecersiz karakter. Lutfen sadece harf giriniz.\n");
         return;
@@ -74,6 +77,7 @@ void addCustomer()
     }
     printf("Musteri adresi giriniz : "); 
     scanf("%s", c1.address);
+  
     
     printf("Lutfen telefon numarasini giriniz (11 haneli) veya 'q' girerek islemi iptal ediniz:");
     scanf("%s", c1.phone);
@@ -101,8 +105,9 @@ void addCustomer()
                         if (checkIfExists("müsteri.dat", c1.phone) == 1) {
                             return;
                         
+                        }
                     }
-                }
+                }    
             }
             
         }    
@@ -171,7 +176,8 @@ void addCustomer()
     fwrite(&c1, sizeof(Customer), 1, fileWrite);
     fclose(fileWrite);
     printf("\n\n%03d numarali musteri eklendi \n", c1.id); 
-}  }  
+} 
+  
 void CustomerList()
 {
     Customer c1;
