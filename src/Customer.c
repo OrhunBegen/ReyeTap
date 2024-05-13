@@ -14,8 +14,8 @@ int menu()
 
 }
 
-int main(int argc, char *argv[]){
-
+int main(int argc, char *argv[])
+{
     int secim=menu();
 
     while(secim != 0)
