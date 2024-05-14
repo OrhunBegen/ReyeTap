@@ -191,14 +191,6 @@ void addCustomer()
         }
     }
 
-    //print the customer ID that u are adding
-    printf("\n\nMusteri ID : %d \n", c1.id);
-    printf("Musteri adi : %s \n", c1.name);
-    printf("Musteri soyadi : %s \n", c1.surname);
-    printf("Musteri adresi : %s \n", c1.address);
-    printf("Musteri telefonu : %s \n", c1.phone);
-    printf("Musteri email : %s \n", c1.email);
-
 
     FILE *ptr= fopen("musteri.dat","a+b");
     fseek(ptr, 0, SEEK_END);
