@@ -10,7 +10,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "Restaurant.h"
+
 
 typedef struct Customer
 {
@@ -183,11 +183,16 @@ void addCustomer()
     if(strcmp(c1.password,"q") == 0 || strcmp(c1.password,"Q") == 0){
         return;
     }
+    while(passwordCheck(c1.password) == 0){
+        printf("Gecersiz sifre. Sifre en az 6 karakter olmalidir ve bosluk icermemelidir. Lutfen tekrar giriniz: ");
+        scanf(" %[^\n]", c1.password);
+        if(strcmp(c1.password,"q") == 0 || strcmp(c1.password,"Q") == 0){
+            return;
+        }
+    }
 
-
-
-    printf("\n\nMusteri bilgileri \n");
-
+    //print the customer ID that u are adding
+    printf("\n\nMusteri ID : %d \n", c1.id);
     printf("Musteri adi : %s \n", c1.name);
     printf("Musteri soyadi : %s \n", c1.surname);
     printf("Musteri adresi : %s \n", c1.address);
@@ -195,55 +200,17 @@ void addCustomer()
     printf("Musteri email : %s \n", c1.email);
 
 
-  
+    FILE *ptr= fopen("musteri.dat","a+b");
+    fseek(ptr, 0, SEEK_END);
+    c1.id = ftell(ptr)/sizeof(Customer) + 1;
+    fwrite(&c1, sizeof(Customer), 1, ptr);
+    fclose(ptr);
+    ReIDCustomers();
+    printf("\n\nMusteri eklendi \n");
+    return;
     
-     // musterilere 000-999 arasinda numara verilir
-    int numara = 000;
-    FILE *numPtr = fopen("musteriNumarasi.dat", "a+b");
-    if (numPtr != NULL) 
-    {
-        
-        fseek(numPtr, 0, SEEK_END);
-        
-        
-        long size = ftell(numPtr);
-        
-        if (size == 0) 
-        {
-            fwrite(&numara, sizeof(int), 1, numPtr);
-        } 
-        else 
-        {
-            
-            fseek(numPtr, -sizeof(int), SEEK_END);
-            fread(&numara, sizeof(int), 1, numPtr);
-            
-           
-            if (numara < 999) {
-                numara++;
-            } else {
-                printf("Musteri numarasi siniri asildi!\n");
-                fclose(numPtr);
-            }
-            
-           
-            fseek(numPtr, 0, SEEK_END);
-            fwrite(&numara, sizeof(int), 1, numPtr);
-        }
-
-        
-        printf("Musteri numarasi: %03d\n", numara);
-        fclose(numPtr);
-    } 
-    else 
-    {
-        printf("Dosya acilamadi!\n");
-    }
-    c1.id = numara; 
-    FILE *fileWrite = fopen("musteri.dat","a+b");
-    fwrite(&c1, sizeof(Customer), 1, fileWrite);
-    fclose(fileWrite);
-    printf("\n\n%03d numarali musteri eklendi \n", c1.id); 
+    
+     
 } 
   
 void CustomerList()
