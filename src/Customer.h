@@ -31,6 +31,7 @@ void updateCustomer();
 void deleteCustomer();
 void CustomerMenu();
 int ScanfOnlyAlphabetic(char *str);
+int ScanfOnlyNumeric(char *str);
 int CheckPhone(char* data);
 int CheckMailExistInFile(char* data);
 int CheckPhoneExistInFile(char* data);
@@ -93,6 +94,20 @@ int ScanfOnlyAlphabetic(char *str) {
 
 }
 
+int ScanfOnlyNumeric(char *str) {
+    //check if the string is numeric
+    //if it is not numeric return 0
+    //if it is numeric return 1
+    //cant be negative
+    
+    for (int i = 0; i < strlen(str); i++) {
+        if (str[i] < '0' || str[i] > '9') {
+            return 0;
+        }
+    }
+    
+}
+
 Customer c1,c2;
 
 void addCustomer()
@@ -149,14 +164,14 @@ void addCustomer()
     if(strcmp(c1.phone,"q") == 0 || strcmp(c1.phone,"Q") == 0){
         return;
     }
-    
-    while(strlen(c1.phone) != 11){
-        printf("Telefon numarasi 11 haneli olmalidir. Lutfen tekrar giriniz: ");
+        while(strlen(c1.phone) != 11 || ScanfOnlyNumeric(c1.phone) == 0){
+        printf("Gecersiz telefon numarasi. Lutfen 11 haneli ve sadece rakamlardan olusan bir numara giriniz: ");
         scanf(" %[^\n]", c1.phone);
         if(strcmp(c1.phone,"q") == 0 || strcmp(c1.phone,"Q") == 0){
-            return;
+             return;
         }
     }
+   
     if(CheckPhoneExistInFile(c1.phone) == 1) {
         printf("Bu telefon numarasi zaten kayitli. Lutfen farkli bir telefon numarasi giriniz.\n");
         goto start;
