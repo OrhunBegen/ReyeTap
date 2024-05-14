@@ -206,6 +206,11 @@ void addCustomer()
         printf("Bu email zaten kayitli. Lutfen farkli bir email giriniz.\n");
         goto mail;
     }
+    printf("\n\nMusteri password enter or q to exit : ");
+    scanf("%s", c1.password);
+    if(strcmp(c1.password,"q") == 0 || strcmp(c1.password,"Q") == 0){
+        return;
+    }
 
     while(passwordCheck(c1.password) == 0){
         printf("Gecersiz sifre. Sifre en az 6 karakter olmalidir ve bosluk icermemelidir. Lutfen tekrar giriniz: ");
@@ -229,7 +234,7 @@ void addCustomer()
      
 } 
   
-void CustomerList()
+/*void CustomerList()
 {
     Customer c1;
     system("cls");
@@ -256,7 +261,44 @@ void CustomerList()
     }
     
 
+}*/
+void CustomerList() {
+    Customer c1;
+    system("cls");
+    printf("\n\t MUSTERI LISTELE \n\n");
+
+    int sayac = 0;
+    printf("%-10s %-20s %-20s %-30s %-15s %-20s\n","ID","ADI","SOYADI","ADRESI","TELEFONU","EMAIL");
+    
+    FILE *ptr = fopen("musteri.dat","r+b");
+    if (ptr == NULL) {
+        printf("Dosya acilamadi.");
+        return;
+    }
+
+    while (fread(&c1, sizeof(Customer), 1, ptr) == 1) {
+        // Adresi belirli bir karakter sınırında yazdırma
+        char truncatedAddress[21];
+        if (strlen(c1.address) > 20) {
+            strncpy(truncatedAddress, c1.address, 17);
+            strcat(truncatedAddress, "...");
+        } else {
+            strcpy(truncatedAddress, c1.address);
+        }
+        printf("%03d %-20s %-20s %-30s %-15s %-20s\n",c1.id ,c1.name,c1.surname , truncatedAddress ,c1.phone ,c1.email );
+        sayac++;
+    }
+    fclose(ptr);
+
+    if (sayac == 0) {
+        system("cls");
+        printf("\n Listelenecek musteri bulunamadi \n");
+    } else {
+        printf("\n\nToplam %d musteri bulunmaktadir \n", sayac);
+    }
 }
+
+
 
 void updateCustomer()
 {  
@@ -392,7 +434,7 @@ void updateCustomer()
  
 }
 
-void deleteCustomer()
+/*void deleteCustomer()
 {
  system("cls");
     
@@ -446,7 +488,60 @@ void deleteCustomer()
         }
     }
 
+}*/
+void deleteCustomer() {
+    system("cls");
+    
+    // Müşteri listesini yazdır
+    printf("\n\t MUSTERI LISTESI \n\n");
+    int sayac = 0, numara = 0, durum = 0;
+    printf("%-10s %-20s %-20s %-20s %-15s %-20s\n","ID","ADI","SOYADI","ADRESI","TELEFONU","EMAIL");
+
+    FILE *ptr = fopen("musteri.dat", "r+b");
+    if(ptr == NULL) {
+        printf("Dosya acilamadi.");
+        return;
+    }
+
+    while (fread(&c1, sizeof(Customer), 1, ptr) == 1) {
+        printf("%03d %-20s %-20s %-20s %-15s %-20s\n",c1.id ,c1.name,c1.surname , c1.address ,c1.phone ,c1.email );
+        sayac++;
+    }
+
+    if(sayac == 0) {
+        system("cls");
+        printf("\n Listelenecek musteri bulunamadi \n");
+    } else {
+        rewind(ptr);
+        printf("\n\nSilinecek musteri numarasini giriniz : "); 
+        scanf("%d", &numara);
+
+        while(fread(&c1, sizeof(Customer), 1, ptr) == 1) {
+            if(numara == c1.id) {
+                durum = 1;
+                break;
+            }
+        }
+
+        if(durum == 0) {
+            printf("%03d numarali musteri bulunamadi \n", numara);
+        } else {
+            FILE *tempPtr = fopen("temp.dat", "wb");
+            rewind(ptr);
+            while(fread(&c1, sizeof(Customer), 1, ptr) == 1) {
+                if(c1.id != numara) {
+                    fwrite(&c1, sizeof(Customer), 1, tempPtr);
+                }
+            }
+            fclose(ptr);
+            fclose(tempPtr);
+            remove("musteri.dat");
+            rename("temp.dat", "musteri.dat");
+            printf("\n\n%03d numarali musteri silindi \n", numara);
+        }
+    }
 }
+
 
 void CustomerMenu() {
        
