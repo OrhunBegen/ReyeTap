@@ -1,4 +1,3 @@
-
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
 
@@ -370,45 +369,44 @@ void updateCustomer()
 
 void deleteCustomer()
 {
-    system("cls");
+ system("cls");
     
-    //print the list of customers
+    // Müşteri listesini yazdır
     printf("\n\t MUSTERI LISTESI \n\n");
-    int sayac=0,numara=0,durum=0;
+    int sayac = 0, numara = 0, durum = 0;
     printf("%-10s %-20s %-20s %-20s %-15s %-20s\n","ID","ADI","SOYADI","ADRESI","TELEFONU","EMAIL");
 
-    FILE *ptr= fopen("musteri.dat","r+b");
-    while (fread(&c1, sizeof(Customer), 1, ptr) ==1)
-    {
+    FILE *ptr = fopen("musteri.dat", "r+b");
+    if(ptr == NULL) {
+        printf("Dosya acilamadi.");
+        return;
+    }
+
+    while (fread(&c1, sizeof(Customer), 1, ptr) == 1) {
         printf("%03d %-20s %-20s %-20s %-15s %-20s\n",c1.id ,c1.name,c1.surname , c1.address ,c1.phone ,c1.email );
         sayac++;
     }
-    if(sayac==0)
-    {
+
+    if(sayac == 0) {
         system("cls");
         printf("\n Listelenecek musteri bulunamadi \n");
-    }
-    else
-    {
-        sayac=0;
+    } else {
         rewind(ptr);
+        printf("\n\nSilinecek musteri numarasini giriniz : "); 
+        scanf("%d", &numara);
 
-        printf("\n\nSilinecek musteri numarasini giriniz : "); scanf("%d", &numara);
-
-        while(fread(&c1, sizeof(Customer), 1, ptr) ==1)
-        {
-            if( numara == c1.id )
-            {
-                durum=1;
+        while(fread(&c1, sizeof(Customer), 1, ptr) == 1) {
+            if(numara == c1.id) {
+                durum = 1;
                 break;
             }
             sayac++;     
         }
-        if(durum==0)
+
+        if(durum == 0)
             printf("%03d numarali musteri bulunamadi \n", numara);
-        else
-        {
-            FILE *tempPtr = fopen("temp.dat", "w+b");
+        else {
+            FILE *tempPtr = fopen("temp.dat", "wb");
             rewind(ptr);
             while(fread(&c1, sizeof(Customer), 1, ptr) == 1) {
                 if(c1.id != numara) {
@@ -422,9 +420,6 @@ void deleteCustomer()
             printf("\n\n%03d numarali musteri silindi \n", numara);
         }
     }
-
-    fclose(ptr);
-    
 
 }
 
@@ -467,27 +462,23 @@ void CustomerMenu() {
  }
 
 int CheckEmail(char* data) {
-
-    //from the start to the @ sign, check if the email is valid
-    for (int i = 0; i < strlen(data); i++) {
-        if (data[i] == '@') {
-            if (i == 0) {
-                return 0;
-            }
-            return 1;
-        }
+    //if mail starts with @ return 0
+    if(data[0] == '@') {
+        return 0;
     }
+
+
     //loop until finding the @ after that if there is a gmail.com or outlook.com or email.com return 1
-    char* ptr = data;
-    while (*ptr != '\0') {
-        if (*ptr == '@') {
-            if (strcmp(ptr + 1, "gmail.com") == 0 || strcmp(ptr + 1, "outlook.com") == 0 || strcmp(ptr + 1, "email.com") == 0) {
-                return 1;
-            }
-        }
-        ptr++;
+
+    int i = 0;
+    while(data[i] != '@') {
+        i++;
+    }
+    if(strcmp(data + i + 1, "gmail.com") == 0 || strcmp(data + i + 1, "outlook.com") == 0 || strcmp(data + i + 1, "email.com") == 0) {
+        return 1;
     }
     return 0;
+
 }
 
 void ReIDCustomers()
