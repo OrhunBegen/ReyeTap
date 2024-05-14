@@ -149,6 +149,7 @@ void addCustomer()
     if(strcmp(c1.phone,"q") == 0 || strcmp(c1.phone,"Q") == 0){
         return;
     }
+    
     while(strlen(c1.phone) != 11){
         printf("Telefon numarasi 11 haneli olmalidir. Lutfen tekrar giriniz: ");
         scanf(" %[^\n]", c1.phone);
@@ -163,10 +164,24 @@ void addCustomer()
     
     mail:
     printf("Musteri email giriniz q girisi ile isleminizi iptal ediniz : "); 
-    scanf(" %[^\n]",c1.email);
+    scanf(" %[^\n]", c1.email);
     if(strcmp(c1.email,"q") == 0 || strcmp(c1.email,"Q") == 0){
         return;
     }
+    
+    int i = 0;
+    while(isalpha(c1.email[i])) { // Harfle başlamalı
+        i++;
+    }
+
+    while(c1.email[i] != '@') { // @ karakterine kadar olan kısmı kontrol et
+        if(!isalnum(c1.email[i])) { // Harf veya sayı olmalı
+            printf("Gecersiz karakterler kullanildi. Lutfen gecerli bir mail adresi giriniz.\n");
+            goto mail;
+        }
+        i++;
+    }
+
     if(CheckEmail(c1.email) == 0) {
         printf("Gecersiz email. Lutfen gmail.com, outlook.com veya email.com uzantili bir email giriniz.\n");
         goto mail;
@@ -176,12 +191,7 @@ void addCustomer()
         printf("Bu email zaten kayitli. Lutfen farkli bir email giriniz.\n");
         goto mail;
     }
-    
-    printf("\n\nMusteri password enter or q to exit : ");
-    scanf(" %[^\n]", c1.password);
-    if(strcmp(c1.password,"q") == 0 || strcmp(c1.password,"Q") == 0){
-        return;
-    }
+
     while(passwordCheck(c1.password) == 0){
         printf("Gecersiz sifre. Sifre en az 6 karakter olmalidir ve bosluk icermemelidir. Lutfen tekrar giriniz: ");
         scanf(" %[^\n]", c1.password);
