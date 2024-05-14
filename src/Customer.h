@@ -1,22 +1,16 @@
 
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
-#define RESTAURANT_H
+
+
+
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include <conio.h>
-#include <time.h>
-#include <windows.h>
-#include <stdbool.h>
-#include <math.h>
-#include <locale.h>
-#include <wchar.h>
-#include <wctype.h>
-#include <wchar.h>
-#include <locale.h>
 
+#include "Restaurant.h"
 
 typedef struct Customer
 {
@@ -44,6 +38,7 @@ int CheckPhoneExistInFile(char* data);
 void ReIDCustomers();
 int CheckEmail(char* data);
 int CheckEmail(char* data);
+int passwordCheck(char* data);
 
 
 
@@ -494,7 +489,6 @@ void CustomerMenu() {
                 addCustomer();
                 break;
             case 2:
-                ReIDCustomers();
                 CustomerList();
                 break;
             case 3:
@@ -503,7 +497,6 @@ void CustomerMenu() {
                 break;
             case 4:
                 deleteCustomer();
-                ReIDCustomers();
                 break;
             case 0:
                 break;
@@ -565,10 +558,22 @@ void ReIDCustomers()
     }
     fclose(file);
     free(customers);
+}
 
+int passwordCheck(char* data) {
+    //password cant contain space
+    for (int i = 0; i < strlen(data); i++) {
+        if (data[i] == ' ') {
+            return 0;
+        }
+    }
+    //password must be at least 6 characters
+    if (strlen(data) < 6) {
+        return 0;
+    }
+    return 1;
 
-
-}   
+}
 
    
 

@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
         {
             case 1: CustomerMenu(); break;
                 
-        //case 2: MenuForRestaurant(); break;
+        
             case 0: break;
             default : printf("hatali secim yaptiniz \n"); break;
         }
