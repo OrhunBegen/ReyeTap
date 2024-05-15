@@ -38,18 +38,22 @@ void ReIDCustomers();
 int CheckEmail(char* data);
 int CheckEmail(char* data);
 int passwordCheck(char* data);
+int loginCustomer(char* email, char* password);
 
 
 
 
-
-int CheckPhone(char* data) {
+int CheckPhone(char* data){
     //check if the phone number is 11 digits
     if(strlen(data) != 11) {
         return 0;
-    }
-    return 1;
+    }else{
+        return 1;
+    } 
+    
 }
+    
+    
 
 int CheckMailExistInFile(char* data) {
     //check if the email is already in the file
@@ -94,6 +98,32 @@ int ScanfOnlyAlphabetic(char *str) {
 }
 
 Customer c1,c2;
+
+void LogIn(){
+    char email[50], password[50];
+    printf("Email: ");
+    scanf(" %[^\n]", email);
+    printf("Password: ");   
+    scanf(" %[^\n]", password);
+    while(passwordCheck(password) == 0){
+        printf("Gecersiz sifre. Sifre en az 6 karakter olmalidir ve bosluk icermemelidir. Lutfen tekrar giriniz: ");
+        scanf(" %[^\n]", password);
+        if(strcmp(password,"q") == 0 || strcmp(password,"Q") == 0){
+            return;
+        }
+    }
+    if(CheckEmail(email) == 0) {
+        printf("Gecersiz email. Lutfen gmail.com, outlook.com veya email.com uzantili bir email giriniz.\n");
+        return;
+    }
+    if(loginCustomer(email, password) == 1) {
+        printf("Giris basarili\n");
+    } else {
+        printf("Giris basarisiz\n");
+        return;
+    }
+}
+
 
 void addCustomer()
 {
@@ -203,7 +233,7 @@ void addCustomer()
     
      
 } 
-  
+
 void CustomerList()
 {
     Customer c1;
@@ -426,30 +456,46 @@ void deleteCustomer()
 void CustomerMenu() {
        
         int sec;
-        printf("\n\t MUSTERI ISLEMLERI \n\n");
-        printf("\t1-MUSTERI EKLE \n");
-        printf("\t2-MUSTERI LISTELE \n");
-        printf("\t3-MUSTERI GUNCELLE \n");
-        printf("\t4-MUSTERI SIL \n");
-        printf("\t0-ANA MENU \n");
-        printf("\tSECIMINIZ : ");
+        printf("\n\tMUSTERI MENU \n\n");
+        printf("\t1-hesap olustur \n");
+        printf("\t2-giris yap \n");
+        printf("\tseciminiz : ");
         scanf("%d", &sec);
         system("cls");
         
         switch (sec)
             {
             case 1:
-
                 addCustomer();
-                break;
+               
             case 2:
+                LogIn();
+                
+            case 0:
+                break;
+            default:
+                printf("WRONG CHOICE\n");
+                break;
+                return;
+            }
+ }
+
+ void RestaurantMenu() {
+        int sec;
+        printf("\n\t RESTAURANT MENU\n\n");
+        printf("\t1- MUSTERI LISTELE \n");
+        printf("\t2- MUSTERI SIL \n");
+        printf("\t0-  MENU \n");
+        printf("\tseciminiz: ");
+        scanf("%d", &sec);
+        system("cls");
+        
+        switch (sec)
+            {
+            case 1:
                 CustomerList();
                 break;
-            case 3:
-                
-                updateCustomer();
-                break;
-            case 4:
+            case 2:
                 deleteCustomer();
                 break;
             case 0:
@@ -525,6 +571,17 @@ int passwordCheck(char* data) {
 
 }
 
+int loginCustomer(char* email, char* password) {
+    FILE *file = fopen("musteri.dat", "r+b");
+    while(fread(&c1, sizeof(Customer), 1, file) == 1) {
+        if(strcmp(c1.email, email) == 0 && strcmp(c1.password, password) == 0) {
+            fclose(file);
+            return 1;
+        }
+    }
+    fclose(file);
+    return 0;
+}
    
 
 
@@ -534,4 +591,4 @@ int passwordCheck(char* data) {
 
 
 
-#endif // CUSTOMER_H
+#endif //CUSTOMER_H

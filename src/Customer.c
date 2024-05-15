@@ -19,18 +19,18 @@ int main(int argc, char *argv[])
 {
     int secim=menu();
 
-    while(secim != 0)
+   
+    switch(secim)
     {
-        switch(secim)
-        {
-            case 1: CustomerMenu(); break;
-                
+        case 1: CustomerMenu(); break;
+        case 2: RestaurantMenu(); break;       
         
-            case 0: break;
-            default : printf("hatali secim yaptiniz \n"); break;
-        }
-        secim=menu();
+        case 0: break;
+        default : printf("hatali secim yaptiniz \n"); break;
     }
+    secim=menu();
     return 0;
+
 }
+    
 
