@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <windows.h>
 
 
 
@@ -26,7 +27,7 @@ typedef struct Customer
 void addCustomer();
 void CustomerList();
 void updateCustomer();
-void deleteCustomer();
+//void deleteCustomer();
 void CustomerMenu();
 int ScanfOnlyAlphabetic(char *str);
 int ScanfOnlyNumeric(char *str);
@@ -618,7 +619,7 @@ void CustomerMenu() {
                 CustomerList();
                 break;
             case 2:
-                deleteCustomer();
+               // deleteCustomer();
                 break;
             case 0:
                 break;
@@ -705,6 +706,110 @@ int loginCustomer(char* email, char* password) {
     return 0;
 }
 
+
+
+
+
+
+
+
+
+
+// BUNLARA BAKIN
+int MakeAOrderByID(int ID)
+{
+    //bring the FoodList.txt
+    FILE *ptr = fopen("TextFiles/FoodList.txt", "r");
+    if (ptr == NULL)
+    {
+        printf("Dosya acilamadi");
+        return 0;
+    }
+    //print the food list
+    char food[100];
+    while (fgets(food, 100, ptr) != NULL)
+    {
+        printf("%s", food);
+    }
+    fclose(ptr);
+    //take the order 
+    //3 -- Chicken Burger -- 18 TL -- 12 -- Available
+    //user has to enter 3
+
+    printf("Enter the order: ");
+
+    char order[100];
+    scanf(" %[^\n]", order);
+    //user only can enter the number
+    while(ScanfOnlyNumeric(order) == 0){
+        printf("Gecersiz karakter. Lutfen sadece rakam giriniz.\n");
+        printf("Siparis numarasi giriniz ya da q girisi ile isleminizi iptal ediniz: ");
+        scanf(" %[^\n]", order);
+        if(strcmp(order,"q") == 0 || strcmp(order,"Q") == 0){
+            return 0;
+        }
+    }
+
+    //open the FoodList.txt again and check if the from the FoodList.txt the order is Available or Not
+    ptr = fopen("TextFiles/FoodList.txt", "r");
+    if (ptr == NULL)
+    {
+        printf("Dosya acilamadi");
+        return 0;
+    }
+    int i = 0;
+    while (fgets(food, 100, ptr) != NULL)
+    {
+        i++;
+        if (i == atoi(order))
+        {
+            if (strstr(food, "Available") == NULL)
+            {
+                printf("This food is not available\n");
+                fclose(ptr);
+                return 0;
+            }
+        }
+    }
+    fclose(ptr);
+    //if the order is available, write the order to the Orders.txt
+    FILE *orderPtr = fopen("TextFiles/Orders.txt", "a");
+    
+    //Date_ID -- FoodsName -- FoodsPrice TL -- CustomerName
+
+    //get the current date from the system save it to a Char array windows.h
+    char date[100];
+    SYSTEMTIME t;
+    GetLocalTime(&t);
+    sprintf(date, "%d-%d-%d %d:%d:%d", t.wDay, t.wMonth, t.wYear, t.wHour, t.wMinute, t.wSecond);
+    //write the order to the Orders.txt
+    fprintf(orderPtr, "%s -- %s", date, order);
+    
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    fclose(orderPtr);
+    return 1;
+}
+
 void DeleteCustomerByID(int SpecialID)
 {
     FILE *ptr = fopen("musteri.dat", "r+b");
@@ -724,8 +829,106 @@ void DeleteCustomerByID(int SpecialID)
     return;
 }
 
-// void delete customer if customer mail is Orhun
+void AdjustTheSelectedCustomerParamaterByID(int SpecialID){
 
+    printf("hangi parametreyi degistirmek istiyorsunuz ? \n");
+    printf("1-Ad\n");
+    printf("2-Soyad\n");
+    printf("3-Adres\n");
+    printf("4-Telefon\n");
+    printf("5-Email\n");
+    printf("6-Password\n");
+    printf("Secim : ");
+    int secim;
+    scanf("%d", &secim);
+    switch (secim)
+    {
+    case 1:
+        printf("Yeni adi giriniz : ");
+        scanf(" %[^\n]", c1.name); 
+        while(ScanfOnlyAlphabetic(c1.name) == 0){
+            printf("Gecersiz karakter. Lutfen sadece harf giriniz.\n");
+            printf("Musteri adi giriniz ya da q girisi ile isleminizi iptal ediniz: ");
+            scanf(" %[^\n]", c1.name);
+            if(strcmp(c1.name,"q") == 0 || strcmp(c1.name,"Q") == 0){
+                return;
+            }
+        }
+        break;
+    case 2:
+        printf("Yeni soyadi giriniz : ");
+        scanf(" %[^\n]", c1.surname);
+        while(ScanfOnlyAlphabetic(c1.surname) == 0){
+            printf("Gecersiz karakter. Lutfen sadece harf giriniz.\n");
+            printf("Musteri soyadi giriniz ya da q girisi ile isleminizi iptal ediniz: ");
+            scanf(" %[^\n]", c1.surname);
+            if(strcmp(c1.surname,"q") == 0 || strcmp(c1.surname,"Q") == 0){
+                return;
+            }
+        }
+        break;
+    case 3:
+        printf("Yeni adresi giriniz : ");
+        scanf(" %[^\n]", c1.address);
+        while(strlen(c1.address) < 5){
+            printf("Adres en az 5 karakter olmalidir. Lutfen tekrar giriniz: ");
+            scanf(" %[^\n]", c1.address);
+            if(strcmp(c1.address,"q") == 0 || strcmp(c1.address,"Q") == 0){
+                return;
+            }
+        }
+        break;
+    case 4:
+        printf("Yeni telefon numarasini giriniz (11 haneli) veya 'q' girerek islemi iptal ediniz:");
+        scanf(" %[^\n]", c1.phone);
+        while(strlen(c1.phone) != 11){
+            printf("Telefon numarasi 11 haneli olmalidir. Lutfen tekrar giriniz: ");
+            scanf(" %[^\n]", c1.phone);
+            if(strcmp(c1.phone,"q") == 0 || strcmp(c1.phone,"Q") == 0){
+                return;
+            }
+        }                   
+        break;
+    case 5:
+        UpdateMail:
+        printf("enter a new mail or q to exit");
+        scanf(" %[^\n]", c1.email);
+        if(strcmp(c1.email,"q") == 0 || strcmp(c1.email,"Q") == 0){
+            return;
+        }
+        if(CheckEmail(c1.email) == 0) {
+            printf("Gecersiz email. Lutfen gmail.com, outlook.com veya email.com uzantili bir email giriniz.\n");
+            goto UpdateMail;
+        }
+        break;
+    case 6:
+        printf("Yeni password enter or q to exit : ");
+        scanf(" %[^\n]", c1.password);
+        if(strcmp(c1.password,"q") == 0 || strcmp(c1.password,"Q") == 0){
+            return;
+        }
+        break;
+    default:
+        printf("Gecerli bir secim yapmadiniz.");
+        break;
+    }
+    FILE *ptr = fopen("musteri.dat", "r+b");
+    while (fread(&c1, sizeof(Customer), 1, ptr) == 1)
+    {
+        if (c1.id == SpecialID)
+        {
+            fseek(ptr, -sizeof(Customer), SEEK_CUR);
+            fwrite(&c1, sizeof(Customer), 1, ptr);
+            break;
+        }
+    }
+    fclose(ptr);
+    printf("\n\n%03d numarali musteri guncellendi \n", SpecialID);
+    return;
+
+}
+
+//bu siliyo ama kullanmayacagiz 
 void DeleteTheAccountsMailsThatAreNamedOrhun()
 {
 //if the mails named as Orhun delete them
@@ -747,8 +950,10 @@ void DeleteTheAccountsMailsThatAreNamedOrhun()
     return;
 } 
 
-//delete calismiyor son musteri account silince karisiyor bunu cagiracagiz ki sorun olmasin rename ID'leri karismasin diye zaten giris yapamayacaklar
-void RenameTheMail(int ID)
+//delete calismiyor son musteri account silince karisiyor bunu cagiracagiz ki sorun olmasin  ID'leri karismasin diye zaten giris yapamayacaklar
+//siparis vermelerde vs ID inserting ile yapacagiz ona gore hazirlayin altta ornegi var int ID gibi
+
+void RenameTheMailasOrhun(int ID)
 {
     //rename the customer EMAIL to "Orhun"
 
@@ -767,27 +972,6 @@ void RenameTheMail(int ID)
     printf("\n\n%03d numarali musteri maili Orhun olarak degistirildi \n", ID);
     return;
 
-}
-
-void DeleteTheAccountsMailsThatAreNamedOrhun()
-{
-    //if the mails named as Orhun delete them
-
-    FILE *ptr = fopen("musteri.dat", "r+b");
-    FILE *tempPtr = fopen("temp.dat", "wb");
-    while (fread(&c1, sizeof(Customer), 1, ptr) == 1)
-    {
-        if (strcmp(c1.email, "Orhun") == 0)
-        {
-            fwrite(&c1, sizeof(Customer), 1, tempPtr);
-        }
-    }
-    fclose(ptr);
-    fclose(tempPtr);
-    remove("musteri.dat");
-    rename("temp.dat", "musteri.dat");
-    printf("\n\nOrhun isimli musteriler silindi \n");
-    return;
 }
 
 int LoginCustomerReturnID()
