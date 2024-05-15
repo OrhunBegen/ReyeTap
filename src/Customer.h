@@ -23,8 +23,6 @@ typedef struct Customer
 
 } Customer;
 
-
-
 void addCustomer();
 void CustomerList();
 void updateCustomer();
@@ -38,8 +36,15 @@ int CheckPhoneExistInFile(char* data);
 void ReIDCustomers();
 int CheckEmail(char* data);
 int CheckEmail(char* data);
+
 int passwordCheck(char* data);
 int loginCustomer(char* email, char* password);
+
+void LogIn();
+void DeleteCustomerByID(int SpecialID);
+void DeleteTheAccountsMailsThatAreNamedOrhun();
+void RenameTheMail(int ID);
+
 
 
 
@@ -54,8 +59,6 @@ int CheckPhone(char* data){
     
 }
     
-    
-
 int CheckMailExistInFile(char* data) {
     //check if the email is already in the file
     FILE *file = fopen("musteri.dat", "r+b");
@@ -138,7 +141,6 @@ void LogIn(){
         return;
     }
 }
-
 
 void addCustomer()
 {
@@ -263,13 +265,8 @@ void addCustomer()
     
      
 } 
-<<<<<<< HEAD
-
-void CustomerList()
-=======
   
 /*void CustomerList()
->>>>>>> 255026383d77e21386a3e030d77c2b2a4e2bf680
 {
     Customer c1;
     system("cls");
@@ -332,8 +329,6 @@ void CustomerList() {
         printf("\n\nToplam %d musteri bulunmaktadir \n", sayac);
     }
 }
-
-
 
 void updateCustomer()
 {  
@@ -524,6 +519,8 @@ void updateCustomer()
     }
 
 }*/
+
+/*
 void deleteCustomer() {
     system("cls");
     
@@ -576,7 +573,7 @@ void deleteCustomer() {
         }
     }
 }
-
+*/
 
 void CustomerMenu() {
        
@@ -707,9 +704,113 @@ int loginCustomer(char* email, char* password) {
     fclose(file);
     return 0;
 }
-   
 
+void DeleteCustomerByID(int SpecialID)
+{
+    FILE *ptr = fopen("musteri.dat", "r+b");
+    FILE *tempPtr = fopen("temp.dat", "wb");
+    while (fread(&c1, sizeof(Customer), 1, ptr) == 1)
+    {
+        if (c1.id != SpecialID)
+        {
+            fwrite(&c1, sizeof(Customer), 1, tempPtr);
+        }
+    }
+    fclose(ptr);
+    fclose(tempPtr);
+    remove("musteri.dat");
+    rename("temp.dat", "musteri.dat");
+    printf("\n\n%03d numarali musteri silindi \n", SpecialID);
+    return;
+}
 
+// void delete customer if customer mail is Orhun
+
+void DeleteTheAccountsMailsThatAreNamedOrhun()
+{
+//if the mails named as Orhun delete them
+
+    FILE *ptr = fopen("musteri.dat", "r+b");
+    FILE *tempPtr = fopen("temp.dat", "wb");
+    while (fread(&c1, sizeof(Customer), 1, ptr) == 1)
+    {
+        if (strcmp(c1.email, "Orhun") == 0)
+        {
+            fwrite(&c1, sizeof(Customer), 1, tempPtr);
+        }
+    }
+    fclose(ptr);
+    fclose(tempPtr);
+    remove("musteri.dat");
+    rename("temp.dat", "musteri.dat");
+    printf("\n\nOrhun isimli musteriler silindi \n");
+    return;
+} 
+
+//delete calismiyor son musteri account silince karisiyor bunu cagiracagiz ki sorun olmasin rename ID'leri karismasin diye zaten giris yapamayacaklar
+void RenameTheMail(int ID)
+{
+    //rename the customer EMAIL to "Orhun"
+
+    FILE *ptr = fopen("musteri.dat", "r+b");
+    while (fread(&c1, sizeof(Customer), 1, ptr) == 1)
+    {
+        if (c1.id == ID)
+        {
+            strcpy(c1.email, "Orhun");
+            fseek(ptr, -sizeof(Customer), SEEK_CUR);
+            fwrite(&c1, sizeof(Customer), 1, ptr);
+            break;
+        }
+    }
+    fclose(ptr);
+    printf("\n\n%03d numarali musteri maili Orhun olarak degistirildi \n", ID);
+    return;
+
+}
+
+void DeleteTheAccountsMailsThatAreNamedOrhun()
+{
+    //if the mails named as Orhun delete them
+
+    FILE *ptr = fopen("musteri.dat", "r+b");
+    FILE *tempPtr = fopen("temp.dat", "wb");
+    while (fread(&c1, sizeof(Customer), 1, ptr) == 1)
+    {
+        if (strcmp(c1.email, "Orhun") == 0)
+        {
+            fwrite(&c1, sizeof(Customer), 1, tempPtr);
+        }
+    }
+    fclose(ptr);
+    fclose(tempPtr);
+    remove("musteri.dat");
+    rename("temp.dat", "musteri.dat");
+    printf("\n\nOrhun isimli musteriler silindi \n");
+    return;
+}
+
+int LoginCustomerReturnID()
+{
+   printf("Email :");
+   scanf(" %[^\n]", c1.email);
+
+    printf("Password :");
+    scanf(" %[^\n]", c1.password);
+
+    FILE *ptr = fopen("musteri.dat", "r+b");
+    while (fread(&c1, sizeof(Customer), 1, ptr) == 1)
+    {
+        if (strcmp(c1.email, c1.email) == 0 && strcmp(c1.password, c1.password) == 0)
+        {
+            fclose(ptr);
+            return c1.id;
+        }
+    }
+    fclose(ptr);
+    return 0;
+
+}
 
 
 
