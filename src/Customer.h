@@ -732,6 +732,8 @@ int MakeAOrderByID(int ID)
         printf("%s", food);
     }
     fclose(ptr);
+
+
     //take the order 
     //3 -- Chicken Burger -- 18 TL -- 12 -- Available
     //user has to enter 3
@@ -739,7 +741,9 @@ int MakeAOrderByID(int ID)
     printf("Enter the order: ");
 
     char order[100];
+    
     scanf(" %[^\n]", order);
+    
     //user only can enter the number
     while(ScanfOnlyNumeric(order) == 0){
         printf("Gecersiz karakter. Lutfen sadece rakam giriniz.\n");
@@ -772,41 +776,41 @@ int MakeAOrderByID(int ID)
         }
     }
     fclose(ptr);
-    //if the order is available, write the order to the Orders.txt
-    FILE *orderPtr = fopen("TextFiles/Orders.txt", "a");
+   
+    SYSTEMTIME local_time;
+    GetLocalTime(&local_time);
+
+    //now insert the order
+   
+    char RFoodName[30];
+    char RFoodPrice[10];
+    char RPreparationTime[5];
+  
+    ptr = fopen("TextFiles/FoodList.txt", "r");
     
-    //Date_ID -- FoodsName -- FoodsPrice TL -- CustomerName
+    //insert the orders food name to RfoodName
+    //insert the orders food price to Rfoodprice
+    //insert the orders food name to RPreperationTime
 
-    //get the current date from the system save it to a Char array windows.h
-    char date[100];
-    SYSTEMTIME t;
-    GetLocalTime(&t);
-    sprintf(date, "%d-%d-%d %d:%d:%d", t.wDay, t.wMonth, t.wYear, t.wHour, t.wMinute, t.wSecond);
-    //write the order to the Orders.txt
-    fprintf(orderPtr, "%s -- %s", date, order);
-    
-    
+    i = 0;
+    while (fgets(food, 100, ptr) != NULL)
+    {
+        i++;
+        if (i == atoi(order))
+        {
+            sscanf(food, "%*d -- %[^--] -- %[^--] -- %[^--] --", RFoodName, RFoodPrice, RPreparationTime);
+            break;
+        }
+    }
+    //print the order inside OrderList.txt
+    //with the date and everything
 
-    
+    FILE *file = fopen("TextFiles/OrderList.txt", "a");
+    fprintf(file, "%d -- %s -- %s -- %s -- %s -- %s -- %s -- %s -- %s\n", ID, c1.name, c1.surname, c1.address, c1.phone, c1.email, RFoodName, RFoodPrice, RPreparationTime);
 
+    fclose(file);
+    printf("Order is taken\n");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    fclose(orderPtr);
     return 1;
 }
 
