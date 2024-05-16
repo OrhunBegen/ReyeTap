@@ -775,7 +775,45 @@ int MakeAOrderByID(int ID)
             }
         }
     }
+    //print the orderable food
     fclose(ptr);
+
+       
+    SYSTEMTIME local_time;
+    GetLocalTime(&local_time);
+
+    //now insert the order
+   
+    char RFoodName[30];
+    char RFoodPrice[10];
+    char RPreparationTime[5];
+  
+    ptr = fopen("TextFiles/FoodList.txt", "r");
+    
+    //insert the orders food name to RfoodName
+    //insert the orders food price to Rfoodprice
+    //insert the orders food name to RPreperationTime
+
+    i = 0;
+    while (fgets(food, 100, ptr) != NULL)
+    {
+        i++;
+        if (i == atoi(order))
+        {
+            sscanf(food, "%*d -- %[^--] -- %[^--] -- %[^--] --", RFoodName, RFoodPrice, RPreparationTime);
+            break;
+        }
+    }
+    //print the order inside OrderList.txt
+    //with the date and everything
+
+    FILE *orderList = fopen("TextFiles/OrderList.txt", "a");
+    //print the date year month day and user id and the orders name price and preparation time
+
+    fprintf(orderList, "%d -- %d -- %d -- %s -- %s -- %s\n", local_time.wYear, local_time.wMonth , local_time.wDay , ID, RFoodName, RFoodPrice, RPreparationTime); 
+
+    
+
 
 }
 
