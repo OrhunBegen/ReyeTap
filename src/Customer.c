@@ -30,11 +30,10 @@ int main(int argc, char *argv[])
     // }
     // secim=menu();
 
-    addCustomer();
 
-    int a = LoginCustomerReturnID();
-
-    MakeAOrderByID(a);
+    int N = LoginCustomerReturnID();
+    
+    MakeAOrderByID(N);
 
 
 

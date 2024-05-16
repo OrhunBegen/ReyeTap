@@ -773,39 +773,18 @@ int MakeAOrderByID(int ID)
     }
     fclose(ptr);
     //if the order is available, write the order to the Orders.txt
-    FILE *orderPtr = fopen("TextFiles/Orders.txt", "a");
+    FILE *orderPtr = fopen("TextFiles/OrderList.txt", "a");
     
     //Date_ID -- FoodsName -- FoodsPrice TL -- CustomerName
 
-    //get the current date from the system save it to a Char array windows.h
-    char date[100];
-    SYSTEMTIME t;
-    GetLocalTime(&t);
-    sprintf(date, "%d-%d-%d %d:%d:%d", t.wDay, t.wMonth, t.wYear, t.wHour, t.wMinute, t.wSecond);
-    //write the order to the Orders.txt
-    fprintf(orderPtr, "%s -- %s", date, order);
-    
+
+
+
+    //bu fprintfi duzeltir misiniz ?
+    fprintf(orderPtr, "%s %d -- %s", __DATE__, ID, food);
     
 
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
+        
     fclose(orderPtr);
     return 1;
 }
