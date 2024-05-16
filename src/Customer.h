@@ -732,6 +732,8 @@ int MakeAOrderByID(int ID)
         printf("%s", food);
     }
     fclose(ptr);
+
+
     //take the order 
     //3 -- Chicken Burger -- 18 TL -- 12 -- Available
     //user has to enter 3
@@ -739,7 +741,9 @@ int MakeAOrderByID(int ID)
     printf("Enter the order: ");
 
     char order[100];
+    
     scanf(" %[^\n]", order);
+    
     //user only can enter the number
     while(ScanfOnlyNumeric(order) == 0){
         printf("Gecersiz karakter. Lutfen sadece rakam giriniz.\n");
@@ -772,21 +776,7 @@ int MakeAOrderByID(int ID)
         }
     }
     fclose(ptr);
-    //if the order is available, write the order to the Orders.txt
-    FILE *orderPtr = fopen("TextFiles/OrderList.txt", "a");
-    
-    //Date_ID -- FoodsName -- FoodsPrice TL -- CustomerName
 
-
-
-
-    //bu fprintfi duzeltir misiniz ?
-    fprintf(orderPtr, "%s %d -- %s", __DATE__, ID, food);
-    
-
-        
-    fclose(orderPtr);
-    return 1;
 }
 
 void DeleteCustomerByID(int SpecialID)
