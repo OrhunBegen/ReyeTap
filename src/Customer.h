@@ -12,6 +12,7 @@
 
 
 
+
 typedef struct Customer
 {
     int  id;
@@ -23,6 +24,9 @@ typedef struct Customer
     char password[50];
 
 } Customer;
+
+
+void BringTheFoodList();
 
 int addCustomer();
 void CustomerList();
@@ -47,7 +51,9 @@ void DeleteTheAccountsMailsThatAreNamedOrhun();
 void RenameTheMail(int ID);
 
 void ShowMyPastOrders(int ID);
+
 int MakeAOrderByID(int ID);
+
 void AdjustTheSelectedCustomerParamaterByID(int SpecialID);
 int LoginCustomerReturnID();
 
@@ -704,104 +710,178 @@ int loginCustomer(char* email, char* password) {
 // BUNLARA BAKIN
 int MakeAOrderByID(int ID)
 {
-    //bring the FoodList.txt
-    FILE *ptr = fopen("TextFiles/FoodList.txt", "r");
-    if (ptr == NULL)
-    {
-        printf("Dosya acilamadi");
-        return 0;
-    }
-    //print the food list
-    char food[100];
-    while (fgets(food, 100, ptr) != NULL)
-    {
-        printf("%s", food);
-    }
-    fclose(ptr);
+    BringTheFoodList();
 
-
-    //take the order 
-    //3 -- Chicken Burger -- 18 TL -- 12 -- Available
-    //user has to enter 3
-
-    printf("Enter the order: ");
-
+    //get the order from the customer
     char order[100];
+    printf("Enter the order number or enter 'q' to cancel the request: ");
+    scanf("%s", order);
     
-    scanf(" %[^\n]", order);
-    
-    //user only can enter the number
-    while(ScanfOnlyNumeric(order) == 0){
-        printf("Gecersiz karakter. Lutfen sadece rakam giriniz.\n");
-        printf("Siparis numarasi giriniz ya da q girisi ile isleminizi iptal ediniz: ");
-        scanf(" %[^\n]", order);
-        if(strcmp(order,"q") == 0 || strcmp(order,"Q") == 0){
-            return 0;
+    int flag = 0;
+    while(flag == 0) {
+        if(strcmp(order, "q") == 0) {
+            return -1;
         }
-    }
-
-    //open the FoodList.txt again and check if the from the FoodList.txt the order is Available or Not
-    ptr = fopen("TextFiles/FoodList.txt", "r");
-    if (ptr == NULL)
-    {
-        printf("Dosya acilamadi");
-        return 0;
-    }
-    int i = 0;
-    while (fgets(food, 100, ptr) != NULL)
-    {
-        i++;
-        if (i == atoi(order))
-        {
-            if (strstr(food, "Available") == NULL)
-            {
-                printf("This food is not available\n");
-                fclose(ptr);
-                return 0;
+        for(int i = 0; i < strlen(order); i++) {
+            if(order[i] < '0' || order[i] > '9') {
+                flag = 0;
+                break;
+            } else {
+                flag = 1;
             }
         }
+        if(flag == 0) {
+            printf("Non-numeric characters are not allowed. Please enter another order number or enter 'q' to cancel the request.\n");
+            scanf("%s", order);
+        }
     }
-    //print the orderable food
-    fclose(ptr);
 
-       
-    SYSTEMTIME local_time;
-    GetLocalTime(&local_time);
 
-    //now insert the order
-   
-    char RFoodName[30];
-    char RFoodPrice[10];
-    char RPreparationTime[5];
+    //find the line number of the FoodLists.txt file
+
+    FILE *file = fopen("TextFiles/FoodLists.txt", "r");
+    int lineNumber = 0;
+
+    char food[100];
+    while(fgets(food, 100, file) != NULL) {
+        if(food[0] == order[0]) {
+            break;
+        }
+        lineNumber++;
+    }
+    fclose(file);
   
-    ptr = fopen("TextFiles/FoodList.txt", "r");
-    
-    //insert the orders food name to RfoodName
-    //insert the orders food price to Rfoodprice
-    //insert the orders food name to RPreperationTime
+  //check if the line number is bigger than order number
+    //if it is bigger than the order number, return
+    //if it is not, continue
 
-    i = 0;
-    while (fgets(food, 100, ptr) != NULL)
-    {
-        i++;
-        if (i == atoi(order))
-        {
-            sscanf(food, "%*d -- %[^--] -- %[^--] -- %[^--] --", RFoodName, RFoodPrice, RPreparationTime);
+    file = fopen("TextFiles/FoodLists.txt", "r");   
+    int orderNumber = 0;
+    while(fgets(food, 100, file) != NULL) {
+        if(orderNumber == lineNumber) {
+            break;
+        }
+        orderNumber++;
+    } 
+    fclose(file);
+    if(orderNumber > atoi(order)) {
+        printf("Invader.\n");
+        return -1;
+    }
+
+
+
+    //get the food name, price and preparation time from the text file
+
+
+    char OrderFoodID[100];
+    char OrderFoodName[100];
+    char OrderFoodPrice[100];
+    char OrderFoodNumber[100];
+    char OrderFoodPreparationTime[100];
+
+    //get the food name, price and preparation time from the text file
+
+    file = fopen("TextFiles/FoodLists.txt", "r");
+
+    //foods look like this 7 -- Onion Rings -- 12 TL -- 7 -- Available
+    //all of them are strings
+
+    while(fgets(food, 100, file) != NULL) {
+        if(food[0] == order[0]) {
+            int i = 0;
+            while(food[i] != '-') {
+                i++;
+            }
+            i += 3;
+            int j = 0;
+            while(food[i] != '-') {
+                OrderFoodName[j] = food[i];
+                i++;
+                j++;
+            }
+            OrderFoodName[j] = '\0';
+            i += 3;
+            j = 0;
+            while(food[i] != ' ') {
+                OrderFoodPrice[j] = food[i];
+                i++;
+                j++;
+            }
+            OrderFoodPrice[j] = '\0';
+            i += 3;
+            j = 0;
+            while(food[i] != ' ') {
+                OrderFoodNumber[j] = food[i];
+                i++;
+                j++;
+            }
+            OrderFoodNumber[j] = '\0';
+            i += 3;
+            j = 0;
+            while(food[i] != ' ') {
+                OrderFoodPrice[j] = food[i];
+                i++;
+                j++;
+            }
+            OrderFoodPrice[j] = '\0';
+            i += 3;
+            j = 0;
+            while(food[i] != ' ') {
+                OrderFoodPreparationTime[j] = food[i];
+                i++;
+                j++;
+            }
+            OrderFoodPreparationTime[j] = '\0';
             break;
         }
     }
-    //print the order inside OrderList.txt
-    //with the date and everything
 
-    FILE *orderList = fopen("TextFiles/OrderList.txt", "a");
-    //print the date year month day and user id and the orders name price and preparation time
-
-    fprintf(orderList, "%d -- %d -- %d -- %s -- %s -- %s\n", local_time.wYear, local_time.wMonth , local_time.wDay , ID, RFoodName, RFoodPrice, RPreparationTime); 
+    fclose(file);
+    //print OrderFoodName, OrderFoodPrice, OrderFoodNumber, OrderFoodPreparationTime
 
     
 
 
-}
+    char Month[100];
+    char Day[100];
+    char Year[100];
+    char Hour[100];
+    char Minute[100];
+    char Second[100];
+
+    //get the date and time from the windows.h
+
+    SYSTEMTIME t;
+    GetLocalTime(&t);
+    sprintf(Month, "%d", t.wMonth);
+    sprintf(Day, "%d", t.wDay);
+    sprintf(Year, "%d", t.wYear);
+    sprintf(Hour, "%d", t.wHour);
+    sprintf(Minute, "%d", t.wMinute);
+    sprintf(Second, "%d", t.wSecond);
+
+
+    //write the order to the text file
+
+    file = fopen("TextFiles/OrderList.txt", "a");
+    
+    //orders look like this 1 -- Onion Rings -- 12 TL -- Available -- 12.12.2021 -- 12:12:12
+    //all of them are strings
+
+    fprintf(file, "%s -- %s -- %s TL -- %s -- %s.%s.%s -- %s:%s:%s\n", OrderFoodNumber, OrderFoodName, OrderFoodPrice, "Available", Day, Month, Year, Hour, Minute, Second);
+    fclose(file);
+
+    return 1;
+
+} 
+
+
+
+       
+    
+
+
 
 void DeleteCustomerByID(int SpecialID)
 {
@@ -1049,12 +1129,12 @@ void MusteriGirisYaptiMenu(int ID)
     {
         goto Rms;
     }
-    else
+
+    else 
     {
-        printf("hatali secim\n");
+        printf("WRONG CHOICE\n");
         goto Rms;
     }
-
     
     
    
@@ -1063,6 +1143,18 @@ void MusteriGirisYaptiMenu(int ID)
 
 
 
+void BringTheFoodList() {
+    FILE *file;
+    file = fopen("TextFiles/FoodList.txt", "r");
+    if(file == NULL) {
+        printf("Error: File not found\n");
+    }
+    char line[100];
+    while (fgets(line, sizeof(line), file)) {
+        printf("%s", line);
+    }
+    fclose(file);
+}
 
 
 #endif //CUSTOMER_H
