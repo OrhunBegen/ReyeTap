@@ -24,11 +24,11 @@ typedef struct Customer
 
 } Customer;
 
-void addCustomer();
+int addCustomer();
 void CustomerList();
 void updateCustomer();
 //void deleteCustomer();
-void CustomerMenu();
+int CustomerMenu();
 int ScanfOnlyAlphabetic(char *str);
 int ScanfOnlyNumeric(char *str);
 int CheckPhone(char* data);
@@ -45,6 +45,12 @@ void LogIn();
 void DeleteCustomerByID(int SpecialID);
 void DeleteTheAccountsMailsThatAreNamedOrhun();
 void RenameTheMail(int ID);
+
+void ShowMyPastOrders(int ID);
+int MakeAOrderByID(int ID);
+void AdjustTheSelectedCustomerParamaterByID(int SpecialID);
+int LoginCustomerReturnID();
+
 
 
 
@@ -143,7 +149,7 @@ void LogIn(){
     }
 }
 
-void addCustomer()
+int addCustomer()
 {
     system("cls");
     printf("\n\t MUSTERI EKLEME \n\n");
@@ -152,7 +158,7 @@ void addCustomer()
     scanf(" %[^\n]", c1.name);
     //if input is q or Q, exit the function
     if(strcmp(c1.name,"q") == 0 || strcmp(c1.name,"Q") == 0){
-        return;
+        return -1;
     }
     //until the input is valid, keep asking for the name or give option to quit by pressing q
     while(ScanfOnlyAlphabetic(c1.name) == 0){
@@ -160,34 +166,34 @@ void addCustomer()
         printf("Musteri adi giriniz ya da q girisi ile isleminizi iptal ediniz: ");
         scanf(" %[^\n]", c1.name);
         if(strcmp(c1.name,"q") == 0 || strcmp(c1.name,"Q") == 0){
-            return;
+            return -1;
         }
     }
     
     printf("Musteri soyadi giriniz ya da q girisi ile isleminizi iptal ediniz : "); 
     scanf(" %[^\n]", c1.surname);
     if(strcmp(c1.surname,"q") == 0 || strcmp(c1.surname,"Q") == 0){
-        return;
+        return -1;
     }
     while(ScanfOnlyAlphabetic(c1.surname) == 0){
         printf("Gecersiz karakter. Lutfen sadece harf giriniz.\n");
         printf("Musteri soyadi giriniz ya da q girisi ile isleminizi iptal ediniz: ");
         scanf(" %[^\n]", c1.surname);
         if(strcmp(c1.surname,"q") == 0 || strcmp(c1.surname,"Q") == 0){
-            return;
+            return -1;
         }
     }
     
     printf("Musteri adresi giriniz ya da q girisi ile isleminizi iptal ediniz : "); 
     scanf(" %[^\n]", c1.address);
     if(strcmp(c1.address,"q") == 0 || strcmp(c1.address,"Q") == 0){
-        return;
+        return -1;
     }
     while(strlen(c1.address) < 5){
         printf("Adres en az 5 karakter olmalidir. Lutfen tekrar giriniz: ");
         scanf(" %[^\n]", c1.address);
         if(strcmp(c1.address,"q") == 0 || strcmp(c1.address,"Q") == 0){
-            return;
+            return -1;
         }
     }
     
@@ -195,13 +201,13 @@ void addCustomer()
     printf("Lutfen telefon numarasini giriniz (11 haneli) veya 'q' girerek islemi iptal ediniz:");
     scanf(" %[^\n]", c1.phone);
     if(strcmp(c1.phone,"q") == 0 || strcmp(c1.phone,"Q") == 0){
-        return;
+        return -1;
     }
         while(strlen(c1.phone) != 11 || ScanfOnlyNumeric(c1.phone) == 0){
         printf("Gecersiz telefon numarasi. Lutfen 11 haneli ve sadece rakamlardan olusan bir numara giriniz: ");
         scanf(" %[^\n]", c1.phone);
         if(strcmp(c1.phone,"q") == 0 || strcmp(c1.phone,"Q") == 0){
-             return;
+             return -1;
         }
     }
    
@@ -214,7 +220,7 @@ void addCustomer()
     printf("Musteri email giriniz q girisi ile isleminizi iptal ediniz : "); 
     scanf(" %[^\n]", c1.email);
     if(strcmp(c1.email,"q") == 0 || strcmp(c1.email,"Q") == 0){
-        return;
+        return -1;
     }
     
     int i = 0;
@@ -242,14 +248,14 @@ void addCustomer()
     printf("\n\nMusteri password enter or q to exit : ");
     scanf("%s", c1.password);
     if(strcmp(c1.password,"q") == 0 || strcmp(c1.password,"Q") == 0){
-        return;
+        return -1;
     }
 
     while(passwordCheck(c1.password) == 0){
         printf("Gecersiz sifre. Sifre en az 6 karakter olmalidir ve bosluk icermemelidir. Lutfen tekrar giriniz: ");
         scanf(" %[^\n]", c1.password);
         if(strcmp(c1.password,"q") == 0 || strcmp(c1.password,"Q") == 0){
-            return;
+            return -1;
         }
     }
 
@@ -261,7 +267,7 @@ void addCustomer()
     fclose(ptr);
     ReIDCustomers();
     printf("\n\nMusteri eklendi \n");
-    return;
+    return -2;
     
     
      
@@ -576,59 +582,39 @@ void deleteCustomer() {
 }
 */
 
-void CustomerMenu() {
-       
-        int sec;
+int CustomerMenu() {
+        
+        int x;
+        int y;
+
+        StartP:
         printf("\n\tMUSTERI MENU \n\n");
         printf("\t1-hesap olustur \n");
         printf("\t2-giris yap \n");
         printf("\tseciminiz : ");
-        scanf("%d", &sec);
+        scanf("%d", &x);
         system("cls");
         
-        switch (sec)
-            {
-            case 1:
-                addCustomer();
-               
-            case 2:
-                LogIn();
-                
-            case 0:
-                break;
-            default:
-                printf("WRONG CHOICE\n");
-                break;
-                return;
-            }
+      
+        if (x == 1)
+        {
+            addCustomer();
+        }
+        else if (x == 2)
+        {
+            
+            LoginCustomerReturnID();
+            
+        }
+        
+        else
+        {
+            printf("WRONG CHOICE\n");
+            goto StartP;
+        }
  }
 
- void RestaurantMenu() {
-        int sec;
-        printf("\n\t RESTAURANT MENU\n\n");
-        printf("\t1- MUSTERI LISTELE \n");
-        printf("\t2- MUSTERI SIL \n");
-        printf("\t0-  MENU \n");
-        printf("\tseciminiz: ");
-        scanf("%d", &sec);
-        system("cls");
-        
-        switch (sec)
-            {
-            case 1:
-                CustomerList();
-                break;
-            case 2:
-               // deleteCustomer();
-                break;
-            case 0:
-                break;
-            default:
-                printf("hatali secim\n");
-                break;
-                return;
-            }
- }
+ 
 
 int CheckEmail(char* data) {
     //if mail starts with @ return 0
@@ -986,8 +972,31 @@ int LoginCustomerReturnID()
    printf("Email :");
    scanf(" %[^\n]", c1.email);
 
+    //mail has to obey the rules have been created for customer creation or press q to exit
+    while (CheckEmail(c1.email) == 0)
+    {
+        printf("Gecersiz email. Lutfen gmail.com, outlook.com veya email.com uzantili bir email giriniz.\n");
+        printf("Email :");
+        scanf(" %[^\n]", c1.email);
+        if(strcmp(c1.email,"q") == 0 || strcmp(c1.email,"Q") == 0){
+            return 0;
+        }
+    }
+
+
     printf("Password :");
     scanf(" %[^\n]", c1.password);
+
+    //password has to obey the rules have been created for customer creation or press q to exit
+
+    while (passwordCheck(c1.password) == 0)
+    {
+        printf("Gecersiz sifre. Sifre en az 6 karakter olmalidir ve bosluk icermemelidir. Lutfen tekrar giriniz: ");
+        scanf(" %[^\n]", c1.password);
+        if(strcmp(c1.password,"q") == 0 || strcmp(c1.password,"Q") == 0){
+            return 0;
+        }
+    }
 
     FILE *ptr = fopen("musteri.dat", "r+b");
     while (fread(&c1, sizeof(Customer), 1, ptr) == 1)
@@ -999,9 +1008,57 @@ int LoginCustomerReturnID()
         }
     }
     fclose(ptr);
-    return 0;
+    return -3;
 
 }
+
+
+void MusteriGirisYaptiMenu(int ID)
+{
+    int sec;
+    
+    Rms:
+
+    printf("\n\t MUSTERI MENU\n\n");
+    printf("\t1- Siparis Ver \n");
+    printf("\t2- Gecmis Siparislerimi Goster \n");
+    printf("\t3- Aktif siparislerimi Goster \n");
+    printf("\t4- Hesabimi Sil \n");
+    printf("\t0-  CIKIS \n");
+    printf("\tseciminiz: ");
+    scanf("%d", &sec);
+    system("cls");
+
+    if(sec == 1)
+    {
+        MakeAOrderByID(ID);
+    }
+    if(sec == 2)
+    {
+        //show the previous orders
+    }
+    if(sec == 3)
+    {
+        //show the active orders
+    }
+    if(sec == 4)
+    {
+        DeleteCustomerByID(ID);
+    }
+    else if(sec == 0)
+    {
+        goto Rms;
+    }
+    else
+    {
+        printf("hatali secim\n");
+        goto Rms;
+    }
+
+    
+    
+   
+}    
 
 
 

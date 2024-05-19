@@ -17,21 +17,36 @@ int menu()
 
 int main(int argc, char *argv[])
 {
-    int secim=menu();
+    int secim;
 
-   
-    switch(secim)
+    baslangic:
+
+
+    secim  = CustomerMenu();
+
+    if(secim == -1)
     {
-        case 1: CustomerMenu(); break;
-        case 2: RestaurantMenu(); break;       
-        
-        case 0: break;
-        default : printf("hatali secim yaptiniz \n"); break;
+        printf("Hatali secim yaptiniz.");
+        goto  baslangic;   
+
+    }   
+    if(secim == -2)
+    {
+        printf("hesap oluturuldu\n");
+        goto baslangic;
+
     }
-    secim=menu();
-
-  
-
+    if(secim == -3)
+    {
+        printf("login basarisiz");
+        goto baslangic;
+    }
+    else
+    {
+        MusteriGirisYaptiMenu(secim);
+    }
+    
+    
 
     
 
