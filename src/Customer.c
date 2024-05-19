@@ -17,26 +17,23 @@ int menu()
 
 int main(int argc, char *argv[])
 {
-    // int secim=menu();
+    int secim=menu();
 
    
-    // switch(secim)
-    // {
-    //     case 1: CustomerMenu(); break;
-    //     case 2: RestaurantMenu(); break;       
+    switch(secim)
+    {
+        case 1: CustomerMenu(); break;
+        case 2: RestaurantMenu(); break;       
         
-    //     case 0: break;
-    //     default : printf("hatali secim yaptiniz \n"); break;
-    // }
-    // secim=menu();
+        case 0: break;
+        default : printf("hatali secim yaptiniz \n"); break;
+    }
+    secim=menu();
+
+  
 
 
-    int N = LoginCustomerReturnID();
     
-    MakeAOrderByID(N);
-
-
-
 
 
     return 0;
