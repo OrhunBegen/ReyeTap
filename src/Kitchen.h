@@ -65,7 +65,7 @@ void siparisleriYonet(Yemek yemekListesi[], int yemekSayisi, Siparis siparisList
 // aşcı sayısını belirle 
 
 typedef struct {
-    int asciID;
+    int asciID[3];
 
 } Asci;
 
@@ -82,9 +82,27 @@ void asciOlustur(Asci ascilar[], int asciSayisi)
 {
     for (int i = 0; i < asciSayisi; i++)
     {
-        ascilar[i].asciID = i;
-    }
+      sprintf(ascilar[i].asciID, "A%d", i + 1);
+    } 
 }
+
+
+// aşçı sil 
+
+void asciSil(Asci ascilar[], int asciSayisi)
+{
+    int silinecekAsci;
+    printf("Silinecek asciyi seciniz: ");   
+    scanf("%d", &silinecekAsci);
+    for (int i = silinecekAsci - 1; i < asciSayisi - 1; i++)
+    {
+        ascilar[i] = ascilar[i + 1];
+    }
+    asciSayisi--;
+}
+
+
+
 
 
 #endif // KITCHEN_H
