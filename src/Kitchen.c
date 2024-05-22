@@ -7,8 +7,10 @@
 
 int main() {
  
-    int asciSayisiBelirle(); // aşcı sayısını belirle
-    void asciOlustur(Asci ascilar[], int asciSayisi); // girilen aşçı sayısı kadar aşçı oluştur
-    void asciSil(Asci ascilar[], int asciSayisi);
+    void asciZamanAyarla(Asci* asci,Asci*zaman );
+    void asciZamanYazdir(Asci* asci,Asci*zaman );
+    int AsciTanimlama(Asci* asci);
+    //void asciSil(Asci ascilar[], int asciSayisi);
+
     
 }
