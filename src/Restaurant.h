@@ -763,6 +763,10 @@ void AdjustTheSelectedFoodFromTheFoodList()
         return;
     }
 
+
+
+
+
     char line[100];
 
     while (fgets(line, sizeof(line), file3)) {
@@ -784,8 +788,11 @@ void AdjustTheSelectedFoodFromTheFoodList()
             }
         }
     }
+    fclose(file3);
+    fclose(file4);
+    remove("TextFiles/FoodList.txt");
+    rename("TextFiles/FoodListTemp.txt", "TextFiles/FoodList.txt");
 }
-
 }
 
 

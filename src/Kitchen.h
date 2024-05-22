@@ -13,7 +13,7 @@
 typedef struct Cook
 {
     int cookID;
-    char cookerEmptyTime[50];
+    char cookerTime[50];
     
 } Cook;
 
