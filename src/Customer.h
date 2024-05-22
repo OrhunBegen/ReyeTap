@@ -10,7 +10,7 @@
 #include <ctype.h>
 #include <windows.h>
 
-#include "Kitchen.h"
+
 
 
 
@@ -59,6 +59,8 @@ int MakeAOrderByID(int ID);
 void AdjustTheSelectedCustomerParamaterByID(int SpecialID);
 int LoginCustomerReturnID();
 
+void BringTheAvailableFoods();
+int CheckIfFoodIsAvailable(int orderNumber);
 
 
 
@@ -712,43 +714,24 @@ int loginCustomer(char* email, char* password) {
 // BUNLARA BAKIN
 int MakeAOrderByID(int ID)
 {    
-    //open  the FoodList.txt file
+    BringTheAvailableFoods();
 
-    FILE *ptr = fopen("TextFiles/FoodList.txt", "r");
-
-    //if the file is not opened print an error message
-    if (ptr == NULL)
-    {
-        printf("Dosya acilamadi.");
-        return 0;
-    }
-    //in every line loop until the fourth "-- " after it if the coming word is Available print the line else pass to the next line
-
-    char line[100];
-
-    while (fgets(line, 100, ptr) != NULL)
-    {
-        if (strstr(line, "--") != NULL)
-        {
-            printf("%s", line);
-        }
-    }
-
-    //close the file
-    fclose(ptr);
-
-
-
-
+    //get the order number from the customer
     
+    int orderNumber;
+
+    printf("hangi yemeği sipariş etmek istersiniz? : ");
+
+    scanf("%d", &orderNumber);
+
+    //check if the order is available
+
+    CheckIfFoodIsAvailable(orderNumber);
 
 
 
 
 
-
-
- 
 } 
 
 void DeleteCustomerByID(int SpecialID)
@@ -1003,9 +986,6 @@ void MusteriGirisYaptiMenu(int ID)
    
 }    
 
-
-
-
 void BringTheFoodList() {
     FILE *file;
     file = fopen("TextFiles/FoodList.txt", "r");
@@ -1019,5 +999,88 @@ void BringTheFoodList() {
     fclose(file);
 }
 
+void BringTheAvailableFoods()
+{
+    FILE *file;
+    file = fopen("TextFiles/FoodList.txt", "r");
+    if(file == NULL) {
+        printf("Error: File not found\n");
+    }
+    char line[100];
+    while (fgets(line, sizeof(line), file)) {
+        if(strstr(line, "Available") != NULL) {
+            printf("%s", line);
+        }
+    }
+    fclose(file);
+
+
+
+
+
+}
+
+int CheckIfFoodIsAvailable(int OrderNumber){
+
+    FILE *file;
+    file = fopen("TextFiles/FoodList.txt", "r");
+    if(file == NULL) {
+        printf("Error: File not found\n");
+    }
+   
+    char line[100];
+    int count = 1;
+    while (fgets(line, sizeof(line), file)) {
+        if(strstr(line, "Available") != NULL) {
+            count++;
+            if(count == OrderNumber) {
+                printf("The order is available\n");
+                fclose(file);
+                return 1;
+            }
+        }
+    }
+    fclose(file);
+    printf("The order is not available\n");
+    return 0;
+    
+
+}
+
+void AddTheTitleToTheFoodList(char* Title)
+{
+    //from the top of the file add the title to the food list
+    //Title: Food Name -- Food Price TL -- Preperation Time (min) -- State
+    FILE *file;
+    file = fopen("TextFiles/FoodList.txt", "r");
+    if(file == NULL) {
+        printf("Error: File not found\n");
+    }
+    char line[100];
+    while (fgets(line, sizeof(line), file)) {
+        if(strstr(line, "Title") != NULL) {
+            printf("The title is already added\n");
+            fclose(file);
+            return;
+        }
+    }
+    fclose(file);
+    file = fopen("TextFiles/FoodList.txt", "r");
+    FILE *tempFile;
+    tempFile = fopen("TextFiles/TempFoodList.txt", "w");
+    fprintf(tempFile, "Title: %s -- Food Name -- Food Price TL -- Preperation Time (min) -- State\n", Title);
+    while (fgets(line, sizeof(line), file)) {
+        fprintf(tempFile, "%s", line);
+    }
+    fclose(file);
+    fclose(tempFile);
+    remove("TextFiles/FoodList.txt");
+    rename("TextFiles/TempFoodList.txt", "TextFiles/FoodList.txt");
+    printf("The title is added\n");
+
+
+
+
+}
 
 #endif //CUSTOMER_H
