@@ -64,6 +64,7 @@ int LoginCustomerReturnID();
 void BringTheAvailableFoods();
 int CheckIfFoodIsAvailable(int orderNumber);
 
+Customer c1,c2;
 
 
 
@@ -134,7 +135,6 @@ int ScanfOnlyNumeric(char *str) {
     
 }
 
-Customer c1,c2;
 
 void LogIn(){
     char email[50], password[50];
@@ -716,6 +716,11 @@ int loginCustomer(char* email, char* password) {
 // BUNLARA BAKIN
 int MakeAOrderByID(int ID)
 {    
+
+    if (ID == -3) {
+        return 0;
+    }
+
     BringTheAvailableFoods();
 
     //get the order number from the customer
@@ -728,7 +733,7 @@ int MakeAOrderByID(int ID)
 
     //check if the order is available
 
-    CheckIfFoodIsAvailable(orderNumber);
+    CheckIfFoodIsAvailable(orderNumber-2);
 
 
     FILE *file = fopen("TextFiles/FoodList.txt", "r");
@@ -802,24 +807,6 @@ int MakeAOrderByID(int ID)
     printf("order");
 
     return 1;
-    
-
-   
-
-
-
-
-
-
-
-
-    
-
-    
-
-
-
-
 
 } 
 
@@ -1018,17 +1005,24 @@ int LoginCustomerReturnID()
         }
     }
 
-    FILE *ptr = fopen("musteri.dat", "r+b");
-    while (fread(&c1, sizeof(Customer), 1, ptr) == 1)
-    {
-        if (strcmp(c1.email, c1.email) == 0 && strcmp(c1.password, c1.password) == 0)
-        {
-            fclose(ptr);
+    
+    FILE *file = fopen("musteri.dat", "r+b");
+    
+    //check if the mail and password is correct
+
+    for(int i = 0; fread(&c1, sizeof(Customer), 1, file) == 1; i++) {
+        if(strcmp(c1.email, c1.email) == 0 && strcmp(c1.password, c1.password) == 0) {
+            fclose(file);
             return c1.id;
         }
+        else {
+            printf("Gecersiz email veya sifre. Lutfen tekrar deneyiniz.\n");
+            fclose(file);
+            return -3;
+        }
     }
-    fclose(ptr);
-    return -3;
+
+   
 
 }
 
@@ -1122,7 +1116,7 @@ int CheckIfFoodIsAvailable(int OrderNumber){
     while (fgets(line, sizeof(line), file)) {
         if(strstr(line, "Available") != NULL) {
             count++;
-            if(count == OrderNumber -1 ) {
+            if(count == OrderNumber) {
                 printf("The order is available\n");
                 fclose(file);
                 return 1;
