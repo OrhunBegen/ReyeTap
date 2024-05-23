@@ -39,11 +39,12 @@ void updateCustomer();
 int CustomerMenu();
 int ScanfOnlyAlphabetic(char *str);
 int ScanfOnlyNumeric(char *str);
+
 int CheckPhone(char* data);
 int CheckMailExistInFile(char* data);
 int CheckPhoneExistInFile(char* data);
+
 void ReIDCustomers();
-int CheckEmail(char* data);
 int CheckEmail(char* data);
 
 int passwordCheck(char* data);
@@ -707,12 +708,6 @@ int loginCustomer(char* email, char* password) {
 
 
 
-
-
-
-
-
-
 // BUNLARA BAKIN
 int MakeAOrderByID(int ID)
 {    
@@ -733,7 +728,12 @@ int MakeAOrderByID(int ID)
 
     //check if the order is available
 
-    CheckIfFoodIsAvailable(orderNumber-2);
+    int a = CheckIfFoodIsAvailable(orderNumber-2);
+
+    if (a == 0) {
+        printf("Bu yemek şu anda mevcut değil.\n");
+        return 0;
+    }
 
 
     FILE *file = fopen("TextFiles/FoodList.txt", "r");
@@ -976,53 +976,57 @@ void RenameTheMailasOrhun(int ID)
 
 int LoginCustomerReturnID()
 {
+    char Email[50];
+    char Password[50];
+
+
    printf("Email :");
-   scanf(" %[^\n]", c1.email);
+   scanf(" %[^\n]",  Email);
 
     //mail has to obey the rules have been created for customer creation or press q to exit
-    while (CheckEmail(c1.email) == 0)
+    
+    while (CheckEmail(Email) == 0)
     {
         printf("Gecersiz email. Lutfen gmail.com, outlook.com veya email.com uzantili bir email giriniz.\n");
         printf("Email :");
-        scanf(" %[^\n]", c1.email);
-        if(strcmp(c1.email,"q") == 0 || strcmp(c1.email,"Q") == 0){
+        scanf(" %[^\n]",  Email);
+        if(strcmp(Email,"q") == 0 || strcmp(Email,"Q") == 0){
             return 0;
         }
     }
 
 
     printf("Password :");
-    scanf(" %[^\n]", c1.password);
+    scanf(" %[^\n]", Password);
 
     //password has to obey the rules have been created for customer creation or press q to exit
 
-    while (passwordCheck(c1.password) == 0)
+    while (passwordCheck(Password) == 0)
     {
         printf("Gecersiz sifre. Sifre en az 6 karakter olmalidir ve bosluk icermemelidir. Lutfen tekrar giriniz: ");
-        scanf(" %[^\n]", c1.password);
-        if(strcmp(c1.password,"q") == 0 || strcmp(c1.password,"Q") == 0){
+        scanf(" %[^\n]", Password);
+        if(strcmp(Password,"q") == 0 || strcmp(Password,"Q") == 0){
             return 0;
         }
     }
 
-    
-    FILE *file = fopen("musteri.dat", "r+b");
-    
-    //check if the mail and password is correct
+    //start from ID 1 and check if the mail and password is correct return the ID
+    //else ID +1 until the end of the file
+    //else return 0
 
-    for(int i = 0; fread(&c1, sizeof(Customer), 1, file) == 1; i++) {
-        if(strcmp(c1.email, c1.email) == 0 && strcmp(c1.password, c1.password) == 0) {
-            fclose(file);
+    FILE *ptr = fopen("musteri.dat", "r+b");
+    while (fread(&c1, sizeof(Customer), 1, ptr) == 1)
+    {
+        if (strcmp(c1.email, Email) == 0 && strcmp(c1.password, Password) == 0)
+        {
+            printf("Giris basarili\n");
+            fclose(ptr);
             return c1.id;
         }
-        else {
-            printf("Gecersiz email veya sifre. Lutfen tekrar deneyiniz.\n");
-            fclose(file);
-            return -3;
-        }
     }
-
-   
+    fclose(ptr);
+    printf("Giris basarisiz\n");
+    return 0;
 
 }
 
