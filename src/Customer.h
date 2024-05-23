@@ -765,22 +765,50 @@ int MakeAOrderByID(int ID)
     while (fgets(line, sizeof(line), file2)) {
         i++;
         if (i == Line) {
-            sscanf(line, "%d -- %s -- %s TL -- %s -- %s", &Line, OrderName, OrderPrice, OrderPrepTime, OrderState);
+            sscanf(line, "%d -- %[^--] -- %[^TL] TL -- %[^--] -- %[^\n]", &Line, OrderName, OrderPrice, OrderPrepTime, OrderState);
         }
     }
     fclose(file2);
 
-    printf("Line: %d\n", Line);
-    printf("OrderName: %s\n", OrderName);
-    printf("OrderPrice: %s\n", OrderPrice);
-    printf("OrderPrepTime: %s\n", OrderPrepTime);
-    printf("OrderState: %s\n", OrderState);
+    // printf("Line: %d\n", Line);
+    // printf("OrderName: %s\n", OrderName);
+    // printf("OrderPrice: %s\n", OrderPrice);
+    // printf("OrderPrepTime: %s\n", OrderPrepTime);
+    // printf("OrderState: %s\n", OrderState);
+
+    //get the current date from the system year month day by windows.h
 
 
+    int year, month, day;
+    SYSTEMTIME t;
+    GetLocalTime(&t);
+    year = t.wYear;
+    month = t.wMonth;
+    day = t.wDay;
+
+    //Date_UserID -- FoodName -- Price TL --  UserName
 
 
     //for the OrderList.txt enter the order as
-    //W010424_001 -- Lahmacun -- 75 TL --  User1
+
+    //Date_UserID -- FoodName -- Price TL -- PrepTime -- UserName
+
+    FILE *file3 = fopen("TextFiles/OrderList.txt", "a");
+
+    fprintf(file3, "%d-%d-%d_%d -- %s -- %s TL -- %s -- %s\n", year, month, day, ID, OrderName, OrderPrice, OrderPrepTime, c1.name);
+
+    fclose(file3);
+    
+    printf("order");
+
+    return 1;
+    
+
+   
+
+
+
+
 
 
 
@@ -1094,7 +1122,7 @@ int CheckIfFoodIsAvailable(int OrderNumber){
     while (fgets(line, sizeof(line), file)) {
         if(strstr(line, "Available") != NULL) {
             count++;
-            if(count == OrderNumber) {
+            if(count == OrderNumber -1 ) {
                 printf("The order is available\n");
                 fclose(file);
                 return 1;
@@ -1108,40 +1136,6 @@ int CheckIfFoodIsAvailable(int OrderNumber){
 
 }
 
-void AddTheTitleToTheFoodList(char* Title)
-{
-    //from the top of the file add the title to the food list
-    //Title: Food Name -- Food Price TL -- Preperation Time (min) -- State
-    FILE *file;
-    file = fopen("TextFiles/FoodList.txt", "r");
-    if(file == NULL) {
-        printf("Error: File not found\n");
-    }
-    char line[100];
-    while (fgets(line, sizeof(line), file)) {
-        if(strstr(line, "Title") != NULL) {
-            printf("The title is already added\n");
-            fclose(file);
-            return;
-        }
-    }
-    fclose(file);
-    file = fopen("TextFiles/FoodList.txt", "r");
-    FILE *tempFile;
-    tempFile = fopen("TextFiles/TempFoodList.txt", "w");
-    fprintf(tempFile, "Title: %s -- Food Name -- Food Price TL -- Preperation Time (min) -- State\n", Title);
-    while (fgets(line, sizeof(line), file)) {
-        fprintf(tempFile, "%s", line);
-    }
-    fclose(file);
-    fclose(tempFile);
-    remove("TextFiles/FoodList.txt");
-    rename("TextFiles/TempFoodList.txt", "TextFiles/FoodList.txt");
-    printf("The title is added\n");
 
-
-
-
-}
 
 #endif //CUSTOMER_H

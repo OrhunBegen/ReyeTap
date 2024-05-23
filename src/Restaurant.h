@@ -571,18 +571,30 @@ void AdjustTheSelectedFoodFromTheFoodList()
             printf("Error: File not found\n");
         }
        
-        int count = 0;
         while (fgets(line, sizeof(line), file3)) {
-            count++;
-            if (count != atoi(foodNumber)) {
-                fprintf(file4, "%s", line);
-            } else {
-                fprintf(file4, "%d -- %s ", atoi(foodNumber) - 1, NewfoodName);
-                char *ptr = strstr(line, "--");
-                ptr = strstr(ptr + 2, "--");
-                fprintf(file4, "%s", ptr);
+            int currentFoodNumber;
+            char foodName[30];
+            char foodPrice[10];
+            char preparationTime[5];
+            char state[20];
+
+            // Parse the line into different fields
+            if (sscanf(line, "%d -- %[^--] -- %[^TL] TL -- %[^--] -- %[^\n]", &currentFoodNumber, foodName, foodPrice, preparationTime, state) == 5) {
+                // Check if this is the line to be modified based on currentFoodNumber
+                if (currentFoodNumber == atoi(foodNumber)) {
+                    // Update the food name with NewfoodName
+                    fprintf(file4, "%d -- %s -- %s TL -- %s -- %s\n", currentFoodNumber, NewfoodName, foodPrice, preparationTime, state);
+                } else {
+                    // Write the unchanged line to the temporary file
+                    fprintf(file4, "%s", line);
+                }
             }
         }
+
+
+
+
+
         fclose(file3);
         fclose(file4);  
         remove("TextFiles/FoodList.txt");
