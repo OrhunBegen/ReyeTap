@@ -729,6 +729,55 @@ int MakeAOrderByID(int ID)
     CheckIfFoodIsAvailable(orderNumber);
 
 
+    FILE *file = fopen("TextFiles/FoodList.txt", "r");
+    
+    //print out the orderNumber's line from the TextFiles/FoodList.txt
+
+    char line[256];
+    int i = 0;
+
+    while (fgets(line, sizeof(line), file)) {
+        i++;
+        //order number + 1 because there is a title
+        if (i == orderNumber+1) {
+            printf("%s", line);
+        }
+    }
+    //now save this line inside these 
+    //1 -- Hamburger -- 15 TL -- 10 -- Available
+
+    int Line = orderNumber+1;
+    char OrderName[50];
+    char OrderPrice[50];
+    char OrderPrepTime[50];
+    char OrderState[50];
+
+    //get the order name
+    char *token = strtok(line, "--");
+    token = strtok(NULL, "--");
+    strcpy(OrderName, token);
+
+    //get the order price
+    token = strtok(NULL, "--");
+    strcpy(OrderPrice, token);
+    
+    
+
+
+
+
+
+    
+
+
+
+
+
+    
+
+
+
+
 
 
 
