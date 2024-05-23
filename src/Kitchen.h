@@ -164,7 +164,32 @@ void AdjustTheCooksNumero()
 
 } 
 
+void ChangeTheCooksYearTo2025(int ID)
+{
+  
+    FILE *file;
+    file = fopen("Cooks.dat", "rb+");
+    if (file == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    Cook cook;
+    while (fread(&cook, sizeof(Cook), 1, file))
+    {
+        if (atoi(cook.ID) == ID)
+        {
+            strcpy(cook.Year, "2025");
+            fseek(file, -sizeof(Cook), SEEK_CUR);
+            fwrite(&cook, sizeof(Cook), 1, file);
+            break;
+        }
+    }
+    fclose(file);
 
+  
+
+}
 
 
 #endif // KITCHEN_H

@@ -10,6 +10,8 @@
 #include <ctype.h>
 #include <windows.h>
 
+#include "Kitchen.h"
+
 
 
 
@@ -743,8 +745,8 @@ int MakeAOrderByID(int ID)
             printf("%s", line);
         }
     }
-    //now save this line inside these 
-    //1 -- Hamburger -- 15 TL -- 10 -- Available
+
+    fclose(file);
 
     int Line = orderNumber+1;
     char OrderName[50];
@@ -752,30 +754,52 @@ int MakeAOrderByID(int ID)
     char OrderPrepTime[50];
     char OrderState[50];
 
-    //get the order name
-    char *token = strtok(line, "--");
-    token = strtok(NULL, "--");
-    strcpy(OrderName, token);
+    FILE *file2 = fopen("TextFiles/FoodList.txt", "r");
+    //1 -- Hamburger -- 15 TL -- 10 -- Available
 
-    //get the order price
-    token = strtok(NULL, "--");
-    strcpy(OrderPrice, token);
+    //now save this line inside these 
+    //Line, OrderName, OrderPrice, OrderPrepTime, OrderState
     
     
+    i = 0;
+    while (fgets(line, sizeof(line), file2)) {
+        i++;
+        if (i == Line) {
+            sscanf(line, "%d -- %s -- %s TL -- %s -- %s", &Line, OrderName, OrderPrice, OrderPrepTime, OrderState);
+        }
+    }
+    fclose(file2);
+
+    //got out the orders stats from the file of FoodList.txt
+
+    //right now we have to check from the Cooks.dat file for the available cooks
+    //we have entered 1970 as year because we wanted to make it available for created cooks for the first time
+    //right now we have to check if the cook is available or not
+    //by the start from the year 1970 if it is available then we are going to check the mouth and goes on
+    //mouth day hour minute second
+
+    //get the current date from the windows rn
+    int year, month, day, hour, minute, second;
+    SYSTEMTIME t;
+    GetLocalTime(&t);
+    year = t.wYear;
+    month = t.wMonth;
+    day = t.wDay;
+    hour = t.wHour;
+    minute = t.wMinute;
+    second = t.wSecond;
 
 
-
-
+    int CookID;
+    int Year;
+    int Month;
+    int Day;
+    int Hour;
+    int Minute;
+    int Second;
+    bool status = false;
 
     
-
-
-
-
-
-    
-
-
 
 
 
