@@ -770,35 +770,8 @@ int MakeAOrderByID(int ID)
     }
     fclose(file2);
 
-    //got out the orders stats from the file of FoodList.txt
-
-    //right now we have to check from the Cooks.dat file for the available cooks
-    //we have entered 1970 as year because we wanted to make it available for created cooks for the first time
-    //right now we have to check if the cook is available or not
-    //by the start from the year 1970 if it is available then we are going to check the mouth and goes on
-    //mouth day hour minute second
-
-    //get the current date from the windows rn
-    int year, month, day, hour, minute, second;
-    SYSTEMTIME t;
-    GetLocalTime(&t);
-    year = t.wYear;
-    month = t.wMonth;
-    day = t.wDay;
-    hour = t.wHour;
-    minute = t.wMinute;
-    second = t.wSecond;
-
-
-    int CookID;
-    int Year;
-    int Month;
-    int Day;
-    int Hour;
-    int Minute;
-    int Second;
-    bool status = false;
-
+    
+  
     
 
 

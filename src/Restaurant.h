@@ -465,6 +465,7 @@ void AdjustTheSelectedFoodFromTheFoodList()
     //if the user enters a non numeric character ask for the food number again or give option to exit by entering "q"
 
     char foodNumber[10];
+    
     int validFoodNumber = 0;
 
     while (!validFoodNumber) {
@@ -482,8 +483,7 @@ void AdjustTheSelectedFoodFromTheFoodList()
     //add 1 to the line from going to remove line because the last line is the "Food Name -- Food Price TL -- Preperation Time (min) -- State"
 
     int currentFoodNumber = atoi(foodNumber);
-    currentFoodNumber++;
-    sprintf(foodNumber, "%d", currentFoodNumber);
+
 
     //print the food line that u are making adjustments
     
@@ -496,7 +496,7 @@ void AdjustTheSelectedFoodFromTheFoodList()
     int count = 0;
     while (fgets(line, sizeof(line), file2)) {
         count++;
-        if (count == atoi(foodNumber)) {
+        if (count == atoi(foodNumber)+1) {
             printf("%s", line);
         }
     }
