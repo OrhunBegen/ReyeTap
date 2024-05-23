@@ -770,8 +770,23 @@ int MakeAOrderByID(int ID)
     }
     fclose(file2);
 
+    printf("Line: %d\n", Line);
+    printf("OrderName: %s\n", OrderName);
+    printf("OrderPrice: %s\n", OrderPrice);
+    printf("OrderPrepTime: %s\n", OrderPrepTime);
+    printf("OrderState: %s\n", OrderState);
+
+
+
+
+    //for the OrderList.txt enter the order as
+    //W010424_001 -- Lahmacun -- 75 TL --  User1
+
+
+
+
     
-  
+
     
 
 

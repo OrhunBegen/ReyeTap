@@ -795,5 +795,35 @@ void AdjustTheSelectedFoodFromTheFoodList()
 }
 }
 
+void AddTitle()
+{
+    FILE *file;
+    file = fopen("TextFiles/FoodList.txt", "r");
+    if(file == NULL) {
+        printf("Error: File not found\n");
+    }
+    
+    FILE *file2;
 
+    file2 = fopen("TextFiles/FoodListTemp.txt", "w");
+    if(file2 == NULL) {
+        printf("Error: File not found\n");
+    }
+
+    fprintf(file2, "Food Name -- Food Price TL -- Preperation Time (min) -- State\n");
+
+    char line[100];
+    while (fgets(line, sizeof(line), file)) {
+        fprintf(file2, "%s", line);
+    }
+    fclose(file);
+    fclose(file2);
+
+    remove("TextFiles/FoodList.txt");
+    rename("TextFiles/FoodListTemp.txt", "TextFiles/FoodList.txt");
+
+    
+
+    
+}
 #endif // RESTAURANT_H

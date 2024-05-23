@@ -21,6 +21,7 @@ int main() {
     else if(choice == 3){
         CreateASampleFoodList();
         AdjustTheSelectedFoodFromTheFoodList();
+        AddTitle();
         goto baslangic;
     }
     else if(choice == 4){
