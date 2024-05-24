@@ -51,6 +51,16 @@ void AddCustomFoodToTheFoodList();
 void RemoveTheSelectedFoodFromTheFoodList();
 void RenumberTheFoodList();
 void AdjustTheSelectedFoodFromTheFoodList();
+void AddTitle();
+
+
+//order applications
+
+int CheckIfTheFoodIsAtWaitState(int LineNumber);
+void BringTheOrdersList();
+int AproveOrDeclineSystem();
+void DeclineTheOrder(int LineNumber);
+void AproveTheOrder(int LineNumber);
 
 //add functions
 
@@ -909,30 +919,157 @@ int CheckIfTheFoodIsAtWaitState(int LineNumber)
     }
 
 
-
-
     fclose(file);
 }
-void BringTheUnApprovedOrderList()
+
+void BringTheOrderList()
 {  
+    FILE *file;
+    file = fopen("TextFiles/OrderList.txt", "r");
+    if(file == NULL) {
+        printf("Error: File not found\n");
+    }
+    char line[100];
+    while (fgets(line, sizeof(line), file)) {
+        printf("%s", line);
+    }
+    fclose(file);
     
 }
+
 int AproveOrDeclineSystem()
 {
+    // 1 -- 2024/5/24_2 -- Fish Burger  -- 25  TL -- 20  -- mustafa -- Wait
+    // 2 -- 2024/5/24_2 -- French Fries  -- 10  TL -- 5  -- mustafa -- Wait
+    // 3 -- 2024/5/24_6 -- Fish Burger  -- 25  TL -- 20  -- orhun -- SIP
+    // 4 -- 2024/5/24_6 -- Onion Rings  -- 12  TL -- 7  -- orhun -- RED
+
+    //if the food is in the Wait state ask for the user to aprove or decline the order
+    //if the food is in the SIP or RED state do not ask for the user to aprove or decline the order
+    //if the user aproves the order return 1
+    //if the user declines the order return 0
+
+    BringTheOrderList();
+    printf("\nDo you want to aprove or decline an order? (1 for yes /0 for no): ");
+    //non numeric characters are not allowed
+    //if user enters a non numeric character ask for the answer again
+    char answer[2];
+    int validAnswer = 0;
+    while (!validAnswer) {
+        scanf("%s", answer);
+        validAnswer = ScanfOnlyNumeric(answer) && (strcmp(answer, "0") == 0 || strcmp(answer, "1") == 0);
+        if (!validAnswer) {
+            printf("Non-numeric characters are not allowed. Please enter 1 for yes or 0 for no.\n");
+        }
+    }
+    if (strcmp(answer, "0") == 0)
+    {
+        return 0;
+    }
+
+    char orderNumber[10];
+    //enter the order number to aprove or decline
+    //non numeric characters are not allowed
+    /*
+    it will ask the user to enter another order number
+    if user enters a non numeric character ask for the order number again or give option to exit by entering "q"
+    */
    
+    int validOrderNumber = 0;
+    while (!validOrderNumber) {
+        printf("Enter the order number to aprove or decline or enter 'q' to cancel the request: ");
+        scanf("%s", orderNumber);
+        if (strcmp(orderNumber, "q") == 0) {
+            return 0;
+        }
+        validOrderNumber = ScanfOnlyNumeric(orderNumber);
+        if (!validOrderNumber) {
+            printf("Non-numeric characters are not allowed. Please enter another order number or enter 'q' to cancel the request.\n");
+        }
+    }
+
+    //check if the food is in the Wait state
+    
+    int waitState = CheckIfTheFoodIsAtWaitState(atoi(orderNumber));
+
+    if (waitState == 0) {
+        printf("The food is not in the Wait state. You can not aprove or decline the order.\n");
+        return 0;
+    }
+
+    //ask for the user to aprove or decline the order
+    //1 for aprove
+    //0 for decline
+    //then it will call the AproveOrder() or DeclineOrder() function
+
+    char answer2[2];
+
+    int validAnswer2 = 0;
+    while (!validAnswer2) {
+        printf("Do you want to aprove or decline the order? (1 for aprove, 0 for decline): ");
+        scanf("%s", answer2);
+        validAnswer2 = ScanfOnlyNumeric(answer2) && (strcmp(answer2, "0") == 0 || strcmp(answer2, "1") == 0);
+        if (!validAnswer2) {
+            printf("Non-numeric characters are not allowed. Please enter 1 for aprove or 0 for decline.\n");
+        }
+    }
+    
+    int orderNumberInt = atoi(orderNumber);
+
+    if (strcmp(answer2, "0") == 0) {
+        DeclineTheOrder(orderNumberInt);
+    } else {
+        AproveTheOrder(orderNumberInt);
+    }
 }
 
-void DeclineOrder()
+void DeclineTheOrder(int orderNumber)
 {
+    //then change the state to RED
+    char line[100];
+    char Year[5];
+    char Month[3];
+    char Day[3];
+    char FoodName [30];
+    char FoodPrice[10];
+    char PreparationTime[5];
+    char CustomerName[30];
+    char State[10];
+
+    FILE *file;
+    file = fopen("TextFiles/OrderList.txt", "r");
+    if(file == NULL) {
+        printf("Error: File not found\n");
+    }
+    FILE *file2;
+    file2 = fopen("TextFiles/OrderListTemp.txt", "w");
+    if(file2 == NULL) {
+        printf("Error: File not found\n");
+    }
+    int count = 0;
+    while (fgets(line, sizeof(line), file)) {
+        count++;
+        if (count == orderNumber) {
+            sscanf(line, "%*d -- %[^/] / %[^/] / %[^_] _ %*d -- %[^--] -- %[^TL] TL -- %[^--] -- %[^--] -- %s", Year, Month, Day, FoodName, FoodPrice, PreparationTime, CustomerName, State);
+            fprintf(file2, "%d -- %s/%s/%s_%d -- %s-- %sTL -- %s-- %s-- RED\n", count, Year, Month, Day, orderNumber, FoodName, FoodPrice, PreparationTime, CustomerName);
+        } else {
+            fprintf(file2, "%s", line);
+        }
+    }
+    fclose(file);
+    fclose(file2);
+    remove("TextFiles/OrderList.txt");
+    rename("TextFiles/OrderListTemp.txt", "TextFiles/OrderList.txt");
+    printf("The order has been declined.\n");
+
+}
+
+void AproveTheOrder(int orderNumber)
+{
+
     
 }
 
-void AproveOrder()
-{
-
-
-
-}
 
 
 

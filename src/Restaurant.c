@@ -6,24 +6,8 @@ int main()
 {
     int x;
     
-    scanf("%d", &x);
-
-    int y = CheckIfTheFoodIsAtWaitState(x);
-
-    if (y == 1)
-    {
-        printf("wait state\n");
-    }
-    if (y == 0)
-    {
-        printf("The food is not at wait state\n");
-    }
-    else
-    {
-        printf("Invalid choice\n");
-    }
+    AproveOrDeclineSystem();
    
-
     return 0;
 }
 
