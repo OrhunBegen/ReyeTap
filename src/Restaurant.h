@@ -5,6 +5,7 @@
 #include <string.h> // Include the string library
 #include <stdlib.h> // Include the standard library
 #include <ctype.h> // Include the ctype library
+#include <windows.h> // Include the windows library
 
 #include "Kitchen.h"
 
@@ -874,7 +875,13 @@ void AddTitle()
 }
 
 
+
+
+
 //Order Applications
+
+
+
 int CheckIfTheFoodIsAtWaitState(int LineNumber)
 {
     // 1 -- 2024/5/24_2 -- Fish Burger  -- 25  TL -- 20  -- mustafa -- Wait
@@ -1066,14 +1073,176 @@ void DeclineTheOrder(int orderNumber)
 
 void AproveTheOrder(int orderNumber)
 {
-
+    //then change the state to SIP
+    char line[100];
     
+    char Year[5];
+    char Month[3];
+    char Day[3];
+    char ID[5];
+
+    char FoodName [30];
+    char FoodPrice[10];
+    char PreparationTime[5];
+    char CustomerName[30];
+    char State[10];
+
+    int CurrentMinute;
+    int CurrentHour;
+    int CurrentDay;
+    int CurrentMonth;
+    int CurrentYear;
+
+    int ReadyMinute;
+    int ReadyHour;
+    int ReadyDay;
+    int ReadyMonth;
+    int ReadyYear;
+
+    //get the current time
+
+    SYSTEMTIME t;
+    GetLocalTime(&t);
+    CurrentMinute = t.wMinute;
+    CurrentHour = t.wHour;
+    CurrentDay = t.wDay;
+    CurrentMonth = t.wMonth;
+    CurrentYear = t.wYear;
+
+
+
+    //from the file get The Prep time and CurrentTime's + PreparationTime = ReadyTime
+    //if the ReadyTime is bigger than 60 add 1 to the hour and make the ReadyTime - 60
+    //if the ReadyTime is bigger than 24 add 1 to the day and make the ReadyTime - 24
+    //if the ReadyTime is bigger than 12 add 1 to the month and make the ReadyTime - 12
+    //if the ReadyTime is bigger than 2024 add 1 to the year and make the ReadyTime - 2024
+
+    FILE *file;
+    file = fopen("TextFiles/OrderList.txt", "r");
+    if(file == NULL) {
+        printf("Error: File not found\n");
+    }
+    //parse the line
+     //line -- Year/Month/Day_ID -- FoodName -- FoodPrice TL -- PreparationTime -- CustomerName -- State -- CurrentTime -- ReadyTime
+    while (fgets(line, sizeof(line), file)) {
+        sscanf(line, "%*d -- %[^/] / %[^/] / %[^_] _ %[^--] -- %[^--] -- %[^TL] TL -- %[^--] -- %[^--] -- %s", Year, Month, Day, ID, FoodName, FoodPrice, PreparationTime, CustomerName, State);
+        if (atoi(ID) == orderNumber) {
+            ReadyMinute = CurrentMinute + atoi(PreparationTime);
+            ReadyHour = CurrentHour;
+            ReadyDay = CurrentDay;
+            ReadyMonth = CurrentMonth;
+            ReadyYear = CurrentYear;
+            if (ReadyMinute >= 60) {
+                ReadyHour++;
+                ReadyMinute -= 60;
+            }
+            if (ReadyHour >= 24) {
+                ReadyDay++;
+                ReadyHour -= 24;
+            }
+            if (ReadyDay >= 31) {
+                ReadyMonth++;
+                ReadyDay -= 31;
+            }
+            if (ReadyMonth >= 12) {
+                ReadyYear++;
+                ReadyMonth -= 12;
+            }
+            break;
+        }
+    }
+    fclose(file);
+
+    //From The Cooks.dat loop through the file and get the first AsciID that has smaller time than the current time
+
+
+
+
+    int AsciID = -1;
+    FILE *file8;
+    file8 = fopen("TextFiles/Cooks.dat", "r");
+    if(file8 == NULL) {
+        printf("Error: File not found\n");
+    }
+    int AsciIDTemp;
+    int CookMinute;
+    int CookHour;
+    int CookDay;
+    int CookMonth;
+    int CookYear;
+
+
+    while (fread(&AsciIDTemp, sizeof(int), 1, file8)) {
+        fread(&CookMinute, sizeof(int), 1, file8);
+        fread(&CookHour, sizeof(int), 1, file8);
+        fread(&CookDay, sizeof(int), 1, file8);
+        fread(&CookMonth, sizeof(int), 1, file8);
+        fread(&CookYear, sizeof(int), 1, file8);
+        if (CookYear < CurrentYear) {
+            AsciID = AsciIDTemp;
+            break;
+        } else if (CookYear == CurrentYear) {
+            if (CookMonth < CurrentMonth) {
+                AsciID = AsciIDTemp;
+                break;
+            } else if (CookMonth == CurrentMonth) {
+                if (CookDay < CurrentDay) {
+                    AsciID = AsciIDTemp;
+                    break;
+                } else if (CookDay == CurrentDay) {
+                    if (CookHour < CurrentHour) {
+                        AsciID = AsciIDTemp;
+                        break;
+                    } else if (CookHour == CurrentHour) {
+                        if (CookMinute < CurrentMinute) {
+                            AsciID = AsciIDTemp;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    fclose(file8);
+
+    if (AsciID == -1) {
+        printf("There is no cook available to prepare the food.\n");
+        return;
+    }
+
+
+
+    //change the state to SIP
+
+    FILE *file2;
+    file2 = fopen("TextFiles/OrderListTemp.txt", "w");
+    if(file2 == NULL) {
+        printf("Error: File not found\n");
+    }
+    file = fopen("TextFiles/OrderList.txt", "r");
+    if(file == NULL) {
+        printf("Error: File not found\n");
+    }
+    
+    int count = 0;
+    while (fgets(line, sizeof(line), file)) {
+        count++;
+        if (count == orderNumber) {
+            fprintf(file2, "%d -- %s/%s/%s_%s -- %s-- %sTL -- %s-- %s-- SIP -- %d/%d/%d_%d:%d -- %d/%d/%d_%d:%d -- %sA\n",
+            count, Year, Month, Day, ID, FoodName, FoodPrice, PreparationTime, CustomerName,
+            CurrentYear, CurrentMonth, CurrentDay, CurrentHour, CurrentMinute, 
+            ReadyYear, ReadyMonth, ReadyDay, ReadyHour, ReadyMinute, AsciID);
+        } else {
+            fprintf(file2, "%s", line);
+        }
+    }
+
+    fclose(file);
+    fclose(file2);
+    remove("TextFiles/OrderList.txt");
+    rename("TextFiles/OrderListTemp.txt", "TextFiles/OrderList.txt");
+    printf("The order has been aproved.\n");
 }
-
-
-
-
-
 
 
 
