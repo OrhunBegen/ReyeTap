@@ -865,48 +865,66 @@ void AddTitle()
 
 
 //Order Applications
+int CheckIfTheFoodIsAtWaitState(int LineNumber)
+{
+    // 1 -- 2024/5/24_2 -- Fish Burger  -- 25  TL -- 20  -- mustafa -- Wait
+    // 2 -- 2024/5/24_2 -- French Fries  -- 10  TL -- 5  -- mustafa -- Wait
+    // 3 -- 2024/5/24_6 -- Fish Burger  -- 25  TL -- 20  -- orhun -- SIP
+    // 4 -- 2024/5/24_6 -- Onion Rings  -- 12  TL -- 7  -- orhun -- RED
 
+    //if Wait return 1
+    //if not Wait return 0
 
-void BringTheUnApprovedOrderList()
-{  
     FILE *file;
     file = fopen("TextFiles/OrderList.txt", "r");
     if(file == NULL) {
         printf("Error: File not found\n");
     }
     char line[100];
-    while (fgets(line, sizeof(line), file)) {
-        int currentOrderNumber;
-        char date[20];
-        char foodName[30];
-        char foodPrice[10];
-        char preparationTime[5];
-        char customerName[20];
-        char state[20];
+    char Year[5];
+    char Month[3];
+    char Day[3];
+    char FoodName [30];
+    char FoodPrice[10];
+    char PreparationTime[5];
+    char CustomerName[30];
+    char State[10];
 
-        // Parse the line into different fields
-        if (sscanf(line, "%d -- %[^_] -- %[^--] -- %[^TL] TL -- %[^--] -- %[^--] -- %[^\n]", &currentOrderNumber, date, foodName, foodPrice, preparationTime, customerName, state) == 7) {
-            // Check if this is the line to be modified based on currentOrderNumber
-            if (strcmp(state, "Wait") == 0) {
-                printf("%s", line);
+    int count = 0;
+
+
+    //parse the line
+    while (fgets(line, sizeof(line), file)) {
+        count++;
+        if (count == LineNumber) {
+            sscanf(line, "%*d -- %[^/] / %[^/] / %[^_] _ %*d -- %[^--] -- %[^TL] TL -- %[^--] -- %[^--] -- %s", Year, Month, Day, FoodName, FoodPrice, PreparationTime, CustomerName, State);
+            if (strcmp(State, "Wait") == 0) {
+                fclose(file);
+                return 1;
+            } else {
+                fclose(file);
+                return 0;
             }
         }
     }
+
+
+
+
     fclose(file);
+}
+void BringTheUnApprovedOrderList()
+{  
     
 }
-
 int AproveOrDeclineSystem()
 {
    
-
-
 }
 
 void DeclineOrder()
 {
- 
-
+    
 }
 
 void AproveOrder()
@@ -916,13 +934,6 @@ void AproveOrder()
 
 }
 
-int CheckIfTheFoodIsAtWaitState(int LineNumber)
-{
-   
-
-
-
-}
 
 
 
