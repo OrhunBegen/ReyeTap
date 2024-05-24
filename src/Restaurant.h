@@ -8,6 +8,28 @@
 
 #include "Kitchen.h"
 
+typedef struct AllTimeFood {
+    
+    int FoodName;
+    int FoodPrice;
+    int Quantity;
+
+} AllTimeFood;
+
+
+void AllTimeFoodDat()
+{
+    FILE *file;
+    file = fopen("AllTimeFood.dat", "wb");
+    if (file == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    fclose(file);
+
+}
+
 // Function prototypes
 void RestaurantMainMenu();
 
@@ -844,25 +866,9 @@ void AddTitle()
 
 //Order Applications
 
-//if the orders have approved there will be SIP at the start of the Lines
-//if the orders have not approved there will be int at the start of the Lines
 
-void BringTheOrderList()
-{
-    FILE *file;
-    file = fopen("TextFiles/OrderList.txt", "r");
-    if(file == NULL) {
-        printf("Error: File not found\n");
-    }
-    char line[100];
-    while (fgets(line, sizeof(line), file)) {
-        printf("%s", line);
-    }
-    fclose(file);
-
-}
 void BringTheUnApprovedOrderList()
-{
+{  
     FILE *file;
     file = fopen("TextFiles/OrderList.txt", "r");
     if(file == NULL) {
@@ -870,84 +876,54 @@ void BringTheUnApprovedOrderList()
     }
     char line[100];
     while (fgets(line, sizeof(line), file)) {
-        if (line[0] != 'S') {
-            printf("%s", line);
+        int currentOrderNumber;
+        char date[20];
+        char foodName[30];
+        char foodPrice[10];
+        char preparationTime[5];
+        char customerName[20];
+        char state[20];
+
+        // Parse the line into different fields
+        if (sscanf(line, "%d -- %[^_] -- %[^--] -- %[^TL] TL -- %[^--] -- %[^--] -- %[^\n]", &currentOrderNumber, date, foodName, foodPrice, preparationTime, customerName, state) == 7) {
+            // Check if this is the line to be modified based on currentOrderNumber
+            if (strcmp(state, "Wait") == 0) {
+                printf("%s", line);
+            }
         }
     }
     fclose(file);
+    
+}
+
+int AproveOrDeclineSystem()
+{
+   
+
+
 }
 
 void DeclineOrder()
 {
-    //for the decline order we will bring the unapproved orders
-    //and ask the Restaurant Manager to enter the order number to decline
-    //if the Restaurant Manager enters a non numeric character ask for the order number again or give option to exit by entering "q"
-
-    BringTheUnApprovedOrderList();
-
-    char orderNumber[10];
-    int validOrderNumber = 0;
-
-    while (!validOrderNumber) {
-        printf("Enter the order number to decline or enter 'q' to cancel the request: ");
-        scanf("%s", orderNumber);
-        if (strcmp(orderNumber, "q") == 0) {
-            return;
-        }
-        validOrderNumber = ScanfOnlyNumeric(orderNumber);
-        if (!validOrderNumber) {
-            printf("Non-numeric characters are not allowed. Please enter another order number or enter 'q' to cancel the request.\n");
-        }
-    }
-    //there is no title at the OrderList.txt so we don't need to increase the order number by 1
-    //we can directly remove the order number from the OrderList.txt
-
-    FILE *file;
-    file = fopen("TextFiles/OrderList.txt", "r");
-    if(file == NULL) {
-        printf("Error: File not found\n");
-    }
-
-    FILE *file2;
-    file2 = fopen("TextFiles/OrderListTemp.txt", "w");
-    if(file2 == NULL) {
-        printf("Error: File not found\n");
-    }
-
-    char line[100];
-    while (fgets(line, sizeof(line), file)) {
-        if (line[0] != 'S' && atoi(orderNumber) != atoi(line)) {
-            fprintf(file2, "%s", line);
-        }
-    }
-
-    fclose(file);
-    fclose(file2);
-    remove("TextFiles/OrderList.txt");
-    rename("TextFiles/OrderListTemp.txt", "TextFiles/OrderList.txt");
-    
+ 
 
 }
 
 void AproveOrder()
+{
+
+
+
+}
+
+int CheckIfTheFoodIsAtWaitState(int LineNumber)
 {
    
 
 
 
 }
-int AproveOrDeclineSystem()
 
-{
-
-
-
-
-
-
-
-
-}
 
 
 

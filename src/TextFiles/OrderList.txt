@@ -1,4 +1,4 @@
-2024-5-23_1 -- Chicken Burgerb    -- 18  TL -- 12  -- orhun
-2024-5-23_1 -- Veggie Burger  -- 17  TL -- 13  -- orhun
-2024-5-23_4 -- Veggie Burger  -- 17  TL -- 13  -- mustafa
-2024-5-24_5 -- Fish Burger  -- 25  TL -- 20  -- elifyaren
+1 -- 2024/5/24_2 -- Fish Burger  -- 25  TL -- 20  -- mustafa -- Wait
+2 -- 2024/5/24_2 -- French Fries  -- 10  TL -- 5  -- mustafa -- Wait
+3 -- 2024/5/24_6 -- Fish Burger  -- 25  TL -- 20  -- orhun -- sip
+4 -- 2024/5/24_6 -- Onion Rings  -- 12  TL -- 7  -- orhun -- sip

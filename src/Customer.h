@@ -803,12 +803,11 @@ int MakeAOrderByID(int ID)
 
     //for the OrderList.txt enter the order as
 
-
     FILE *file3 = fopen("TextFiles/OrderList.txt", "a");
 
     //Line -- Date_UserID -- FoodName -- Price TL -- PrepTime -- UserName
 
-    fprintf(file3, "%d -- %d/%d/%d_%d -- %s -- %s TL -- %s -- %s\n", orderCount+1, year, month, day, ID, OrderName, OrderPrice, OrderPrepTime, c1.name);
+    fprintf(file3, "%d -- %d/%d/%d_%d -- %s -- %s TL -- %s -- %s -- Wait\n", orderCount+1, year, month, day, ID, OrderName, OrderPrice, OrderPrepTime, c1.name);
 
 
     fclose(file3);
