@@ -7,12 +7,7 @@ int main() {
     
     //CreateSampleCooks();
 
-    printf("cooks 2025 :");
-    int x;
-    scanf("%d", &x);
-
-    ChangeTheCooksYearTo2025(x);
-
+    
 
 
     PrintTheCooks();

@@ -4,10 +4,10 @@ void createTitle();
 
 int main()
 {
-    int x;
-    
+
     AproveOrDeclineSystem();
-   
+  
+
     return 0;
 }
 

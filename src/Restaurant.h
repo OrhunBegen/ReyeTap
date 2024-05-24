@@ -884,49 +884,29 @@ void AddTitle()
 
 int CheckIfTheFoodIsAtWaitState(int LineNumber)
 {
-    // 1 -- 2024/5/24_2 -- Fish Burger  -- 25  TL -- 20  -- mustafa -- Wait
-    // 2 -- 2024/5/24_2 -- French Fries  -- 10  TL -- 5  -- mustafa -- Wait
-    // 3 -- 2024/5/24_6 -- Fish Burger  -- 25  TL -- 20  -- orhun -- SIP
-    // 4 -- 2024/5/24_6 -- Onion Rings  -- 12  TL -- 7  -- orhun -- RED
+    //check in the Line if there is a "Wait" word
+    //if there is a "Wait" word return 1
+    //if there is not a "Wait" word return 0
 
-    //if Wait return 1
-    //if not Wait return 0
-
+    char line[100];
     FILE *file;
     file = fopen("TextFiles/OrderList.txt", "r");
     if(file == NULL) {
         printf("Error: File not found\n");
     }
-    char line[100];
-    char Year[5];
-    char Month[3];
-    char Day[3];
-    char FoodName [30];
-    char FoodPrice[10];
-    char PreparationTime[5];
-    char CustomerName[30];
-    char State[10];
-
     int count = 0;
-
-
-    //parse the line
     while (fgets(line, sizeof(line), file)) {
         count++;
         if (count == LineNumber) {
-            sscanf(line, "%*d -- %[^/] / %[^/] / %[^_] _ %*d -- %[^--] -- %[^TL] TL -- %[^--] -- %[^--] -- %s", Year, Month, Day, FoodName, FoodPrice, PreparationTime, CustomerName, State);
-            if (strcmp(State, "Wait") == 0) {
+            if (strstr(line, "Wait") != NULL) {
                 fclose(file);
                 return 1;
-            } else {
-                fclose(file);
-                return 0;
             }
         }
     }
-
-
     fclose(file);
+    return 0;
+
 }
 
 void BringTheOrderList()
@@ -1032,43 +1012,7 @@ int AproveOrDeclineSystem()
 
 void DeclineTheOrder(int orderNumber)
 {
-    //then change the state to RED
-    char line[100];
-    char Year[5];
-    char Month[3];
-    char Day[3];
-    char FoodName [30];
-    char FoodPrice[10];
-    char PreparationTime[5];
-    char CustomerName[30];
-    char State[10];
-
-    FILE *file;
-    file = fopen("TextFiles/OrderList.txt", "r");
-    if(file == NULL) {
-        printf("Error: File not found\n");
-    }
-    FILE *file2;
-    file2 = fopen("TextFiles/OrderListTemp.txt", "w");
-    if(file2 == NULL) {
-        printf("Error: File not found\n");
-    }
-    int count = 0;
-    while (fgets(line, sizeof(line), file)) {
-        count++;
-        if (count == orderNumber) {
-            sscanf(line, "%*d -- %[^/] / %[^/] / %[^_] _ %*d -- %[^--] -- %[^TL] TL -- %[^--] -- %[^--] -- %s", Year, Month, Day, FoodName, FoodPrice, PreparationTime, CustomerName, State);
-            fprintf(file2, "%d -- %s/%s/%s_%d -- %s-- %sTL -- %s-- %s-- RED\n", count, Year, Month, Day, orderNumber, FoodName, FoodPrice, PreparationTime, CustomerName);
-        } else {
-            fprintf(file2, "%s", line);
-        }
-    }
-    fclose(file);
-    fclose(file2);
-    remove("TextFiles/OrderList.txt");
-    rename("TextFiles/OrderListTemp.txt", "TextFiles/OrderList.txt");
-    printf("The order has been declined.\n");
-
+   
 }
 
 void AproveTheOrder(int orderNumber)
@@ -1099,6 +1043,20 @@ void AproveTheOrder(int orderNumber)
     int ReadyMonth;
     int ReadyYear;
 
+    int randomAsci;
+    int randomYear1;
+    int randomYear2;
+    int randomMonth1;
+    int randomMonth2;
+    int randomDay1;
+    int randomDay2;
+    int randomHour1;
+    int randomHour2;
+    int randomMinute1;
+    int randomMinute2;
+
+    
+
     //get the current time
 
     SYSTEMTIME t;
@@ -1123,9 +1081,9 @@ void AproveTheOrder(int orderNumber)
         printf("Error: File not found\n");
     }
     //parse the line
-     //line -- Year/Month/Day_ID -- FoodName -- FoodPrice TL -- PreparationTime -- CustomerName -- State -- CurrentTime -- ReadyTime
+    //line-Year/Month/Day_ID-FoodName-FoodPrice TL-PreparationTime -CustomerName-State-RandomTime-RandomTime-RandomAsci
     while (fgets(line, sizeof(line), file)) {
-        sscanf(line, "%*d -- %[^/] / %[^/] / %[^_] _ %[^--] -- %[^--] -- %[^TL] TL -- %[^--] -- %[^--] -- %s", Year, Month, Day, ID, FoodName, FoodPrice, PreparationTime, CustomerName, State);
+        sscanf(line, "%*d -- %[^/] / %[^/] / %[^_] _ %[^-]-%[^TL] TL-%[^-]-%[^-]-%s-%d/%d/%d_%d:%d--%d/%d/%d_%d:%d--%dA", Year, Month, Day, ID, FoodName, FoodPrice, PreparationTime, CustomerName, &randomYear1, &randomMonth1, &randomDay1, &randomHour1, &randomMinute1, &randomYear2, &randomMonth2, &randomDay2, &randomHour2, &randomMinute2, &randomAsci);
         if (atoi(ID) == orderNumber) {
             ReadyMinute = CurrentMinute + atoi(PreparationTime);
             ReadyHour = CurrentHour;
@@ -1153,49 +1111,46 @@ void AproveTheOrder(int orderNumber)
     }
     fclose(file);
 
-    //From The Cooks.dat loop through the file and get the first AsciID that has smaller time than the current time
 
 
-
+    //compare the cookers time to the current time if cookers time is smaller get the AsciID
+    Cook cook;
+    FILE *file8;
+    file8 = fopen("Cooks.dat", "rb");
+    if (file8 == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
 
     int AsciID = -1;
-    FILE *file8;
-    file8 = fopen("TextFiles/Cooks.dat", "r");
-    if(file8 == NULL) {
-        printf("Error: File not found\n");
-    }
-    int AsciIDTemp;
-    int CookMinute;
-    int CookHour;
-    int CookDay;
-    int CookMonth;
-    int CookYear;
 
+    while (fread(&cook, sizeof(Cook), 1, file8))
+    {
+        int CookMinute = atoi(cook.Minute);
+        int CookHour = atoi(cook.Hour);
+        int CookDay = atoi(cook.Day);
+        int CookMonth = atoi(cook.Month);
+        int CookYear = atoi(cook.Year);
 
-    while (fread(&AsciIDTemp, sizeof(int), 1, file8)) {
-        fread(&CookMinute, sizeof(int), 1, file8);
-        fread(&CookHour, sizeof(int), 1, file8);
-        fread(&CookDay, sizeof(int), 1, file8);
-        fread(&CookMonth, sizeof(int), 1, file8);
-        fread(&CookYear, sizeof(int), 1, file8);
         if (CookYear < CurrentYear) {
-            AsciID = AsciIDTemp;
+            AsciID = atoi(cook.ID);
             break;
         } else if (CookYear == CurrentYear) {
             if (CookMonth < CurrentMonth) {
-                AsciID = AsciIDTemp;
+                AsciID = atoi(cook.ID);
                 break;
             } else if (CookMonth == CurrentMonth) {
                 if (CookDay < CurrentDay) {
-                    AsciID = AsciIDTemp;
+                    AsciID = atoi(cook.ID);
                     break;
                 } else if (CookDay == CurrentDay) {
                     if (CookHour < CurrentHour) {
-                        AsciID = AsciIDTemp;
+                        AsciID = atoi(cook.ID);
                         break;
                     } else if (CookHour == CurrentHour) {
                         if (CookMinute < CurrentMinute) {
-                            AsciID = AsciIDTemp;
+                            AsciID = atoi(cook.ID);
                             break;
                         }
                     }
@@ -1203,14 +1158,14 @@ void AproveTheOrder(int orderNumber)
             }
         }
     }
+
     fclose(file8);
 
-    if (AsciID == -1) {
-        printf("There is no cook available to prepare the food.\n");
+    if(AsciID == -1)
+    {
+        printf("There is no available cook to prepare the food.\n");
         return;
     }
-
-
 
     //change the state to SIP
 
@@ -1228,7 +1183,7 @@ void AproveTheOrder(int orderNumber)
     while (fgets(line, sizeof(line), file)) {
         count++;
         if (count == orderNumber) {
-            fprintf(file2, "%d -- %s/%s/%s_%s -- %s-- %sTL -- %s-- %s-- SIP -- %d/%d/%d_%d:%d -- %d/%d/%d_%d:%d -- %sA\n",
+            fprintf(file2, "%d -- %s/%s/%s_%s -- %s-- %sTL -- %s-- %s-- SIP -- %d/%d/%d_%d:%d -- %d/%d/%d_%d:%d -- %dA\n",
             count, Year, Month, Day, ID, FoodName, FoodPrice, PreparationTime, CustomerName,
             CurrentYear, CurrentMonth, CurrentDay, CurrentHour, CurrentMinute, 
             ReadyYear, ReadyMonth, ReadyDay, ReadyHour, ReadyMinute, AsciID);
@@ -1239,11 +1194,42 @@ void AproveTheOrder(int orderNumber)
 
     fclose(file);
     fclose(file2);
+
     remove("TextFiles/OrderList.txt");
     rename("TextFiles/OrderListTemp.txt", "TextFiles/OrderList.txt");
-    printf("The order has been aproved.\n");
+    
+
+    //for the cooks time insert the ReadyYear, ReadyMonth, ReadyDay, ReadyHour, ReadyMinute to the Cooks.dat file
+
+    
+
 }
 
+void CreateSampleCooksFromKitchen()
+{
+    FILE *file;
+    file = fopen("Cooks.dat", "ab");
+    if (file == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    Cook cook;
+    int i;
+    for (i = 0; i < 10; i++)
+    {
+        sprintf(cook.ID, "%d", i);
+        strcpy(cook.Year, "1970");
+        strcpy(cook.Month, "01");
+        strcpy(cook.Day, "01");
+        strcpy(cook.Hour, "00");
+        strcpy(cook.Minute, "00");
+        strcpy(cook.Second, "00");
+        fwrite(&cook, sizeof(Cook), 1, file);
+    }
+    fclose(file);
+
+}
 
 
 #endif // RESTAURANT_H
