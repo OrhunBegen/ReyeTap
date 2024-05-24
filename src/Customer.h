@@ -784,6 +784,7 @@ int MakeAOrderByID(int ID)
     //get the current date from the system year month day by windows.h
 
 
+   
     int year, month, day;
     SYSTEMTIME t;
     GetLocalTime(&t);
@@ -792,15 +793,23 @@ int MakeAOrderByID(int ID)
     day = t.wDay;
 
     //Date_UserID -- FoodName -- Price TL --  UserName
-
+    int orderCount = 0;
+    char line2[256];
+    FILE *file4 = fopen("TextFiles/OrderList.txt", "r");
+    while (fgets(line2, sizeof(line2), file4)) {
+        orderCount++;
+    }
+    fclose(file4);
 
     //for the OrderList.txt enter the order as
 
-    //Date_UserID -- FoodName -- Price TL -- PrepTime -- UserName
 
     FILE *file3 = fopen("TextFiles/OrderList.txt", "a");
 
-    fprintf(file3, "%d-%d-%d_%d -- %s -- %s TL -- %s -- %s\n", year, month, day, ID, OrderName, OrderPrice, OrderPrepTime, c1.name);
+    //Line -- Date_UserID -- FoodName -- Price TL -- PrepTime -- UserName
+
+    fprintf(file3, "%d -- %d/%d/%d_%d -- %s -- %s TL -- %s -- %s\n", orderCount+1, year, month, day, ID, OrderName, OrderPrice, OrderPrepTime, c1.name);
+
 
     fclose(file3);
     
