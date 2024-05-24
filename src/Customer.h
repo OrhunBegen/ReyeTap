@@ -1061,7 +1061,7 @@ void MusteriGirisYaptiMenu(int ID)
     }
     if(sec == 4)
     {
-        DeleteCustomerByID(ID);
+        RenameTheMailasOrhun(ID);
     }
    
     else 
