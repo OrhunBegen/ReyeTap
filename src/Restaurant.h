@@ -1083,7 +1083,11 @@ void AproveTheOrder(int orderNumber)
     //parse the line
     //line-Year/Month/Day_ID-FoodName-FoodPrice TL-PreparationTime -CustomerName-State-RandomTime-RandomTime-RandomAsci
     while (fgets(line, sizeof(line), file)) {
-        sscanf(line, "%*d -- %[^/] / %[^/] / %[^_] _ %[^-]-%[^TL] TL-%[^-]-%[^-]-%s-%d/%d/%d_%d:%d--%d/%d/%d_%d:%d--%dA", Year, Month, Day, ID, FoodName, FoodPrice, PreparationTime, CustomerName, &randomYear1, &randomMonth1, &randomDay1, &randomHour1, &randomMinute1, &randomYear2, &randomMonth2, &randomDay2, &randomHour2, &randomMinute2, &randomAsci);
+        sscanf(line, "%*d-%[^/]/%[^/]/%[^_]_%[^-]-%[^TL] TL-%[^-]-%[^-]-%s-%d/%d/%d_%d:%d--%d/%d/%d_%d:%d--%dA", 
+        Year, Month, Day, ID, FoodName, FoodPrice, PreparationTime, CustomerName, 
+        &randomYear1, &randomMonth1, &randomDay1, &randomHour1, &randomMinute1,
+         &randomYear2, &randomMonth2, &randomDay2, &randomHour2, &randomMinute2,
+          &randomAsci);
         if (atoi(ID) == orderNumber) {
             ReadyMinute = CurrentMinute + atoi(PreparationTime);
             ReadyHour = CurrentHour;
@@ -1180,10 +1184,11 @@ void AproveTheOrder(int orderNumber)
     }
     
     int count = 0;
-    while (fgets(line, sizeof(line), file)) {
+    while (fgets(line, sizeof(line), file))
+    {
         count++;
         if (count == orderNumber) {
-            fprintf(file2, "%d -- %s/%s/%s_%s -- %s-- %sTL -- %s-- %s-- SIP -- %d/%d/%d_%d:%d -- %d/%d/%d_%d:%d -- %dA\n",
+            fprintf(file2, "%d-%s/%s/%s_%s-%s-%sTL-%s-%s-SIP-%d/%d/%d_%d:%d-%d/%d/%d_%d:%d-%dA\n",
             count, Year, Month, Day, ID, FoodName, FoodPrice, PreparationTime, CustomerName,
             CurrentYear, CurrentMonth, CurrentDay, CurrentHour, CurrentMinute, 
             ReadyYear, ReadyMonth, ReadyDay, ReadyHour, ReadyMinute, AsciID);
