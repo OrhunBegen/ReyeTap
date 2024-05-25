@@ -1516,6 +1516,23 @@ void DailyCreationOfTxt()
         }    
     }
     fclose(file);
+
+
+    //OPEN THE OrderList.txt
+    //clear the OrderList.txt
+
+    FILE *file3;
+    file3 = fopen("TextFiles/OrderList.txt", "w");
+    if(file3 == NULL) {
+        printf("Error: File not found\n");
+    }
+    fclose(file3);
+
+    
+
+
+
+
 }
 
 
