@@ -9,6 +9,14 @@
 
 #include "Kitchen.h"
 
+typedef struct FoodList
+{
+    int FoodQuantity;
+    int FoodPrice;
+    char FoodName[30];
+}FoodList;
+
+
 // Function prototypes
 void RestaurantMainMenu();
 
@@ -1297,37 +1305,64 @@ void AproveTheOrder(int orderNumber)
     //if the food is in the txt increase the quantity
     //if the food is not in the txt add the food to the txt
     
-    int FoodListQuantity;
-    int FoodListFoodPrice;
-    char FoodListFoodName[30];
+    // int FoodListQuantity;
+    // int FoodListFoodPrice;
+    // char FoodListFoodName[30];
 
-    FILE *file7;
-    file7 = fopen("TextFiles/AllTimeFood.txt", "r");
-    if(file7 == NULL) {
+    // FILE *file7;
+    // file7 = fopen("TextFiles/AllTimeFood.txt", "r");
+    // if(file7 == NULL) {
+    //     printf("Error: File not found\n");
+    // }
+    // FILE *file8;
+    // file8 = fopen("TextFiles/AllTimeFoodTemp.txt", "w");
+    // if(file8 == NULL) {
+    //     printf("Error: File not found\n");
+    // }
+
+    // int found = 0;
+    // while (fscanf(file7, "%[^-]-%d TL-%d\n", FoodListFoodName, &FoodListFoodPrice, &FoodListQuantity) == 3) {
+    //     if (strcmp(FoodListFoodName, FoodName) == 0) {
+    //         found = 1;
+    //         fprintf(file8, "%s-%d TL-%d\n", FoodListFoodName, FoodListFoodPrice, FoodListQuantity+1);
+    //     } else {
+    //         fprintf(file8, "%s-%d TL-%d\n", FoodListFoodName, FoodListFoodPrice, FoodListQuantity);
+    //     }
+    // }
+    // if (found == 0) {
+    //     fprintf(file8, "%s-%d TL-%d\n", FoodName, atoi(FoodPrice), 1);
+    // }
+    // fclose(file7);
+    // fclose(file8);
+    // remove("TextFiles/AllTimeFood.txt");
+    // rename("TextFiles/AllTimeFoodTemp.txt", "TextFiles/AllTimeFood.txt");
+
+    FoodList f1;
+    FoodList f2;
+
+
+    FILE *file9;
+    file9 = fopen("AlltimeFoodList.dat", "a+b");
+    if(file9 == NULL) {
         printf("Error: File not found\n");
     }
-    FILE *file8;
-    file8 = fopen("TextFiles/AllTimeFoodTemp.txt", "w");
-    if(file8 == NULL) {
-        printf("Error: File not found\n");
-    }
-
+    f1.FoodQuantity = 0;
+    //check if the food is in the dat 
+    //if the food is in the dat increase the quantity
+    //if the food is not in the dat add the food to the dat
     int found = 0;
-    while (fscanf(file7, "%[^-]-%d TL-%d\n", FoodListFoodName, &FoodListFoodPrice, &FoodListQuantity) == 3) {
-        if (strcmp(FoodListFoodName, FoodName) == 0) {
+    // check if the food is in the dat
+    int FoodQuantity;
+    while (fscanf(file9, "%[^-]-%d TL-%d\n", FoodName, &FoodPrice, &FoodQuantity ) == 3) {
+        if (strcmp(f2.FoodName, FoodName) == 0) {
             found = 1;
-            fprintf(file8, "%s-%d TL-%d\n", FoodListFoodName, FoodListFoodPrice, FoodListQuantity+1);
-        } else {
-            fprintf(file8, "%s-%d TL-%d\n", FoodListFoodName, FoodListFoodPrice, FoodListQuantity);
+            f2.FoodQuantity++;
+            fseek(file9, -sizeof(FoodList), SEEK_CUR);
+            fwrite(&f2, sizeof(FoodList), 1, file9);
+            break;
         }
     }
-    if (found == 0) {
-        fprintf(file8, "%s-%d TL-%d\n", FoodName, atoi(FoodPrice), 1);
-    }
-    fclose(file7);
-    fclose(file8);
-    remove("TextFiles/AllTimeFood.txt");
-    rename("TextFiles/AllTimeFoodTemp.txt", "TextFiles/AllTimeFood.txt");
+    fclose(file9);
 }
 
 void Cooks()
@@ -1440,14 +1475,9 @@ void DailyCreationOfTxt()
   
     while (fgets(line, sizeof(line), file)) 
     {
-        sscanf(line, "%d-%d/%d/%d_%d-%[^-]-%[^TL]TL-%[^-]-%[^-]-%[^-]-%d/%d/%d_%d:%d-%d/%d/%d_%d:%d-%[^-]", 
-        &OrderNumber, &Year, &Month, &Day, &CustomerID, FoodName, Price, PrepTime, UserName, State, 
-        &AcceptYear, &AcceptMonth, &AcceptDay, &AcceptHour, &AcceptMinute, 
-        &ReadyYear, &ReadyMonth, &ReadyDay, &ReadyHour, &ReadyMinute, CooksID);
-        
         //here what happens will be happened
 
-        sscanf(line, "%d-%d/%d/%d_%d-%[^-]-%[^TL]TL-%[^-]-%[^-]-%[^-]-%d/%d/%d_%d:%d-%d/%d/%d_%d:%d-%[^-]", 
+        sscanf(line, "%d-%d/%d/%d_%d-%[^-]-%[^TL]TL-%[^-]-%[^-]-%[^-]-%d/%d/%d_%d:%d-%d/%d/%d_%d:%d-%[^\n]", 
         &OrderNumber, &Year, &Month, &Day, &CustomerID, FoodName, Price, PrepTime, UserName, State, 
         &AcceptYear, &AcceptMonth, &AcceptDay, &AcceptHour, &AcceptMinute, 
         &ReadyYear, &ReadyMonth, &ReadyDay, &ReadyHour, &ReadyMinute, CooksID);
@@ -1462,34 +1492,31 @@ void DailyCreationOfTxt()
         //then we will create a new txt file by tne name of the current date like 2024/5/25.txt
         //and we will print the lines that only contain SIP inside the txt file
 
+        //if it does not exist create a new file
+        //if it exists open the file and write inside the file
+        //check if the txt exists
+        //if it does not exist create a new file
+        //if it exists open the file and write inside the file
+
         sprintf(NewFileName, "TextFiles/%d-%d-%d.txt", Year, Month, Day);
         FILE *file2;
-        file2 = fopen(NewFileName, "w");
+        file2 = fopen(NewFileName, "a");
         if(file2 == NULL) {
             printf("Error: File not found\n");
         }
-        //if in line there is a SIP word print the line inside the txt file
-        if (strstr(line, "SIP") != NULL){
+
+        //if the there is a SIP in the line print the line inside the txt file
+        if (strcmp(State, "SIP") == 0) {
             fprintf(file2, "%d-%d/%d/%d_%d-%s-%sTL-%s-%s-%s-%d/%d/%d_%d:%d-%d/%d/%d_%d:%d-%s\n", 
             OrderNumber, Year, Month, Day, CustomerID, FoodName, Price, PrepTime, UserName, State, 
             AcceptYear, AcceptMonth, AcceptDay, AcceptHour, AcceptMinute, 
             ReadyYear, ReadyMonth, ReadyDay, ReadyHour, ReadyMinute, CooksID);
         }
-
         fclose(file2);
-        }
+        }    
     }
     fclose(file);
 }
-
-
-
-
-
-
-
-
-
 
 
 
