@@ -808,7 +808,7 @@ int MakeAOrderByID(int ID)
 
     //Line -- Date_UserID -- FoodName -- Price TL -- PrepTime -- UserName
 
-    fprintf(file3, "%d-%d/%d/%d_%d-%s-%sTL-%s-%s-Wait-2020/12/12_21:59-2020/12/12_22:19-0A\n", orderCount+1, year, month, day, ID, OrderName, OrderPrice, OrderPrepTime, c1.name);
+    fprintf(file3, "%d-%d/%d/%d_%d-%s-%sTL-%s-%s-Wait\n", orderCount+1, year, month, day, ID, OrderName, OrderPrice, OrderPrepTime, c1.name);
 
 
     fclose(file3);
