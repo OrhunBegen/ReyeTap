@@ -50,6 +50,14 @@ int AproveOrDeclineSystem();
 void DeclineTheOrder(int LineNumber);
 void AproveTheOrder(int LineNumber);
 
+
+void BetweenTwoDatesGetTheTotalSellMoney()
+{
+    
+
+
+}
+
 //add functions
 
 void createFoodListFile() {
@@ -1518,19 +1526,16 @@ void DailyCreationOfTxt()
     fclose(file);
 
 
-    //OPEN THE OrderList.txt
-    //clear the OrderList.txt
+    //Remove the OrderList.txt
+    //Create a new OrderList.txt
 
+    remove("TextFiles/OrderList.txt");
     FILE *file3;
     file3 = fopen("TextFiles/OrderList.txt", "w");
     if(file3 == NULL) {
         printf("Error: File not found\n");
     }
     fclose(file3);
-
-    
-
-
 
 
 }
