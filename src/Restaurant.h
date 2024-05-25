@@ -1839,6 +1839,51 @@ void BringTheMostProfitFood()
     }
     fclose(file);
     printf("The most profit food is %s with a profit of %d TL and a quantity of %d\n", mostProfitFood, maxProfit, mostProfitQuantity);
-    
+
 }
+
+void BringTheLeastProfitFood()
+{
+    //open the AllTimeFood.dat
+    //read the file
+    //find the least profit food
+    //print the least profit food
+    //print the profit and the quantity
+
+    FILE *file;
+    file = fopen("AllTimeFood.dat", "rb");
+    if (file == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    FoodList foodList;
+    int minProfit = 1000000;
+    char leastProfitFood[30];
+    int leastProfitQuantity = 0;
+    while (fread(&foodList, sizeof(FoodList), 1, file))
+    {
+        if (foodList.FoodPrice * foodList.FoodQuantity < minProfit) {
+            minProfit = foodList.FoodPrice * foodList.FoodQuantity;
+            strcpy(leastProfitFood, foodList.FoodName);
+            leastProfitQuantity = foodList.FoodQuantity;
+        }
+    }
+    fclose(file);
+    printf("The least profit food is %s with a profit of %d TL and a quantity of %d\n", leastProfitFood, minProfit, leastProfitQuantity);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #endif // RESTAURANT_H
