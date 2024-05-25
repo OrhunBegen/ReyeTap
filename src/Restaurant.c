@@ -5,7 +5,7 @@ void createTitle();
 int main()
 {
     
-    DailyCreationOfTxt();
+    BringTheFoodListDat();
    
     return 0;
 }

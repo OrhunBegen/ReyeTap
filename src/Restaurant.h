@@ -53,7 +53,91 @@ void AproveTheOrder(int LineNumber);
 
 void BetweenTwoDatesGetTheTotalSellMoney()
 {
-    
+  
+    printf("Enter the year: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the year again
+    char year[5];
+    int validYear = 0;
+    while (!validYear) {
+        scanf("%s", year);
+        validYear = ScanfOnlyNumeric(year) && atoi(year) > 0;
+        if (!validYear) {
+            printf("Non-numeric characters are not allowed. Please enter the year again.\n");
+        }
+    }
+
+    printf("Enter the month: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the month again
+    char month[3];
+    int validMonth = 0;
+    while (!validMonth) {
+        scanf("%s", month);
+        validMonth = ScanfOnlyNumeric(month) && atoi(month) > 0 && atoi(month) < 13;
+        if (!validMonth) {
+            printf("Non-numeric characters are not allowed. Please enter the month again.\n");
+        }
+    }
+
+    printf("Enter the day: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the day again
+    char day[3];
+    int validDay = 0;
+    while (!validDay) {
+        scanf("%s", day);
+        validDay = ScanfOnlyNumeric(day) && atoi(day) > 0 && atoi(day) < 32;
+        if (!validDay) {
+            printf("Non-numeric characters are not allowed. Please enter the day again.\n");
+        }
+    }
+
+    printf("Enter the year1: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the year1 again
+    char year1[5];
+    int validYear1 = 0;
+    while (!validYear1) {
+        scanf("%s", year1);
+        validYear1 = ScanfOnlyNumeric(year1) && atoi(year1) > 0;
+        if (!validYear1) {
+            printf("Non-numeric characters are not allowed. Please enter the year1 again.\n");
+        }
+    }
+
+    printf("Enter the month1: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the month1 again
+    char month1[3];
+    int validMonth1 = 0;
+    while (!validMonth1) {
+        scanf("%s", month1);
+        validMonth1 = ScanfOnlyNumeric(month1) && atoi(month1) > 0 && atoi(month1) < 13;
+        if (!validMonth1) {
+            printf("Non-numeric characters are not allowed. Please enter the month1 again.\n");
+        }
+    }
+
+    printf("Enter the day1: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the day1 again
+    char day1[3];
+    int validDay1 = 0;
+    while (!validDay1) {
+        scanf("%s", day1);
+        validDay1 = ScanfOnlyNumeric(day1) && atoi(day1) > 0 && atoi(day1) < 32;
+        if (!validDay1) {
+            printf("Non-numeric characters are not allowed. Please enter the day1 again.\n");
+        }
+    }
+
+    int TotalSellMoney = 0;
+
+
+
+
+
 
 
 }
@@ -1540,6 +1624,23 @@ void DailyCreationOfTxt()
 
 }
 
-
+void BringTheFoodListDat()
+{
+    FILE *file;
+    file = fopen("AlltimeFoodList.dat", "rb");
+    if (file == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    FoodList foodList;
+    while (fread(&foodList, sizeof(FoodList), 1, file))
+    {
+        printf("Food Name: %s\n", foodList.FoodName);
+        printf("Food Price: %d\n", foodList.FoodPrice);
+        printf("Food Quantity: %d\n", foodList.FoodQuantity);
+    }
+    fclose(file);
+}
 
 #endif // RESTAURANT_H
