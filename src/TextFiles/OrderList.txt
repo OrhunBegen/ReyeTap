@@ -1,10 +1,4 @@
-1-2024/5/25_4-Fish Burger  -25  TL-20 -mustafa -SIP-2024/5/25_16:39-2024/5/25_16:59 -3
-2-2024/5/25_4-Veggie Burger  -17  TL-13 -mustafa -SIP-2024/5/25_16:38-2024/5/25_16:51 -3
-3-2024/5/25_4-Onion Rings -12 TL-7 -mustafa-Wait
-4-2024/5/25_4-Veggie Burger -17 TL-13 -mustafa-Wait
-5-2024/5/25_4-Fish Burger -25 TL-20 -mustafa-Wait
-6-2024/5/25_4-French Fries -10 TL-5 -mustafa-Wait
-7-2024/5/25_4-Fish Burger -25 TL-20 -mustafa-Wait
-8-2024/5/25_4-Veggie Burger -17 TL-13 -mustafa-Wait
-9-2024/5/25_4-French Fries -10 TL-5 -mustafa-Wait
-10-2024/5/25_4-Onion Rings -12 TL-7 -mustafa-Wait
+1-2024/5/25_7-Onion Rings  -12  TL-7 -orhun -SIP-2024/5/25_17:33-2024/5/25_17:40 -8
+2-2024/5/25_7-French Fries  -10  TL-5 -orhun -SIP-2024/5/25_17:33-2024/5/25_17:38 -9
+3-2024/5/25_7-Veggie Burger  -17  TL-13 -orhun -SIP-2024/5/25_17:32-2024/5/25_17:45 -7
+4-2024/5/25_7-Fish Burger  -25  TL-20 -orhun -SIP-2024/5/25_17:37-2024/5/25_17:57 -3

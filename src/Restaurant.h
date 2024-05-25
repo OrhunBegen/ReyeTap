@@ -9,15 +9,6 @@
 
 #include "Kitchen.h"
 
-typedef struct AllTimeFood {
-    
-    char FoodName[30];
-    int FoodPrice;
-    int Quantity;
-
-} AllTimeFood;
-
-
 // Function prototypes
 void RestaurantMainMenu();
 
@@ -1183,7 +1174,7 @@ void AproveTheOrder(int orderNumber)
             sprintf(cook2.Month, "%d", ReadyMonth);
             sprintf(cook2.Day, "%d", ReadyDay);
             sprintf(cook2.Hour, "%d", ReadyHour);
-            sprintf(cook2.Minute, "%d", ReadyMinute);
+            sprintf(cook2.Minute, "%d", ReadyMinute+1);
         }
         fwrite(&cook2, sizeof(Cook), 1, file6);
     }
@@ -1231,61 +1222,19 @@ void AproveTheOrder(int orderNumber)
 
     printf("The order has been approved.\n");
 
-    //if FoodName doesnt exist in AllTimeFood.dat add it to the AllTimeFood.dat and set the quantity to 1 and the price to the FoodPrice
-    //if FoodName exists in AllTimeFood.dat increase the quantity by 1
 
-    FILE *file7;
-    file7 = fopen("AllTimeFood.dat", "rb");
-    if (file7 == NULL)
-    {
-        printf("Error opening file!\n");
-        exit(1);
-    }
-    FILE *file8;
-    file8 = fopen("AllTimeFoodTemp.dat", "wb");
-    if (file8 == NULL)
-    {
-        printf("Error opening file!\n");
-        exit(1);
-    }
+    //open all time food txt
+    //line-FoodName-FoodPrice-Quantity
+    //if the food is in the txt increase the quantity
+    //if the food is not in the txt add the food to the txt
+    
 
-    AllTimeFood allTimeFood;
-    int found = 0;
-    while (fread(&allTimeFood, sizeof(AllTimeFood), 1, file7))
-    {
-        if (strcmp(allTimeFood.FoodName, FoodName) == 0) {
-            allTimeFood.Quantity++;
-            found = 1;
-        }
-        fwrite(&allTimeFood, sizeof(AllTimeFood), 1, file8);
-    }
-    fclose(file7);
-    fclose(file8);
-    remove("AllTimeFood.dat");
-    rename("AllTimeFoodTemp.dat", "AllTimeFood.dat");
 
-  
-}
 
-void printAllTimeFood()
-{
-    FILE *file;
-    file = fopen("AllTimeFood.dat", "rb");
-    if (file == NULL)
-    {
-        printf("Error opening file!\n");
-        exit(1);
-    }
-    AllTimeFood allTimeFood;
-    while (fread(&allTimeFood, sizeof(AllTimeFood), 1, file))
-    {
-        printf("Food Name: %s\n", allTimeFood.FoodName);
-        printf("Food Price: %d\n", allTimeFood.FoodPrice);
-        printf("Quantity: %d\n", allTimeFood.Quantity);
-    }
-    fclose(file);
 
 }
+
+
 
 
 void Cooks()
@@ -1309,22 +1258,31 @@ void Cooks()
         printf("Second: %s\n", cook.Second);
     }
     fclose(file);
+
+
+
+
+
+
+
+
+
+
 }
 
 
-void AllTimeFoodDat()
+void CreateAllTimeFoodTxt()
 {
-    FILE *file;
-    file = fopen("AllTimeFood.dat", "wb");
-    if (file == NULL)
-    {
-        printf("Error opening file!\n");
-        exit(1);
+   
+    FILE *file2;
+    file2 = fopen("TextFiles/AllTimeFood.txt", "w");
+    if(file2 == NULL) {
+        printf("Error: File not found\n");
     }
-    fclose(file);
+
+    fclose(file2);   
 
 }
-
 
 #endif // RESTAURANT_H
 
