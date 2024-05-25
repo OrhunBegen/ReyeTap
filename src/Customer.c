@@ -74,7 +74,7 @@ int menu2(int argc, char *argv[])
 int main()
 {
     int x = 7;
-    BringActiveOrders(x);
+    BringPassedOrders(x);
 
 
 }
