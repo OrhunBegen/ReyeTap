@@ -267,6 +267,89 @@ void DailyTotalSellMoney()
 
 }
 
+void MonthlySellMoney()
+{
+    char year[5];
+    char month[3];
+
+    printf("Enter the year: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the year again
+    int validYear = 0;
+    while (!validYear) {
+        scanf("%s", year);
+        validYear = ScanfOnlyNumeric(year) && atoi(year) > 0;
+        if (!validYear) {
+            printf("Non-numeric characters are not allowed. Please enter the year again.\n");
+        }
+    }
+
+    printf("Enter the month: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the month again
+    int validMonth = 0;
+    while (!validMonth) {
+        scanf("%s", month);
+        validMonth = ScanfOnlyNumeric(month) && atoi(month) > 0 && atoi(month) < 13;
+        if (!validMonth) {
+            printf("Non-numeric characters are not allowed. Please enter the month again.\n");
+        }
+    }
+
+    //year-month-day.txt open this file
+    //day start from 1 and end at 31
+
+    int totalSellMoney = 0;
+
+    for (int i = 1; i < 32; i++)
+    {
+        FILE *file;
+        char fileName[20];
+        sprintf(fileName, "TextFiles/%s-%s-%d.txt", year, month, i);
+        file = fopen(fileName, "a");
+        if (file == NULL) {
+            continue;
+        }
+        char line[100];
+        while (fgets(line, sizeof(line), file))
+        {
+            int OrderNumber;
+            int Year;
+            int Month;
+            int Day;
+            int CustomerID;
+            char FoodName[50];
+            char Price[50];
+            char PrepTime[50];
+            char UserName[50];
+            char State[50];
+            int AcceptYear;
+            int AcceptMonth;
+            int AcceptDay;
+            int AcceptHour;
+            int AcceptMinute;
+            int ReadyYear;
+            int ReadyMonth;
+            int ReadyDay;
+            int ReadyHour;
+            int ReadyMinute;
+            char CooksID[4];
+
+            sscanf(line, "%d-%d/%d/%d_%d-%[^-]-%[^TL]TL-%[^-]-%[^-]-%[^-]-%d/%d/%d_%d:%d-%d/%d/%d_%d:%d-%[^-]", 
+            &OrderNumber, &Year, &Month, &Day, &CustomerID, FoodName, Price, PrepTime, UserName, State, 
+            &AcceptYear, &AcceptMonth, &AcceptDay, &AcceptHour, &AcceptMinute, 
+            &ReadyYear, &ReadyMonth, &ReadyDay, &ReadyHour, &ReadyMinute, CooksID);
+            if (strcmp(State, "SIP") == 0)
+            {
+                totalSellMoney += atoi(Price);
+            }
+        }
+        fclose(file);
+    }
+    printf("The total sell money on %s-%s is %d TL.\n", year, month, totalSellMoney);
+
+}
+
 //add functions
 
 void createFoodListFile() {
@@ -1872,18 +1955,6 @@ void BringTheLeastProfitFood()
     fclose(file);
     printf("The least profit food is %s with a profit of %d TL and a quantity of %d\n", leastProfitFood, minProfit, leastProfitQuantity);
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #endif // RESTAURANT_H
