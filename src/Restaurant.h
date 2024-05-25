@@ -154,11 +154,6 @@ void BetweenTwoDatesGetTheTotalSellMoney()
         return;
     }
 
-    
-    
-
-
-
 }
 
 void DailyTotalSellMoney()
@@ -1559,6 +1554,44 @@ void AproveTheOrder(int orderNumber)
     remove("TextFiles/AllTimeFood.txt");
     rename("TextFiles/AllTimeFoodTemp.txt", "TextFiles/AllTimeFood.txt");
 
+
+    //do the same for the AllTimeFood.dat from the FoodList struct
+
+    FILE *file9;
+    file9 = fopen("AllTimeFood.dat", "rb");
+    if (file9 == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    FILE *file10;
+    file10 = fopen("AllTimeFoodTemp.dat", "wb");
+    if (file10 == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    FoodList foodList;
+    found = 0;
+    while (fread(&foodList, sizeof(FoodList), 1, file9))
+    {
+        if (strcmp(foodList.FoodName, FoodName) == 0) {
+            found = 1;
+            foodList.FoodQuantity++;
+        }
+        fwrite(&foodList, sizeof(FoodList), 1, file10);
+    }
+    if (found == 0) {
+        strcpy(foodList.FoodName, FoodName);
+        foodList.FoodPrice = atoi(FoodPrice);
+        foodList.FoodQuantity = 1;
+        fwrite(&foodList, sizeof(FoodList), 1, file10);
+    }
+    fclose(file9);
+    fclose(file10);
+    remove("AllTimeFood.dat");
+    rename("AllTimeFoodTemp.dat", "AllTimeFood.dat");
+
 }
 
 void Cooks()
@@ -1742,7 +1775,70 @@ void BringTheAllTimeFoodTxt()
     fclose(file);
 }
 
+void CreateTheAllTimeFoodData()
+{
 
+    //create  AllTimeFood.dat
 
+    FILE *file;
+    file = fopen("AllTimeFood.dat", "wb");
+    if (file == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    fclose(file);
 
+}
+
+void BringTheAllTimeFoodData()
+{
+    FILE *file;
+    file = fopen("AllTimeFood.dat", "rb");
+    if (file == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    FoodList foodList;
+    while (fread(&foodList, sizeof(FoodList), 1, file))
+    {
+        printf("Food Name: %s\n", foodList.FoodName);
+        printf("Food Price: %d\n", foodList.FoodPrice);
+        printf("Food Quantity: %d\n", foodList.FoodQuantity);
+    }
+    fclose(file);
+}
+
+void BringTheMostProfitFood()
+{
+    //open the AllTimeFood.dat
+    //read the file
+    //find the most profit food
+    //print the most profit food
+    //print the profit and the quantity
+
+    FILE *file;
+    file = fopen("AllTimeFood.dat", "rb");
+    if (file == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    FoodList foodList;
+    int maxProfit = 0;
+    char mostProfitFood[30];
+    int mostProfitQuantity = 0;
+    while (fread(&foodList, sizeof(FoodList), 1, file))
+    {
+        if (foodList.FoodPrice * foodList.FoodQuantity > maxProfit) {
+            maxProfit = foodList.FoodPrice * foodList.FoodQuantity;
+            strcpy(mostProfitFood, foodList.FoodName);
+            mostProfitQuantity = foodList.FoodQuantity;
+        }
+    }
+    fclose(file);
+    printf("The most profit food is %s with a profit of %d TL and a quantity of %d\n", mostProfitFood, maxProfit, mostProfitQuantity);
+    
+}
 #endif // RESTAURANT_H
