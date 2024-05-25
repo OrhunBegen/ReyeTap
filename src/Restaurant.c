@@ -5,7 +5,7 @@ void createTitle();
 int main()
 {
     
-    BringTheFoodListDat();
+    DailyTotalSellMoney();
    
     return 0;
 }

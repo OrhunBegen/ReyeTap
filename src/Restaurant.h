@@ -50,6 +50,9 @@ int AproveOrDeclineSystem();
 void DeclineTheOrder(int LineNumber);
 void AproveTheOrder(int LineNumber);
 
+void BetweenTwoDatesGetTheTotalSellMoney();
+void DailyTotalSellMoney();
+
 
 void BetweenTwoDatesGetTheTotalSellMoney()
 {
@@ -131,17 +134,142 @@ void BetweenTwoDatesGetTheTotalSellMoney()
             printf("Non-numeric characters are not allowed. Please enter the day1 again.\n");
         }
     }
+    //year-month-day.txt  year1-month1-day1.txt between these two dates
+    //find the total sell money
+    //print the total sell money
 
-    int TotalSellMoney = 0;
+    if(year1 < year)
+    {
+        printf("Invalid date range\n");
+        return;
+    }
+    if(year1 == year && month1 < month)
+    {
+        printf("Invalid date range\n");
+        return;
+    }
+    if(year1 == year && month1 == month && day1 < day)
+    {
+        printf("Invalid date range\n");
+        return;
+    }
 
-
-
-
+    
 
 
 
 }
 
+void DailyTotalSellMoney()
+{
+    int OrderNumber;
+    int Year;
+    int Month;
+    int Day;
+    int CustomerID;
+
+    char FoodName[50];
+    char Price[50];
+    char PrepTime[50];
+    char UserName[50];
+    char State[50];
+
+    int AcceptYear;
+    int AcceptMonth;
+    int AcceptDay;
+    int AcceptHour;
+    int AcceptMinute;
+
+    int ReadyYear;
+    int ReadyMonth;
+    int ReadyDay;
+    int ReadyHour;
+    int ReadyMinute;
+
+    char CooksID[4];
+
+    //can only enter numbers cant be negative
+    printf("Enter the year: ");
+    //if the user enters a non-numeric character ask for the year again
+    char year[5];
+    int validYear = 0;
+    while (!validYear) {
+        scanf("%s", year);
+        validYear = ScanfOnlyNumeric(year) && atoi(year) > 0;
+        if (!validYear) {
+            printf("Non-numeric characters are not allowed. Please enter the year again.\n");
+        }
+    }
+
+    printf("Enter the month: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the month again
+    char month[3];
+    int validMonth = 0;
+    while (!validMonth) {
+        scanf("%s", month);
+        validMonth = ScanfOnlyNumeric(month) && atoi(month) > 0 && atoi(month) < 13;
+        if (!validMonth) {
+            printf("Non-numeric characters are not allowed. Please enter the month again.\n");
+        }
+    }
+
+    printf("Enter the day: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the day again
+    char day[3];
+    int validDay = 0;
+    while (!validDay) {
+        scanf("%s", day);
+        validDay = ScanfOnlyNumeric(day) && atoi(day) > 0 && atoi(day) < 32;
+        if (!validDay) {
+            printf("Non-numeric characters are not allowed. Please enter the day again.\n");
+        }
+    }
+
+    //if the file is not found print "No orders have been made on this date or date is wrong."
+    //find the total sell money
+
+    //print the total sell money
+    
+    //year-month-day.txt open this file
+
+    FILE *file;
+    char fileName[20];
+    sprintf(fileName, "TextFiles/%s-%s-%s.txt", year, month, day);
+
+    file = fopen(fileName, "r");
+    if (file == NULL) {
+        printf("No orders have been made on this date or date is wrong.\n");
+        return;
+    }
+
+    char line[100];
+    int totalSellMoney = 0;
+    
+    //parse the lines and
+    //find the total sell money
+
+     while (fgets(line, sizeof(line), file)) 
+    {
+        sscanf(line, "%d-%d/%d/%d_%d-%[^-]-%[^TL]TL-%[^-]-%[^-]-%[^-]-%d/%d/%d_%d:%d-%d/%d/%d_%d:%d-%[^-]", 
+        &OrderNumber, &Year, &Month, &Day, &CustomerID, FoodName, Price, PrepTime, UserName, State, 
+        &AcceptYear, &AcceptMonth, &AcceptDay, &AcceptHour, &AcceptMinute, 
+        &ReadyYear, &ReadyMonth, &ReadyDay, &ReadyHour, &ReadyMinute, CooksID);
+
+        if (strcmp(State, "SIP") == 0) \
+        {
+            totalSellMoney += atoi(Price);
+        }
+    }
+
+    printf("The total sell money on %s-%s-%s is %d TL.\n", year, month, day, totalSellMoney);
+
+    fclose(file);
+    
+
+
+}
 //add functions
 
 void createFoodListFile() {
