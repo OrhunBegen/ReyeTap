@@ -5,7 +5,7 @@ void createTitle();
 int main()
 {
     
-    AproveOrDeclineSystem();
+    DailyCreationOfTxt();
    
     return 0;
 }

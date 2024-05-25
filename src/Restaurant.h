@@ -853,10 +853,6 @@ void AddTitle()
     
 }
 
-
-
-
-
 //Order Applications
 
 int CheckIfTheFoodIsAtWaitState(int LineNumber)
@@ -1367,7 +1363,6 @@ void Cooks()
 
 }
 
-
 void CreateAllTimeFoodTxt()
 {
    
@@ -1381,6 +1376,121 @@ void CreateAllTimeFoodTxt()
 
 }
 
+void DailyCreationOfTxt()
+{   
+
+    //in this function we will compare int Year int Month int Day with the current date
+    //if the current date is Bigger than the int Year int Month int Day we will create a new txt file
+    //and print inside the txt file these lines
+
+    int OrderNumber;
+    int Year;
+    int Month;
+    int Day;
+    int CustomerID;
+
+    char FoodName[50];
+    char Price[50];
+    char PrepTime[50];
+    char UserName[50];
+    char State[50];
+
+    int AcceptYear;
+    int AcceptMonth;
+    int AcceptDay;
+    int AcceptHour;
+    int AcceptMinute;
+
+    int ReadyYear;
+    int ReadyMonth;
+    int ReadyDay;
+    int ReadyHour;
+    int ReadyMinute;
+
+    char CooksID[4];
+    
+    //by windows.h get the current date and time
+    int CurrentYear;
+    int CurrentMonth;
+    int CurrentDay;
+    int CurrentHour;
+    int CurrentMinute;
+
+    SYSTEMTIME t;
+    GetLocalTime(&t);
+    CurrentYear = t.wYear;
+    CurrentMonth = t.wMonth;
+    CurrentDay = t.wDay;
+    CurrentHour = t.wHour;
+    CurrentMinute = t.wMinute;
+
+    char NewFileName[50];
+
+    //parse the line and check if the ID is the same as the customer's ID
+    //if it is then in line check if State is SIP
+    
+    FILE *file;
+    file = fopen("TextFiles/OrderList.txt", "r");
+    if(file == NULL) 
+    {
+        printf("Error: File not found\n");
+    }
+
+    char line[100];
+  
+    while (fgets(line, sizeof(line), file)) 
+    {
+        sscanf(line, "%d-%d/%d/%d_%d-%[^-]-%[^TL]TL-%[^-]-%[^-]-%[^-]-%d/%d/%d_%d:%d-%d/%d/%d_%d:%d-%[^-]", 
+        &OrderNumber, &Year, &Month, &Day, &CustomerID, FoodName, Price, PrepTime, UserName, State, 
+        &AcceptYear, &AcceptMonth, &AcceptDay, &AcceptHour, &AcceptMinute, 
+        &ReadyYear, &ReadyMonth, &ReadyDay, &ReadyHour, &ReadyMinute, CooksID);
+        
+        //here what happens will be happened
+
+        sscanf(line, "%d-%d/%d/%d_%d-%[^-]-%[^TL]TL-%[^-]-%[^-]-%[^-]-%d/%d/%d_%d:%d-%d/%d/%d_%d:%d-%[^-]", 
+        &OrderNumber, &Year, &Month, &Day, &CustomerID, FoodName, Price, PrepTime, UserName, State, 
+        &AcceptYear, &AcceptMonth, &AcceptDay, &AcceptHour, &AcceptMinute, 
+        &ReadyYear, &ReadyMonth, &ReadyDay, &ReadyHour, &ReadyMinute, CooksID);
+
+        // Check if the current date is greater than the date in the file
+        if (CurrentYear > Year || 
+            (CurrentYear == Year && CurrentMonth > Month) || 
+            (CurrentYear == Year && CurrentMonth == Month && CurrentDay > Day)) 
+        {
+          
+        //if the current date is bigger than the date in the line
+        //then we will create a new txt file by tne name of the current date like 2024/5/25.txt
+        //and we will print the lines that only contain SIP inside the txt file
+
+        sprintf(NewFileName, "TextFiles/%d-%d-%d.txt", Year, Month, Day);
+        FILE *file2;
+        file2 = fopen(NewFileName, "w");
+        if(file2 == NULL) {
+            printf("Error: File not found\n");
+        }
+        //if in line there is a SIP word print the line inside the txt file
+        if (strstr(line, "SIP") != NULL){
+            fprintf(file2, "%d-%d/%d/%d_%d-%s-%sTL-%s-%s-%s-%d/%d/%d_%d:%d-%d/%d/%d_%d:%d-%s\n", 
+            OrderNumber, Year, Month, Day, CustomerID, FoodName, Price, PrepTime, UserName, State, 
+            AcceptYear, AcceptMonth, AcceptDay, AcceptHour, AcceptMinute, 
+            ReadyYear, ReadyMonth, ReadyDay, ReadyHour, ReadyMinute, CooksID);
+        }
+
+        fclose(file2);
+        }
+    }
+    fclose(file);
+}
+
+
+
+
+
+
+
+
+
+
+
+
 #endif // RESTAURANT_H
-
-
