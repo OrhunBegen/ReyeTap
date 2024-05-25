@@ -4,9 +4,7 @@ void createTitle();
 
 int main()
 {
-    
-    DailyTotalSellMoney();
-   
+    BringTheAllTimeFoodTxt();
     return 0;
 }
 

@@ -37,44 +37,36 @@ int menu2(int argc, char *argv[])
 }
     
 
-// int main(int argc, char *argv[])
-// {
-//     int secim;
+int main(int argc, char *argv[])
+{
+    int secim;
 
-//     baslangic:
-//     secim  = CustomerMenu();
-// {   
+    baslangic:
+    secim  = CustomerMenu();
+{   
 
-//     if(secim == -1)
-//     {
-//         printf("Hatali secim yaptiniz.");
-//         goto  baslangic;   
+    if(secim == -1)
+    {
+        printf("Hatali secim yaptiniz.");
+        goto  baslangic;   
 
-//     }   
-//     if(secim == -2)
-//     {
-//         printf("hesap olusturuldu\n");
-//         goto baslangic;
+    }   
+    if(secim == -2)
+    {
+        printf("hesap olusturuldu\n");
+        goto baslangic;
     
 
-//     }
-//     if(secim == 0)
-//     {
+    }
+    if(secim == 0)
+    {
         
-//         goto baslangic;
-//     }
-//     else
-//     {
-//         MusteriGirisYaptiMenu(secim);
-//     }
-//     return 0;
-// }
-// }
-
-int main()
-{
-    int x = 7;
-    BringPassedOrders(x);
-
-
+        goto baslangic;
+    }
+    else
+    {
+        MusteriGirisYaptiMenu(secim);
+    }
+    return 0;
+}
 }
