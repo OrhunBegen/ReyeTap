@@ -5,8 +5,9 @@ void createTitle();
 int main()
 {
 
-    AproveOrDeclineSystem();
+    
   
+    printAllTimeFood();
 
     return 0;
 }
