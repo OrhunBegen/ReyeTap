@@ -859,8 +859,6 @@ void AddTitle()
 
 //Order Applications
 
-
-
 int CheckIfTheFoodIsAtWaitState(int LineNumber)
 {
     //check in the Line if there is a "Wait" word
@@ -991,6 +989,81 @@ int AproveOrDeclineSystem()
 
 void DeclineTheOrder(int orderNumber)
 {
+    int x;
+    int Year;
+    int Month;
+    int Day;
+    int CustomerID;
+    char FoodName [30];
+    char FoodPrice[10];
+    int PreparationTime;
+    char CustomerName[30];
+    char State[10];
+
+    int CurrentYear;
+    int CurrentMonth;
+    int CurrentDay;
+    int CurrentHour;
+    int CurrentMinute;
+
+    int ReadyYear;
+    int ReadyMonth;
+    int ReadyDay;
+    int ReadyHour;
+    int ReadyMinute;
+
+    // 1-2024/5/25_4-Fish Burger -25 TL-20 -mustafa-Wait
+    // 2-2024/5/25_4-Veggie Burger -17 TL-13 -mustafa-Wait
+    // 3-2024/5/25_4-Onion Rings -12 TL-7 -mustafa-Wait
+    // 4-2024/5/25_4-French Fries -10 TL-5 -mustafa-Wait
+    // 5-2024/5/25_4-Veggie Burger -17 TL-13 -mustafa-Wait
+
+    //Parse the line into different fields
+    FILE *file;
+    file = fopen("TextFiles/OrderList.txt", "r");
+    if(file == NULL) {
+        printf("Error: File not found\n");
+    }
+    char line[100];
+    int count = 0;
+    while (fgets(line, sizeof(line), file)) {
+        count++;
+        if (count == orderNumber) {
+            if (sscanf(line, "%d-%d/%d/%d_%d-%[^-] -%[^TL] TL-%d -%[^-] -%s", &x, &Year, &Month, &Day, &CustomerID, FoodName, FoodPrice, &PreparationTime, CustomerName, State) == 10) {
+                break;
+            }
+        }
+    }
+    fclose(file);
+
+
+    //change the state to RED
+
+    FILE *file2;
+    file2 = fopen("TextFiles/OrderListTemp.txt", "w");
+    if(file2 == NULL) {
+        printf("Error: File not found\n");
+    }
+    FILE *file3;
+    file3 = fopen("TextFiles/OrderList.txt", "r");
+    if(file3 == NULL) {
+        printf("Error: File not found\n");
+    }
+    int count2 = 0;
+    while (fgets(line, sizeof(line), file3)) {
+        count2++;
+        if (count2 == orderNumber) {
+            fprintf(file2, "%d-%d/%d/%d_%d-%s -%s TL-%d -%s -RED\n", x, Year, Month, Day, CustomerID, FoodName, FoodPrice, PreparationTime, CustomerName);
+        } else {
+            fprintf(file2, "%s", line);
+        }
+    }
+
+    fclose(file2);
+    fclose(file3);
+    remove("TextFiles/OrderList.txt");
+    rename("TextFiles/OrderListTemp.txt", "TextFiles/OrderList.txt");
+    printf("The order has been declined.\n");
    
 }
 
@@ -1206,7 +1279,7 @@ void AproveTheOrder(int orderNumber)
     while (fgets(line, sizeof(line), file3)) {
         count++;
         if (count == orderNumber) {
-            fprintf(file4, "%d-%d/%d/%d_%d-%s -%s TL-%d -%s -SIP-%d/%d/%d_%d:%d-%d/%d/%d_%d:%d -%d\n", 
+            fprintf(file4, "%d-%d/%d/%d_%d-%s-%sTL-%d-%s-SIP-%d/%d/%d_%d:%d-%d/%d/%d_%d:%d -%d\n", 
             x, Year, Month, Day, CustomerID, FoodName, FoodPrice, PreparationTime, CustomerName, 
             CurrentYear, CurrentMonth, CurrentDay, CurrentHour, CurrentMinute,
             ReadyYear, ReadyMonth, ReadyDay, ReadyHour, ReadyMinute, CookID);
@@ -1259,21 +1332,7 @@ void AproveTheOrder(int orderNumber)
     fclose(file8);
     remove("TextFiles/AllTimeFood.txt");
     rename("TextFiles/AllTimeFoodTemp.txt", "TextFiles/AllTimeFood.txt");
-
-
-        
-
-    
-
-
-
-
-
-
 }
-
-
-
 
 void Cooks()
 {

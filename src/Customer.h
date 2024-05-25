@@ -65,6 +65,8 @@ int LoginCustomerReturnID();
 void BringTheAvailableFoods();
 int CheckIfFoodIsAvailable(int orderNumber);
 
+void BringDailyOrders(int ID);
+
 Customer c1,c2;
 
 
@@ -627,8 +629,6 @@ int CustomerMenu() {
         }
  }
 
- 
-
 int CheckEmail(char* data) {
     //if mail starts with @ return 0
     if(data[0] == '@') {
@@ -704,9 +704,6 @@ int loginCustomer(char* email, char* password) {
     fclose(file);
     return 0;
 }
-
-
-
 
 // BUNLARA BAKIN
 
@@ -1039,7 +1036,6 @@ int LoginCustomerReturnID()
 
 }
 
-
 void MusteriGirisYaptiMenu(int ID)
 {
     int sec;
@@ -1143,6 +1139,157 @@ int CheckIfFoodIsAvailable(int OrderNumber){
 
 }
 
+void BringDailyOrders(int ID)
+{
+    FILE *file;
+    file = fopen("TextFiles/OrderList.txt", "r");
+    if(file == NULL) 
+    {
+        printf("Error: File not found\n");
+    }
 
+    char line[100];
+
+    //parse the line and check if the ID is the same as the customer's ID 
+    //if it is then in line check if there is "Wait" or "SIP"
+
+    while (fgets(line, sizeof(line), file)) 
+    {
+        int OrderID;
+        int Year;
+        int Month;
+        int Day;
+        int CustomerID;
+        char FoodName[50];
+        char Price[50];
+        char PrepTime[50];
+        char UserName[50];
+        char State[50];
+
+        sscanf(line, "%d-%d/%d/%d_%d-%[^-]-%[^TL]TL-%[^-]-%[^-]-%[^-]", &OrderID, &Year, &Month, &Day, &CustomerID, FoodName, Price, PrepTime, UserName, State);
+
+        if (CustomerID == ID)
+        {
+            if(strstr(line, "Wait") != NULL || strstr(line, "SIP") != NULL)
+            {
+                printf("%s", line);
+            }
+            
+        }
+    }
+
+    fclose(file);
+
+
+
+
+}
+
+void BringActiveOrders(int ID)
+{
+    int OrderNumber;
+    int Year;
+    int Month;
+    int Day;
+    int CustomerID;
+
+    char FoodName[50];
+    char Price[50];
+    char PrepTime[50];
+    char UserName[50];
+    char State[50];
+
+    int AcceptYear;
+    int AcceptMonth;
+    int AcceptDay;
+    int AcceptHour;
+    int AcceptMinute;
+
+    int ReadyYear;
+    int ReadyMonth;
+    int ReadyDay;
+    int ReadyHour;
+    int ReadyMinute;
+
+    char CooksID[4];
+    
+    //by windows.h get the current date and time
+    int CurrentYear;
+    int CurrentMonth;
+    int CurrentDay;
+    int CurrentHour;
+    int CurrentMinute;
+
+    SYSTEMTIME t;
+    GetLocalTime(&t);
+    CurrentYear = t.wYear;
+    CurrentMonth = t.wMonth;
+    CurrentDay = t.wDay;
+    CurrentHour = t.wHour;
+    CurrentMinute = t.wMinute;
+
+    //parse the line and check if the ID is the same as the customer's ID
+    //if it is then in line check if State is SIP
+    
+    FILE *file;
+    file = fopen("TextFiles/OrderList.txt", "r");
+    if(file == NULL) 
+    {
+        printf("Error: File not found\n");
+    }
+
+    char line[100];
+    //1-2024/5/25_7-Fish Burger  -25  TL-20 -orhun -SIP-2024/5/25_18:18-2024/5/25_18:38 -3
+    //2-2024/5/25_7-Veggie Burger  -17  TL-13 -orhun -SIP-2024/5/25_18:18-2024/5/25_18:31 -4
+    //3-2024/5/25_7-Veggie Burger -17 TL-13-orhun-SIP-2024/5/25_18:42-2024/5/25_18:55 -3
+    //OrderNumber-Year/Month/Day_CustomerID-FoodName-PriceTL-PrepTime-UserName-State-AcceptYear/AcceptMonth/AcceptDay_AcceptHour:AcceptMinute-ReadyYear/ReadyMonth/ReadyDay_ReadyHour:ReadyMinute-CooksIDA
+    //Parse the line
+    while (fgets(line, sizeof(line), file)) 
+    {
+        sscanf(line, "%d-%d/%d/%d_%d-%[^-]-%[^TL]TL-%[^-]-%[^-]-%[^-]-%d/%d/%d_%d:%d-%d/%d/%d_%d:%d-%[^-]", &OrderNumber, &Year, &Month, &Day, &CustomerID, FoodName, Price, PrepTime, UserName, State, &AcceptYear, &AcceptMonth, &AcceptDay, &AcceptHour, &AcceptMinute, &ReadyYear, &ReadyMonth, &ReadyDay, &ReadyHour, &ReadyMinute, CooksID);
+
+        if (CustomerID == ID)
+        {
+            //if the State is SIP and the Current Time is smaller than the Ready Time
+            //print the line
+            if(strstr(line, "SIP") != NULL)
+            {
+                if (CurrentYear < ReadyYear)
+                {
+                    printf("%s", line);
+                }
+                else if (CurrentYear == ReadyYear)
+                {
+                    if (CurrentMonth < ReadyMonth)
+                    {
+                        printf("%s", line);
+                    }
+                    else if (CurrentMonth == ReadyMonth)
+                    {
+                        if (CurrentDay < ReadyDay)
+                        {
+                            printf("%s", line);
+                        }
+                        else if (CurrentDay == ReadyDay)
+                        {
+                            if (CurrentHour < ReadyHour)
+                            {
+                                printf("%s", line);
+                            }
+                            else if (CurrentHour == ReadyHour)
+                            {
+                                if (CurrentMinute < ReadyMinute)
+                                {
+                                    printf("%s", line);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    fclose(file);
+}
 
 #endif //CUSTOMER_H
