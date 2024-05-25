@@ -9,6 +9,14 @@
 
 #include "Kitchen.h"
 
+typedef struct FoodList
+{
+    int FoodQuantity;
+    int FoodPrice;
+    char FoodName[30];
+}FoodList;
+
+
 // Function prototypes
 void RestaurantMainMenu();
 
@@ -41,6 +49,306 @@ void BringTheOrdersList();
 int AproveOrDeclineSystem();
 void DeclineTheOrder(int LineNumber);
 void AproveTheOrder(int LineNumber);
+
+void BetweenTwoDatesGetTheTotalSellMoney();
+void DailyTotalSellMoney();
+
+
+void BetweenTwoDatesGetTheTotalSellMoney()
+{
+  
+    printf("Enter the year: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the year again
+    char year[5];
+    int validYear = 0;
+    while (!validYear) {
+        scanf("%s", year);
+        validYear = ScanfOnlyNumeric(year) && atoi(year) > 0;
+        if (!validYear) {
+            printf("Non-numeric characters are not allowed. Please enter the year again.\n");
+        }
+    }
+
+    printf("Enter the month: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the month again
+    char month[3];
+    int validMonth = 0;
+    while (!validMonth) {
+        scanf("%s", month);
+        validMonth = ScanfOnlyNumeric(month) && atoi(month) > 0 && atoi(month) < 13;
+        if (!validMonth) {
+            printf("Non-numeric characters are not allowed. Please enter the month again.\n");
+        }
+    }
+
+    printf("Enter the day: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the day again
+    char day[3];
+    int validDay = 0;
+    while (!validDay) {
+        scanf("%s", day);
+        validDay = ScanfOnlyNumeric(day) && atoi(day) > 0 && atoi(day) < 32;
+        if (!validDay) {
+            printf("Non-numeric characters are not allowed. Please enter the day again.\n");
+        }
+    }
+
+    printf("Enter the year1: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the year1 again
+    char year1[5];
+    int validYear1 = 0;
+    while (!validYear1) {
+        scanf("%s", year1);
+        validYear1 = ScanfOnlyNumeric(year1) && atoi(year1) > 0;
+        if (!validYear1) {
+            printf("Non-numeric characters are not allowed. Please enter the year1 again.\n");
+        }
+    }
+
+    printf("Enter the month1: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the month1 again
+    char month1[3];
+    int validMonth1 = 0;
+    while (!validMonth1) {
+        scanf("%s", month1);
+        validMonth1 = ScanfOnlyNumeric(month1) && atoi(month1) > 0 && atoi(month1) < 13;
+        if (!validMonth1) {
+            printf("Non-numeric characters are not allowed. Please enter the month1 again.\n");
+        }
+    }
+
+    printf("Enter the day1: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the day1 again
+    char day1[3];
+    int validDay1 = 0;
+    while (!validDay1) {
+        scanf("%s", day1);
+        validDay1 = ScanfOnlyNumeric(day1) && atoi(day1) > 0 && atoi(day1) < 32;
+        if (!validDay1) {
+            printf("Non-numeric characters are not allowed. Please enter the day1 again.\n");
+        }
+    }
+    //year-month-day.txt  year1-month1-day1.txt between these two dates
+    //find the total sell money
+    //print the total sell money
+
+    if(year1 < year)
+    {
+        printf("Invalid date range\n");
+        return;
+    }
+    if(year1 == year && month1 < month)
+    {
+        printf("Invalid date range\n");
+        return;
+    }
+    if(year1 == year && month1 == month && day1 < day)
+    {
+        printf("Invalid date range\n");
+        return;
+    }
+
+}
+
+void DailyTotalSellMoney()
+{
+    int OrderNumber;
+    int Year;
+    int Month;
+    int Day;
+    int CustomerID;
+
+    char FoodName[50];
+    char Price[50];
+    char PrepTime[50];
+    char UserName[50];
+    char State[50];
+
+    int AcceptYear;
+    int AcceptMonth;
+    int AcceptDay;
+    int AcceptHour;
+    int AcceptMinute;
+
+    int ReadyYear;
+    int ReadyMonth;
+    int ReadyDay;
+    int ReadyHour;
+    int ReadyMinute;
+
+    char CooksID[4];
+
+    //can only enter numbers cant be negative
+    printf("Enter the year: ");
+    //if the user enters a non-numeric character ask for the year again
+    char year[5];
+    int validYear = 0;
+    while (!validYear) {
+        scanf("%s", year);
+        validYear = ScanfOnlyNumeric(year) && atoi(year) > 0;
+        if (!validYear) {
+            printf("Non-numeric characters are not allowed. Please enter the year again.\n");
+        }
+    }
+
+    printf("Enter the month: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the month again
+    char month[3];
+    int validMonth = 0;
+    while (!validMonth) {
+        scanf("%s", month);
+        validMonth = ScanfOnlyNumeric(month) && atoi(month) > 0 && atoi(month) < 13;
+        if (!validMonth) {
+            printf("Non-numeric characters are not allowed. Please enter the month again.\n");
+        }
+    }
+
+    printf("Enter the day: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the day again
+    char day[3];
+    int validDay = 0;
+    while (!validDay) {
+        scanf("%s", day);
+        validDay = ScanfOnlyNumeric(day) && atoi(day) > 0 && atoi(day) < 32;
+        if (!validDay) {
+            printf("Non-numeric characters are not allowed. Please enter the day again.\n");
+        }
+    }
+
+    //if the file is not found print "No orders have been made on this date or date is wrong."
+    //find the total sell money
+
+    //print the total sell money
+    
+    //year-month-day.txt open this file
+
+    FILE *file;
+    char fileName[20];
+    sprintf(fileName, "TextFiles/%s-%s-%s.txt", year, month, day);
+
+    file = fopen(fileName, "r");
+    if (file == NULL) {
+        printf("No orders have been made on this date or date is wrong.\n");
+        return;
+    }
+
+    char line[100];
+    int totalSellMoney = 0;
+    
+    //parse the lines and
+    //find the total sell money
+
+     while (fgets(line, sizeof(line), file)) 
+    {
+        sscanf(line, "%d-%d/%d/%d_%d-%[^-]-%[^TL]TL-%[^-]-%[^-]-%[^-]-%d/%d/%d_%d:%d-%d/%d/%d_%d:%d-%[^-]", 
+        &OrderNumber, &Year, &Month, &Day, &CustomerID, FoodName, Price, PrepTime, UserName, State, 
+        &AcceptYear, &AcceptMonth, &AcceptDay, &AcceptHour, &AcceptMinute, 
+        &ReadyYear, &ReadyMonth, &ReadyDay, &ReadyHour, &ReadyMinute, CooksID);
+
+        if (strcmp(State, "SIP") == 0) \
+        {
+            totalSellMoney += atoi(Price);
+        }
+    }
+
+    printf("The total sell money on %s-%s-%s is %d TL.\n", year, month, day, totalSellMoney);
+
+    fclose(file);
+
+
+
+}
+
+void MonthlySellMoney()
+{
+    char year[5];
+    char month[3];
+
+    printf("Enter the year: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the year again
+    int validYear = 0;
+    while (!validYear) {
+        scanf("%s", year);
+        validYear = ScanfOnlyNumeric(year) && atoi(year) > 0;
+        if (!validYear) {
+            printf("Non-numeric characters are not allowed. Please enter the year again.\n");
+        }
+    }
+
+    printf("Enter the month: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the month again
+    int validMonth = 0;
+    while (!validMonth) {
+        scanf("%s", month);
+        validMonth = ScanfOnlyNumeric(month) && atoi(month) > 0 && atoi(month) < 13;
+        if (!validMonth) {
+            printf("Non-numeric characters are not allowed. Please enter the month again.\n");
+        }
+    }
+
+    //year-month-day.txt open this file
+    //day start from 1 and end at 31
+
+    int totalSellMoney = 0;
+
+    for (int i = 1; i < 32; i++)
+    {
+        FILE *file;
+        char fileName[20];
+        sprintf(fileName, "TextFiles/%s-%s-%d.txt", year, month, i);
+        file = fopen(fileName, "a");
+        if (file == NULL) {
+            continue;
+        }
+        char line[100];
+        while (fgets(line, sizeof(line), file))
+        {
+            int OrderNumber;
+            int Year;
+            int Month;
+            int Day;
+            int CustomerID;
+            char FoodName[50];
+            char Price[50];
+            char PrepTime[50];
+            char UserName[50];
+            char State[50];
+            int AcceptYear;
+            int AcceptMonth;
+            int AcceptDay;
+            int AcceptHour;
+            int AcceptMinute;
+            int ReadyYear;
+            int ReadyMonth;
+            int ReadyDay;
+            int ReadyHour;
+            int ReadyMinute;
+            char CooksID[4];
+
+            sscanf(line, "%d-%d/%d/%d_%d-%[^-]-%[^TL]TL-%[^-]-%[^-]-%[^-]-%d/%d/%d_%d:%d-%d/%d/%d_%d:%d-%[^-]", 
+            &OrderNumber, &Year, &Month, &Day, &CustomerID, FoodName, Price, PrepTime, UserName, State, 
+            &AcceptYear, &AcceptMonth, &AcceptDay, &AcceptHour, &AcceptMinute, 
+            &ReadyYear, &ReadyMonth, &ReadyDay, &ReadyHour, &ReadyMinute, CooksID);
+            if (strcmp(State, "SIP") == 0)
+            {
+                totalSellMoney += atoi(Price);
+            }
+        }
+        fclose(file);
+    }
+    printf("The total sell money on %s-%s is %d TL.\n", year, month, totalSellMoney);
+
+}
 
 //add functions
 
@@ -853,10 +1161,6 @@ void AddTitle()
     
 }
 
-
-
-
-
 //Order Applications
 
 int CheckIfTheFoodIsAtWaitState(int LineNumber)
@@ -1332,6 +1636,45 @@ void AproveTheOrder(int orderNumber)
     fclose(file8);
     remove("TextFiles/AllTimeFood.txt");
     rename("TextFiles/AllTimeFoodTemp.txt", "TextFiles/AllTimeFood.txt");
+
+
+    //do the same for the AllTimeFood.dat from the FoodList struct
+
+    FILE *file9;
+    file9 = fopen("AllTimeFood.dat", "rb");
+    if (file9 == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    FILE *file10;
+    file10 = fopen("AllTimeFoodTemp.dat", "wb");
+    if (file10 == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    FoodList foodList;
+    found = 0;
+    while (fread(&foodList, sizeof(FoodList), 1, file9))
+    {
+        if (strcmp(foodList.FoodName, FoodName) == 0) {
+            found = 1;
+            foodList.FoodQuantity++;
+        }
+        fwrite(&foodList, sizeof(FoodList), 1, file10);
+    }
+    if (found == 0) {
+        strcpy(foodList.FoodName, FoodName);
+        foodList.FoodPrice = atoi(FoodPrice);
+        foodList.FoodQuantity = 1;
+        fwrite(&foodList, sizeof(FoodList), 1, file10);
+    }
+    fclose(file9);
+    fclose(file10);
+    remove("AllTimeFood.dat");
+    rename("AllTimeFoodTemp.dat", "AllTimeFood.dat");
+
 }
 
 void Cooks()
@@ -1367,7 +1710,6 @@ void Cooks()
 
 }
 
-
 void CreateAllTimeFoodTxt()
 {
    
@@ -1381,6 +1723,238 @@ void CreateAllTimeFoodTxt()
 
 }
 
+void DailyCreationOfTxt()
+{   
+
+    //in this function we will compare int Year int Month int Day with the current date
+    //if the current date is Bigger than the int Year int Month int Day we will create a new txt file
+    //and print inside the txt file these lines
+
+    int OrderNumber;
+    int Year;
+    int Month;
+    int Day;
+    int CustomerID;
+
+    char FoodName[50];
+    char Price[50];
+    char PrepTime[50];
+    char UserName[50];
+    char State[50];
+
+    int AcceptYear;
+    int AcceptMonth;
+    int AcceptDay;
+    int AcceptHour;
+    int AcceptMinute;
+
+    int ReadyYear;
+    int ReadyMonth;
+    int ReadyDay;
+    int ReadyHour;
+    int ReadyMinute;
+
+    char CooksID[4];
+    
+    //by windows.h get the current date and time
+    int CurrentYear;
+    int CurrentMonth;
+    int CurrentDay;
+    int CurrentHour;
+    int CurrentMinute;
+
+    SYSTEMTIME t;
+    GetLocalTime(&t);
+    CurrentYear = t.wYear;
+    CurrentMonth = t.wMonth;
+    CurrentDay = t.wDay;
+    CurrentHour = t.wHour;
+    CurrentMinute = t.wMinute;
+
+    char NewFileName[50];
+
+    //parse the line and check if the ID is the same as the customer's ID
+    //if it is then in line check if State is SIP
+    
+    FILE *file;
+    file = fopen("TextFiles/OrderList.txt", "r");
+    if(file == NULL) 
+    {
+        printf("Error: File not found\n");
+    }
+
+    char line[100];
+  
+    while (fgets(line, sizeof(line), file)) 
+    {
+        //here what happens will be happened
+
+        sscanf(line, "%d-%d/%d/%d_%d-%[^-]-%[^TL]TL-%[^-]-%[^-]-%[^-]-%d/%d/%d_%d:%d-%d/%d/%d_%d:%d-%[^\n]", 
+        &OrderNumber, &Year, &Month, &Day, &CustomerID, FoodName, Price, PrepTime, UserName, State, 
+        &AcceptYear, &AcceptMonth, &AcceptDay, &AcceptHour, &AcceptMinute, 
+        &ReadyYear, &ReadyMonth, &ReadyDay, &ReadyHour, &ReadyMinute, CooksID);
+
+        // Check if the current date is greater than the date in the file
+        if (CurrentYear > Year || 
+            (CurrentYear == Year && CurrentMonth > Month) || 
+            (CurrentYear == Year && CurrentMonth == Month && CurrentDay > Day)) 
+        {
+          
+        //if the current date is bigger than the date in the line
+        //then we will create a new txt file by tne name of the current date like 2024/5/25.txt
+        //and we will print the lines that only contain SIP inside the txt file
+
+        //if it does not exist create a new file
+        //if it exists open the file and write inside the file
+        //check if the txt exists
+        //if it does not exist create a new file
+        //if it exists open the file and write inside the file
+
+        sprintf(NewFileName, "TextFiles/%d-%d-%d.txt", Year, Month, Day);
+        FILE *file2;
+        file2 = fopen(NewFileName, "a");
+        if(file2 == NULL) {
+            printf("Error: File not found\n");
+        }
+
+        //if the there is a SIP in the line print the line inside the txt file
+        if (strcmp(State, "SIP") == 0) {
+            fprintf(file2, "%d-%d/%d/%d_%d-%s-%sTL-%s-%s-%s-%d/%d/%d_%d:%d-%d/%d/%d_%d:%d-%s\n", 
+            OrderNumber, Year, Month, Day, CustomerID, FoodName, Price, PrepTime, UserName, State, 
+            AcceptYear, AcceptMonth, AcceptDay, AcceptHour, AcceptMinute, 
+            ReadyYear, ReadyMonth, ReadyDay, ReadyHour, ReadyMinute, CooksID);
+        }
+        fclose(file2);
+        }    
+    }
+    fclose(file);
+
+
+    //Remove the OrderList.txt
+    //Create a new OrderList.txt
+
+    remove("TextFiles/OrderList.txt");
+    FILE *file3;
+    file3 = fopen("TextFiles/OrderList.txt", "w");
+    if(file3 == NULL) {
+        printf("Error: File not found\n");
+    }
+    fclose(file3);
+
+
+}
+
+void BringTheAllTimeFoodTxt()
+{
+    FILE *file;
+    file = fopen("TextFiles/AllTimeFood.txt", "r");
+    if(file == NULL) {
+        printf("Error: File not found\n");
+    }
+    char line[100];
+    while (fgets(line, sizeof(line), file)) {
+        printf("%s", line);
+    }
+    fclose(file);
+}
+
+void CreateTheAllTimeFoodData()
+{
+
+    //create  AllTimeFood.dat
+
+    FILE *file;
+    file = fopen("AllTimeFood.dat", "wb");
+    if (file == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    fclose(file);
+
+}
+
+void BringTheAllTimeFoodData()
+{
+    FILE *file;
+    file = fopen("AllTimeFood.dat", "rb");
+    if (file == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    FoodList foodList;
+    while (fread(&foodList, sizeof(FoodList), 1, file))
+    {
+        printf("Food Name: %s\n", foodList.FoodName);
+        printf("Food Price: %d\n", foodList.FoodPrice);
+        printf("Food Quantity: %d\n", foodList.FoodQuantity);
+    }
+    fclose(file);
+}
+
+void BringTheMostProfitFood()
+{
+    //open the AllTimeFood.dat
+    //read the file
+    //find the most profit food
+    //print the most profit food
+    //print the profit and the quantity
+
+    FILE *file;
+    file = fopen("AllTimeFood.dat", "rb");
+    if (file == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    FoodList foodList;
+    int maxProfit = 0;
+    char mostProfitFood[30];
+    int mostProfitQuantity = 0;
+    while (fread(&foodList, sizeof(FoodList), 1, file))
+    {
+        if (foodList.FoodPrice * foodList.FoodQuantity > maxProfit) {
+            maxProfit = foodList.FoodPrice * foodList.FoodQuantity;
+            strcpy(mostProfitFood, foodList.FoodName);
+            mostProfitQuantity = foodList.FoodQuantity;
+        }
+    }
+    fclose(file);
+    printf("The most profit food is %s with a profit of %d TL and a quantity of %d\n", mostProfitFood, maxProfit, mostProfitQuantity);
+
+}
+
+void BringTheLeastProfitFood()
+{
+    //open the AllTimeFood.dat
+    //read the file
+    //find the least profit food
+    //print the least profit food
+    //print the profit and the quantity
+
+    FILE *file;
+    file = fopen("AllTimeFood.dat", "rb");
+    if (file == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    FoodList foodList;
+    int minProfit = 1000000;
+    char leastProfitFood[30];
+    int leastProfitQuantity = 0;
+    while (fread(&foodList, sizeof(FoodList), 1, file))
+    {
+        if (foodList.FoodPrice * foodList.FoodQuantity < minProfit) {
+            minProfit = foodList.FoodPrice * foodList.FoodQuantity;
+            strcpy(leastProfitFood, foodList.FoodName);
+            leastProfitQuantity = foodList.FoodQuantity;
+        }
+    }
+    fclose(file);
+    printf("The least profit food is %s with a profit of %d TL and a quantity of %d\n", leastProfitFood, minProfit, leastProfitQuantity);
+}
+
+
 #endif // RESTAURANT_H
-
-

@@ -1059,10 +1059,13 @@ void MusteriGirisYaptiMenu(int ID)
     if(sec == 2)
     {
         //show the previous orders
+        BringDailyOrders(ID);
     }
     if(sec == 3)
     {
         //show the active orders
+        BringActiveOrders(ID);
+
     }
     if(sec == 4)
     {
@@ -1402,6 +1405,8 @@ void BringPassedOrders(int ID)
     }
     fclose(file);
 }
+
+
 
 
 #endif //CUSTOMER_H
