@@ -259,7 +259,7 @@ void DailyTotalSellMoney()
         }
     }
 
-    printf("The total sell money on %s-%s-%s is %d TL.\n", year, month, day, totalSellMoney);
+    printf("The sell money is %d TL.\n", totalSellMoney);
 
     fclose(file);
 

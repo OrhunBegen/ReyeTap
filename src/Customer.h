@@ -67,6 +67,9 @@ int CheckIfFoodIsAvailable(int orderNumber);
 
 void BringDailyOrders(int ID);
 
+void BringActiveOrders(int ID);
+void BringPassedOrders(int ID);
+
 Customer c1,c2;
 
 
