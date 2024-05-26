@@ -460,9 +460,9 @@ void DatesBetweenGetTheSellMoney()
 
     for (int i = YearInt; i <= YearInt1; i++)
     {
-        for (int j = MonthInt; j <= 12; j++)
+        for (int j = MonthInt; j <= MonthInt1; j++)
         {
-            for (int k = DayInt; k <= 31; k++)
+            for (int k = DayInt; k <= DayInt1; k++)
             {
                 FILE *file;
                 char fileName[20];
@@ -1987,10 +1987,10 @@ void DailyCreationOfTxt()
 
         //if the there is a SIP in the line print the line inside the txt file
         if (strcmp(State, "SIP") == 0) {
-            fprintf(file2, "%d-%d/%d/%d_%d-%s-%sTL-%s-%s-%s-%d/%d/%d_%d:%d-%d/%d/%d_%d:%d-%s\n", 
+            fprintf(file2, "%d-%d/%d/%d_%d-%s-%sTL-%s-%s-%s-%d/%d/%d_%d:%d-%d/%d/%d_%d:%d-\n", 
             OrderNumber, Year, Month, Day, CustomerID, FoodName, Price, PrepTime, UserName, State, 
             AcceptYear, AcceptMonth, AcceptDay, AcceptHour, AcceptMinute, 
-            ReadyYear, ReadyMonth, ReadyDay, ReadyHour, ReadyMinute, CooksID);
+            ReadyYear, ReadyMonth, ReadyDay, ReadyHour, ReadyMinute);
         }
         fclose(file2);
         }    
