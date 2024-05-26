@@ -4,7 +4,8 @@ void createTitle();
 
 
 int main() {
-   createTitle();
+   DailyCreationOfTxt();
+   createTitle();   
    int choice;
    baslangic:
 

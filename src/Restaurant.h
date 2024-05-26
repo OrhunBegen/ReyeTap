@@ -52,6 +52,7 @@ void AproveTheOrder(int LineNumber);
 
 void BetweenTwoDatesGetTheTotalSellMoney();
 void DailyTotalSellMoney();
+void DatesBetweenGetTheSellMoney();
 
 
 void BetweenTwoDatesGetTheTotalSellMoney()

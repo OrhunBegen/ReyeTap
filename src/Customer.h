@@ -723,7 +723,7 @@ int MakeAOrderByID(int ID)
     
     int orderNumber;
 
-    printf("hangi yemeği sipariş etmek istersiniz? : ");
+    printf("hangi yemegi siparis etmek istersiniz? : ");
 
     scanf("%d", &orderNumber);
 
@@ -732,7 +732,7 @@ int MakeAOrderByID(int ID)
     int a = CheckIfFoodIsAvailable(orderNumber-2);
 
     if (a == 0) {
-        printf("Bu yemek şu anda mevcut değil.\n");
+        printf("Bu yemek su anda mevcut degil.\n");
         return 0;
     }
 
