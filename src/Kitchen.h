@@ -191,5 +191,20 @@ void ChangeTheCooksYearTo2025(int ID)
 
 }
 
+void CleanEverythingInsideCooksDatFile()
+{
+    remove("Cooks.dat");
+    FILE *file;
+    file = fopen("Cooks.dat", "wb");
+    if (file == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    fclose(file);
+    
+
+}
+
 
 #endif // KITCHEN_H
