@@ -300,16 +300,17 @@ void MonthlySellMoney()
     //day start from 1 and end at 31
 
     int totalSellMoney = 0;
+    int YearInt = atoi(year);
+    int MonthInt = atoi(month);
 
     for (int i = 1; i < 32; i++)
     {
+        
         FILE *file;
         char fileName[20];
-        sprintf(fileName, "TextFiles/%s-%s-%d.txt", year, month, i);
-        file = fopen(fileName, "a");
-        if (file == NULL) {
-            continue;
-        }
+        sprintf(fileName, "TextFiles/%d-%d-%d.txt", YearInt, MonthInt, i);
+        file = fopen(fileName, "r");
+        
         char line[100];
         while (fgets(line, sizeof(line), file))
         {
@@ -350,6 +351,115 @@ void MonthlySellMoney()
 
 }
 
+void DatesBetweenGetTheSellMoney()
+{
+    char year[5];
+    char month[3];
+    char day[3];
+    char year1[5];
+    char month1[3];
+    char day1[3];
+
+    printf("Enter the year: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the year again
+    int validYear = 0;
+    while (!validYear) {
+        scanf("%s", year);
+        validYear = ScanfOnlyNumeric(year) && atoi(year) > 0;
+        if (!validYear) {
+            printf("Non-numeric characters are not allowed. Please enter the year again.\n");
+        }
+    }
+
+    printf("Enter the month: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the month again
+    int validMonth = 0;
+    while (!validMonth) {
+        scanf("%s", month);
+        validMonth = ScanfOnlyNumeric(month) && atoi(month) > 0 && atoi(month) < 13;
+        if (!validMonth) {
+            printf("Non-numeric characters are not allowed. Please enter the month again.\n");
+        }
+    }
+
+    printf("Enter the day: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the day again
+    int validDay = 0;
+    while (!validDay) {
+        scanf("%s", day);
+        validDay = ScanfOnlyNumeric(day) && atoi(day) > 0 && atoi(day) < 32;
+        if (!validDay) {
+            printf("Non-numeric characters are not allowed. Please enter the day again.\n");
+        }
+    }
+
+    printf("Enter the year1: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the year1 again
+    int validYear1 = 0;
+    while (!validYear1) {
+        scanf("%s", year1);
+        validYear1 = ScanfOnlyNumeric(year1) && atoi(year1) > 0;
+        if (!validYear1) {
+            printf("Non-numeric characters are not allowed. Please enter the year1 again.\n");
+        }
+    
+    }
+
+    printf("Enter the month1: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the month1 again
+    int validMonth1 = 0;
+    while (!validMonth1) {
+        scanf("%s", month1);
+        validMonth1 = ScanfOnlyNumeric(month1) && atoi(month1) > 0 && atoi(month1) < 13;
+        if (!validMonth1) {
+            printf("Non-numeric characters are not allowed. Please enter the month1 again.\n");
+        }
+    
+    }
+
+    printf("Enter the day1: ");
+    //can only enter numbers cant be negative
+    //if the user enters a non-numeric character ask for the day1 again
+    int validDay1 = 0;
+    while (!validDay1) {
+        scanf("%s", day1);
+        validDay1 = ScanfOnlyNumeric(day1) && atoi(day1) > 0 && atoi(day1) < 32;
+        if (!validDay1) {
+            printf("Non-numeric characters are not allowed. Please enter the day1 again.\n");
+        }
+    }
+
+    //if month1 < month or year1 < year or day1 < day print "Invalid date range"
+
+    if (atoi(year1) < atoi(year) || (atoi(year1) == atoi(year) && atoi(month1) < atoi(month)) || (atoi(year1) == atoi(year) && atoi(month1) == atoi(month) && atoi(day1) < atoi(day)))
+    {
+        printf("Invalid date range\n");
+        return;
+    }
+
+    int totalSellMoney = 0;
+    int YearInt = atoi(year);
+    int MonthInt = atoi(month);
+    int DayInt = atoi(day);
+
+    int YearInt1 = atoi(year1);
+    int MonthInt1 = atoi(month1);
+    int DayInt1 = atoi(day1);
+
+    //from the start of the YearInt-MonthInt-DayInt.txt to the end of the YearInt1-MonthInt1-DayInt1.txt
+
+    
+
+
+
+
+
+}
 //add functions
 
 void createFoodListFile() {
