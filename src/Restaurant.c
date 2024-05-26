@@ -2,7 +2,9 @@
 int menu();
 void createTitle();
 
-
+int main(){
+    DatesBetweenGetTheSellMoney();
+}
 // int main() {
 //    createTitle();
 //    int choice;

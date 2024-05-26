@@ -443,6 +443,7 @@ void DatesBetweenGetTheSellMoney()
     }
 
     int totalSellMoney = 0;
+
     int YearInt = atoi(year);
     int MonthInt = atoi(month);
     int DayInt = atoi(day);
@@ -453,18 +454,23 @@ void DatesBetweenGetTheSellMoney()
 
     //from the start of the YearInt-MonthInt-DayInt.txt to the end of the YearInt1-MonthInt1-DayInt1.txt
     //find the total sell money
+    //while incrementing the day if day is bigger than 31 increment the month and set the day to 1
+    //if month is bigger than 12 increment the year and set the month to 1
 
     for (int i = YearInt; i <= YearInt1; i++)
     {
-        for (int j = MonthInt; j <= MonthInt1; j++)
+        for (int j = MonthInt; j <= 12; j++)
         {
-            for (int k = DayInt; k <= DayInt1; k++)
+            for (int k = DayInt; k <= 31; k++)
             {
                 FILE *file;
                 char fileName[20];
                 sprintf(fileName, "TextFiles/%d-%d-%d.txt", i, j, k);
                 file = fopen(fileName, "r");
-               
+                if (file == NULL)
+                {
+                    continue;
+                }
                 char line[100];
                 while (fgets(line, sizeof(line), file))
                 {
@@ -501,9 +507,14 @@ void DatesBetweenGetTheSellMoney()
                 }
                 fclose(file);
             }
+            DayInt = 1;
         }
+        MonthInt = 1;
     }
-    printf("The total sell money between %s-%s-%s and %s-%s-%s is %d TL.\n", year, month, day, year1, month1, day1, totalSellMoney);
+
+    printf("The total sell money between  %d TL.\n", totalSellMoney);
+
+
 
 }
 //add functions
