@@ -452,12 +452,58 @@ void DatesBetweenGetTheSellMoney()
     int DayInt1 = atoi(day1);
 
     //from the start of the YearInt-MonthInt-DayInt.txt to the end of the YearInt1-MonthInt1-DayInt1.txt
+    //find the total sell money
 
-    
+    for (int i = YearInt; i <= YearInt1; i++)
+    {
+        for (int j = MonthInt; j <= MonthInt1; j++)
+        {
+            for (int k = DayInt; k <= DayInt1; k++)
+            {
+                FILE *file;
+                char fileName[20];
+                sprintf(fileName, "TextFiles/%d-%d-%d.txt", i, j, k);
+                file = fopen(fileName, "r");
+               
+                char line[100];
+                while (fgets(line, sizeof(line), file))
+                {
+                    int OrderNumber;
+                    int Year;
+                    int Month;
+                    int Day;
+                    int CustomerID;
+                    char FoodName[50];
+                    char Price[50];
+                    char PrepTime[50];
+                    char UserName[50];
+                    char State[50];
+                    int AcceptYear;
+                    int AcceptMonth;
+                    int AcceptDay;
+                    int AcceptHour;
+                    int AcceptMinute;
+                    int ReadyYear;
+                    int ReadyMonth;
+                    int ReadyDay;
+                    int ReadyHour;
+                    int ReadyMinute;
+                    char CooksID[4];
 
-
-
-
+                    sscanf(line, "%d-%d/%d/%d_%d-%[^-]-%[^TL]TL-%[^-]-%[^-]-%[^-]-%d/%d/%d_%d:%d-%d/%d/%d_%d:%d-%[^-]", 
+                    &OrderNumber, &Year, &Month, &Day, &CustomerID, FoodName, Price, PrepTime, UserName, State, 
+                    &AcceptYear, &AcceptMonth, &AcceptDay, &AcceptHour, &AcceptMinute, 
+                    &ReadyYear, &ReadyMonth, &ReadyDay, &ReadyHour, &ReadyMinute, CooksID);
+                    if (strcmp(State, "SIP") == 0)
+                    {
+                        totalSellMoney += atoi(Price);
+                    }
+                }
+                fclose(file);
+            }
+        }
+    }
+    printf("The total sell money between %s-%s-%s and %s-%s-%s is %d TL.\n", year, month, day, year1, month1, day1, totalSellMoney);
 
 }
 //add functions

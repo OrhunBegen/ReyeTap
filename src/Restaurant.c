@@ -2,10 +2,6 @@
 int menu();
 void createTitle();
 
-int main()
-{
-    MonthlySellMoney();
-}
 
 // int main() {
 //    createTitle();
