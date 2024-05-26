@@ -2,7 +2,7 @@
 
 ## 1.Musteri giris sınıfı
 
-Program başlatılınca ilk işlemler `menu()` sınıfında yapılmaktadır.Bu sınıfta seçilen işlem sonucunda farklı sınıflar başlatılır ve program bu sınıflardan çalışır.Bunlardan ilki müşteri iişemlerini sağlayan  `CustomerMenu()` fonksiyonudur. 
+Program başlatılınca ilk işlemler `menu()` sınıfında yapılmaktadır.Bu sınıfta seçilen işlem sonucunda farklı sınıflar başlatılır ve program bu sınıflardan çalışır.Bunlardan ilki müşteri işlemlerini sağlayan  `CustomerMenu()` fonksiyonudur. 
 
 `CustomerMenu()` fonksiyonu çağırıldığı zaman kullanıcıyı iki seçenek karşılar.
 1.Hesap oluştur
@@ -67,6 +67,72 @@ Burada da aynı şekilde sipariş teslim zamanı,güncel zamandan küçük veya 
 4 nolu seçenek seçilirse `RenameTheMailasOrhun()` fonksiyonu ile kullanıcının hesabı silinir.Bu fonksiyon şu sekilde çalışır; `musteri.dat` dosyası açılır ve silinmek istenen hesaba ait mail adresi 'orhun' olarak güncellenir. Bu şekilde @gmail.com vs. formatında olmadığı için giriş yapılamayacak ve hesap devre dışı bırakılacaktır.
 
 5 nolu seçenek seçilirse ana menüye dönüş yapılır.
+
+
+## Restaurant giriş sınıfı
+
+`menu()` sınıfında çalışan ikinci işlem ise Restaurantın işlem yapacağı `Restaurant.c` dosyasının içinde çalışan `menu()` fonksiyonudur. Bu fonksiyon çalıştığında kullanıcıya 12 seçenek sunar.Bunlar:
+1.Yemek listesine yemek ekle
+2.Yemek listesinden yemek sil
+3.Yemek listesini düzenle 
+4.Yemek listesini görüntüle
+5.Belirtilen iki tarih arasındaki kazancı görüntüle
+6.Toplam kazancı görüntüle
+7.Sipariş dosyasını görüntüle
+8.En çok sipariş edilen yemeği görüntüle
+9.En az şipariş edilen yemeği görüntüle
+10.Sipariş Red/Onay
+11.Aşçıları güncelle
+12.Çıkış
+
+1 nolu seçenek seçilirse `AddCustomFoodToTheFoodList()` fonksyonu ile yemek listesine yemek eklenir.Bu fonksiyon şu şekilde çalışır:
+Öncelikle `BringTheFoodList()` fonksiyonu ile `FoodList.txt` dosyası açılır.
+Kullanıcıdan yemek adı,yemek fiyatı,hazırlanma zamanı ve mevcutluk durumu alınır ve `FoodList.txt` dosyasına yazılır.
+
+2 nolu seçenek seçilirse `RemoveTheSelectedFoodFromTheFoodList()` fonksiyonu ile `FoodList.txt` dosyasından seçilen yemek silinir.
+Öncelikle `FoodListTemp.txt` adlı bir txt dosyası oluşturulur.
+`FoodList.txt` dosyası baştan sona okunur ve seçilen satır hariç bütün satırlar `FoodListTemp.txt` dosyasına yazdırılır. 
+`FoodList.txt` dosyası silinir ve `FoodListTemp.txt` dosyası `FoodList.txt` olarak isimlendirilir.
+
+3 nolu seçenek seçilirse `AdjustTheSelectedFoodFromTheFoodList()` fonksiyonu ile `FoodList.txt` dosyasndan seçilen yemek güncellenir.
+
+4 nolu seçenk seçilirse `BringTheFoodList()` fonksiyonu yemek listesi kullanıcıya gösterilir.
+
+5 nolu seçenek seçilirse `DatesBetweenGetTheSellMoney()` fonksiyonu ile seçilen iki tarih arasındaki kazanç hesaplanır.
+Bu fonksiyon basitçe şu şekilde çalışır:
+Gün sonunda o günlük bütün kazanç o gün adına açılan dd-mm-yy.txt dosyasına kaydedilir.
+Ardından kullanıcıdan iki tarih girilmesi istenir ve iki tarih arasındaki txt dosyaları bulunarak toplam kazanç hesaplanır.
+
+6 nolu seçenek seçilirse `DailyTotalSellMoney()` fonksiyonu ile günlük kazanç hesaplanır.
+
+7 nolu seçenek seçilirse `BringTheOrdersList()` fonksiyonu ile `OrderList.txt` dosyası açılır ve siparişler restauranta gösterilir.
+
+8 nolu seçenek seçilirse `BringTheMostProfitFood()` fonksiyonu ile en çok satılan yemek kullanıcıya gösterilir.
+
+9 nolu seçenek seçilirse `BringTheLeastProfitFood()` fonksiyonu ile en az satılan yemek kullanıcıya gösterilir.
+
+10 nolu seçenek seçilirse `AproveOrDeclineSystem()` fonksiyonu ile verilen siparişler onaylanır veya reddedilir.
+
+11 nolu seçenek seçilirse `AdjustTheCooksNumero()` fonksiyonu ile aşçı sayısı güncellenir.
+
+12 nolu seçenek seçilirse ana menüye dönüş yapılır. 
+
+## Mutfak giriş sınıfı
+`menu()` sınıfında çalışan ikinci işlem ise mutfağın işlem yapacağı `Kitchen.c` dosyasının içinde çalışan `menu()` fonksiyonudur. Bu fonksiyon çalıştığında kullanıcıya 3 seçenek sunar.Bunlar:
+1.Aşçıları yazdır
+2.Aşçı sayısını düzenle 
+3.Programı kapat
+
+1 nolu seçenek seçilirse `PrintTheCooks()` fonksiyonu çalışır ve `Cooks.dat` dosyası açılarak aşçı bilgileri alınır.
+
+2 nolu seçenek seçilirse `CleanEverythingInsideCooksDatFile()` ve `AdjustTheCooksNumero()` fonksiyonları ile aşçı sayısı düzenlenir.
+
+3 nolu seçenek seçilirse ana menüye dönüş yapılır. 
+
+
+
+
+
 
 
 
