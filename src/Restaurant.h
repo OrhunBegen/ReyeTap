@@ -1,6 +1,10 @@
 #ifndef RESTAURANT_H
 #define RESTAURANT_H
 
+// Elif yaren Şakar 434335
+// Rümeysa Yurdakul 425487
+// Orhun Begen 402520
+
 #include <stdio.h> // Include the standard C library
 #include <string.h> // Include the string library
 #include <stdlib.h> // Include the standard library

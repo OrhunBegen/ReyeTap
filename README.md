@@ -1,5 +1,11 @@
 # ReyeTap
 
+
+// Elif yaren Şakar 434335
+// Rümeysa Yurdakul 425487
+// Orhun Begen 402520 
+
+
 ## 1.Musteri giris sınıfı
 
 Program başlatılınca ilk işlemler `menu()` sınıfında yapılmaktadır.Bu sınıfta seçilen işlem sonucunda farklı sınıflar başlatılır ve program bu sınıflardan çalışır.Bunlardan ilki müşteri işlemlerini sağlayan  `CustomerMenu()` fonksiyonudur. 

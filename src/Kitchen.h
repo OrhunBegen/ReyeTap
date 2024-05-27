@@ -1,6 +1,12 @@
 #ifndef KITCHEN_H
 #define KITCHEN_H
 
+// Elif yaren Şakar 434335
+// Rümeysa Yurdakul 425487
+// Orhun Begen 402520
+
+
+
 //this is a c library
 #include <stdio.h>
 #include <stdlib.h>
