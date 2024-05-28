@@ -2035,8 +2035,15 @@ void DailyCreationOfTxt()
 
     FILE *file3;
     file3 = fopen(NewFileName, "r");
-    if(file3 == NULL) 
+    if(file3 != NULL) 
+    {   
+        fclose(file3);
+        remove("TextFiles/OrderList.txt");
+        rename(NewFileName, "TextFiles/OrderList.txt");
+    }
+    else
     {
+        remove("TextFiles/OrderList.txt");
         FILE *file4;
         file4 = fopen("TextFiles/OrderList.txt", "w");
         if(file4 == NULL) 
@@ -2044,19 +2051,8 @@ void DailyCreationOfTxt()
             printf("Error: File not found\n");
         }
         fclose(file4);
-        
-        remove("TextFiles/OrderList.txt");
-        FILE *file5;
-        file5 = fopen("TextFiles/OrderList.txt", "a");
-
     }
-    else
-    {
-        fclose(file3);
-        remove("TextFiles/OrderList.txt");
-        rename(NewFileName, "TextFiles/OrderList.txt");
-    }
-
+    
 }
 
 void BringTheAllTimeFoodTxt()
