@@ -1873,13 +1873,6 @@ void Cooks()
 
 
 
-
-
-
-
-
-
-
 }
 
 void CreateAllTimeFoodTxt()
@@ -1913,12 +1906,14 @@ void DailyCreationOfTxt()
     char PrepTime[50];
     char UserName[50];
     char State[50];
+    
 
     int AcceptYear;
     int AcceptMonth;
     int AcceptDay;
     int AcceptHour;
     int AcceptMinute;
+    int AsciID;
 
     int ReadyYear;
     int ReadyMonth;
@@ -1926,7 +1921,7 @@ void DailyCreationOfTxt()
     int ReadyHour;
     int ReadyMinute;
 
-    char CooksID[4];
+    char CooksID[1];
     
     //by windows.h get the current date and time
     int CurrentYear;
@@ -1942,6 +1937,8 @@ void DailyCreationOfTxt()
     CurrentDay = t.wDay;
     CurrentHour = t.wHour;
     CurrentMinute = t.wMinute;
+
+
 
     char NewFileName[50];
 
@@ -1997,22 +1994,68 @@ void DailyCreationOfTxt()
             ReadyYear, ReadyMonth, ReadyDay, ReadyHour, ReadyMinute);
         }
         fclose(file2);
-        }    
+        }   
+
+
+
+        if((CurrentYear == Year) &&(CurrentMonth == Month )&&(CurrentDay = Day))
+        {
+
+            sprintf(NewFileName, "TextFiles/%d-%d-%d.txt", Year, Month, Day);
+            FILE *file2;
+            file2 = fopen(NewFileName, "a");
+            if(file2 == NULL) 
+            {
+            printf("Error: File not found\n");
+            }
+            if (strcmp(State, "SIP") == 0)
+            {
+            fprintf(file2, "%d-%d/%d/%d_%d-%s-%sTL-%s-%s-%s-%d/%d/%d_%d:%d-%d/%d/%d_%d:%d\n", 
+            OrderNumber, Year, Month, Day, CustomerID, FoodName, Price, PrepTime, UserName, State, 
+            AcceptYear, AcceptMonth, AcceptDay, AcceptHour, AcceptMinute, 
+            ReadyYear, ReadyMonth, ReadyDay, ReadyHour, ReadyMinute);
+            }
+
+            else
+            {
+            fprintf(file2, "%d-%d/%d/%d_%d-%s-%sTL-%s-%s-%s", 
+            OrderNumber, Year, Month, Day, CustomerID, FoodName, Price, PrepTime, UserName, State);
+            }
+
+            fclose(file2);
+        }
     }
     fclose(file);
 
 
-    //Remove the OrderList.txt
-    //Create a new OrderList.txt
+    //if there is a txt named as CurrentYear-CurrentMonth-CurrentDay rename it to OrderList.txt
+    //else create OrderList.txt
 
-    remove("TextFiles/OrderList.txt");
+    sprintf(NewFileName, "TextFiles/%d-%d-%d.txt", CurrentYear, CurrentMonth, CurrentDay);
+
     FILE *file3;
-    file3 = fopen("TextFiles/OrderList.txt", "w");
-    if(file3 == NULL) {
-        printf("Error: File not found\n");
-    }
-    fclose(file3);
+    file3 = fopen(NewFileName, "r");
+    if(file3 == NULL) 
+    {
+        FILE *file4;
+        file4 = fopen("TextFiles/OrderList.txt", "w");
+        if(file4 == NULL) 
+        {
+            printf("Error: File not found\n");
+        }
+        fclose(file4);
+        
+        remove("TextFiles/OrderList.txt");
+        FILE *file5;
+        file5 = fopen("TextFiles/OrderList.txt", "a");
 
+    }
+    else
+    {
+        fclose(file3);
+        remove("TextFiles/OrderList.txt");
+        rename(NewFileName, "TextFiles/OrderList.txt");
+    }
 
 }
 
@@ -2128,5 +2171,37 @@ void BringTheLeastProfitFood()
     printf("The least profit food is %s with a profit of %d TL and a quantity of %d\n", leastProfitFood, minProfit, leastProfitQuantity);
 }
 
+void RenumberTheOrderListTXT()
+{  
+    //open the OrderList.txt
+    //read the file
+    //renumber the lines
+    //print the lines to the temporary file
+    //remove the OrderList.txt
+    //rename the temporary file to OrderList.txt
+
+    FILE *file;
+    file = fopen("TextFiles/OrderList.txt", "r");
+    if(file == NULL) {
+        printf("Error: File not found\n");
+    }
+    FILE *file2;
+    file2 = fopen("TextFiles/OrderListTemp.txt", "w");
+    if(file2 == NULL) {
+        printf("Error: File not found\n");
+    }
+
+    char line[100];
+    int count = 0;
+    while (fgets(line, sizeof(line), file)) {
+        count++;
+        fprintf(file2, "%d-%s", count, line+2);
+    }
+    fclose(file);
+    fclose(file2);
+    remove("TextFiles/OrderList.txt");
+    rename("TextFiles/OrderListTemp.txt", "TextFiles/OrderList.txt");
+
+}
 
 #endif // RESTAURANT_H
