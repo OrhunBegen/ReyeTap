@@ -11,6 +11,7 @@ void createTitle();
 
 int main() {
    DailyCreationOfTxt();
+   RenumberTheOrderListTXT();
    createTitle();   
    int choice;
    baslangic:
