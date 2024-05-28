@@ -1998,7 +1998,7 @@ void DailyCreationOfTxt()
 
 
 
-        if((CurrentYear == Year) &&(CurrentMonth == Month )&&(CurrentDay = Day))
+        if(Year == CurrentYear &&CurrentMonth == Month &&CurrentDay == Day)
         {
 
             sprintf(NewFileName, "TextFiles/%d-%d-%d.txt", Year, Month, Day);
